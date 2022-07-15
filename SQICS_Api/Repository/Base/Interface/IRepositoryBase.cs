@@ -7,7 +7,6 @@ namespace SQICS_Api.Repository.Base.Interface
 {
     public interface IRepositoryBase<T>
     {
-        Task<IEnumerable<T>> QueryAsync();
-
+        Task<IEnumerable<T>> QueryAsync(string query, object param = null);
     }
 }
