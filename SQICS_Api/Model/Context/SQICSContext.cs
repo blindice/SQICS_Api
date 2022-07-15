@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using SQICS_Api.Model;
@@ -17,6 +18,8 @@ namespace SQICS_Api.Model.Context
             : base(options)
         {
         }
+
+        public IDbConnection Connection { get => this.Database.GetDbConnection(); }
 
         public virtual DbSet<tbl_m_bom> tbl_m_boms { get; set; }
         public virtual DbSet<tbl_m_operator> tbl_m_operators { get; set; }
