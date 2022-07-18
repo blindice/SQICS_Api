@@ -9,5 +9,6 @@ namespace SQICS_Api.Repository.Interface
 {
     public interface ITransactionRepository : IRepositoryBase<tbl_t_transaction>
     {
+        Task<IEnumerable<tbl_t_transaction>> GetAllTransaction();
     }
 }

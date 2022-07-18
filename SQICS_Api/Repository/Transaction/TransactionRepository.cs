@@ -15,7 +15,7 @@ namespace SQICS_Api.Repository.Transaction
 
         public async Task<IEnumerable<tbl_t_transaction>> GetAllTransaction()
         {
-            return await QueryAsync("select * from tbl_t_transaction");
+            return await QueryAsync("select * from tbl_t_transactions");
         }
     }
 }
