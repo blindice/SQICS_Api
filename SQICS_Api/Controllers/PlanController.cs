@@ -25,5 +25,15 @@ namespace SQICS_Api.Controllers
 
             return Ok(plans);
         }
+
+        [HttpGet("{transNo:int}")]
+        public async Task<IActionResult> GetPlanByTransactionNo(int? transNo)
+        {
+            if (transNo is null) return NotFound();
+
+            var plan = await _service.GetPlanByTransactionNoAsync(transNo);
+
+            return Ok(plan);
+        }
     }
 }
