@@ -11,7 +11,7 @@ namespace SQICS_Api.Repository.Base
 {
     public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
-        SQICSContext _context;
+        protected SQICSContext _context { get; set; }
 
         public RepositoryBase(SQICSContext context)
         {
