@@ -13,9 +13,19 @@ namespace SQICS_Api.Repository.Transaction
     {
         public TransactionRepository(SQICSContext context) : base(context){}
 
-        public async Task<IEnumerable<tbl_t_transaction>> GetAllTransaction()
+        public Task AddTransactionAsync()
         {
-            return await QueryAsync("select * from tbl_t_transactions");
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<tbl_t_transaction>> GetAllTransactionAsync()
+        {
+            return await QueryAsync("usp_GetAllTransactions");
+        }
+
+        public async Task<tbl_t_transaction> GetTransactionByTransNoAsync(int transNo)
+        {
+            return await QuerySingleOrDefaultAsync("usp_GetTransactionByTransNo", new { transNo = transNo });
         }
     }
 }
