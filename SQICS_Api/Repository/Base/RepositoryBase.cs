@@ -16,11 +16,12 @@ namespace SQICS_Api.Repository.Base
         {
             _context = context;
         }
-        public Task<IEnumerable<T>> QueryAsync(string query, object param = null)
+        public async Task<IEnumerable<T>> QueryAsync(string query, object param = null)
         {
             using (var conn = _context.Connection)
             {
-                return conn.QueryAsync<T>(query, param);
+                var result =  await conn.QueryAsync<T>(query, param);
+                return result;
             }
         }
     }
