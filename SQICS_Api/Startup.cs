@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SQICS_Api.Middleware;
 using SQICS_Api.Model.Context;
 using SQICS_Api.Repository.Base;
 using SQICS_Api.Repository.Base.Interface;
@@ -51,6 +52,8 @@ namespace SQICS_Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SQICS_Api v1"));
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 
