@@ -19,5 +19,10 @@ namespace SQICS_Api.Repository.SubAssy
         {
             return await QueryAsync("usp_GetAllSubAssy");
         }
+
+        public async Task<tbl_m_part> GetSubAssyByCode(string code)
+        {
+            return await QuerySingleOrDefaultAsync("usp_GetSubAssyByCode", new { code = code });
+        }
     }
 }

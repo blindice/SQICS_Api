@@ -10,5 +10,7 @@ namespace SQICS_Api.Repository.Interface
     public interface ISubAssyRepository
     {
         Task<IEnumerable<tbl_m_part>> GetAllSubAssyAsync();
+
+        Task<tbl_m_part> GetSubAssyByCode(string code);
     }
 }
