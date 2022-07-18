@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SQICS_Api.Model;
 using SQICS_Api.Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,24 @@ namespace SQICS_Api.Controllers
             var plan = await _service.GetPlanByTransactionNoAsync(transNo);
 
             return Ok(plan);
+        }
+
+        [HttpPost("add")]
+        public async Task<IActionResult> AddNewPlan([FromBody] AddPlanDTO plan)
+        {
+            if (plan is null) return BadRequest();
+
+            await _service.AddNewPlanAsync(plan);
+
+            return Ok(plan);
+        }
+
+        [HttpGet("add")]
+        public async Task<IActionResult> AddnewPlan()
+        {
+            var subAssyDdl =  await _service.GetAllSubAssyDDLAsync();
+
+            return Ok(subAssyDdl);
         }
     }
 }
