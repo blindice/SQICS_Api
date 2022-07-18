@@ -19,9 +19,17 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAllTransactionAsync()
         {
-            var result = await _repo.GetAllTransaction();
+            var result = await _repo.GetAllTransactionAsync();
+
+            return Ok(result);
+        }
+
+        [HttpGet("{transNo}")]
+        public async Task<IActionResult> GetTransactionByTransactionNoAsync(int transNo)
+        {
+            var result = await _repo.GetTransactionByTransNoAsync(transNo);
 
             return Ok(result);
         }

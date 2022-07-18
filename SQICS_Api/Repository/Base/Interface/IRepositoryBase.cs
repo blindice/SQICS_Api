@@ -11,5 +11,8 @@ namespace SQICS_Api.Repository.Base.Interface
         Task<IEnumerable<T>> QueryAsync(string query, object param = null, CommandType cType = CommandType.StoredProcedure);
 
         Task<T> QuerySingleOrDefaultAsync(string query, object param = null, CommandType cType = CommandType.StoredProcedure);
+
+        Task AddAsync(T entity);
+
     }
 }

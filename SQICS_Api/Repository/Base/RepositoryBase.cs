@@ -36,5 +36,10 @@ namespace SQICS_Api.Repository.Base
                 return result;
             }
         }
+
+        public async Task AddAsync(T entity)
+        {
+            await _context.AddAsync(entity);
+        }
     }
 }
