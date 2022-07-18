@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SQICS_Api.Repository.Interface
 {
-    public interface ISubAssyRepository : IRepositoryBase<tbl_m_part>
+    public interface ISubAssyRepository
     {
         Task<IEnumerable<tbl_m_part>> GetAllSubAssyAsync();
     }

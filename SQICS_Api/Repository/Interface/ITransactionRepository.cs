@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SQICS_Api.Repository.Interface
 {
-    public interface ITransactionRepository : IRepositoryBase<tbl_t_transaction>
+    public interface ITransactionRepository
     {
         Task<IEnumerable<tbl_t_transaction>> GetAllTransactionAsync();
 
