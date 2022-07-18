@@ -13,6 +13,6 @@ namespace SQICS_Api.Repository.Interface
 
         Task<tbl_t_transaction> GetTransactionByTransNoAsync(int transNo);
 
-        Task AddTransactionAsync();
+        Task AddTransactionAsync(tbl_t_transaction trans);
     }
 }

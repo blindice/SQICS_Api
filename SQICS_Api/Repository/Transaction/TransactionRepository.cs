@@ -13,9 +13,9 @@ namespace SQICS_Api.Repository.Transaction
     {
         public TransactionRepository(SQICSContext context) : base(context){}
 
-        public Task AddTransactionAsync()
+        public async Task AddTransactionAsync(tbl_t_transaction trans)
         {
-            throw new NotImplementedException();
+            await AddAsync(trans);
         }
 
         public async Task<IEnumerable<tbl_t_transaction>> GetAllTransactionAsync()
