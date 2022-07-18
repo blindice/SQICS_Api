@@ -25,8 +25,6 @@ namespace SQICS_Api.Model.Context
         public virtual DbSet<tbl_t_transaction> tbl_t_transactions { get; set; }
         public virtual DbSet<tbl_t_transaction_detail> tbl_t_transaction_details { get; set; }
 
-        public IDbConnection Connection { get => this.Database.GetDbConnection(); }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

@@ -11,16 +11,18 @@ namespace SQICS_Api.Repository.Base
 {
     public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
-        protected SQICSContext _context { get; set; }
+        protected SQICSContext _efContext { get; set; }
+        protected DapperContext _dapperContext { get; set; }
 
-        public RepositoryBase(SQICSContext context)
+        public RepositoryBase(SQICSContext efContext, DapperContext dapperContext)
         {
-            _context = context;
+            _efContext = efContext;
+            _dapperContext = dapperContext;
         }
         public async Task<IEnumerable<T>> QueryAsync(string query, object param = null, 
             CommandType cType = CommandType.StoredProcedure)
         {
-            using (var conn = _context.Connection)
+            using (var conn = _dapperContext.Connection)
             {
                 var result =  await conn.QueryAsync<T>(query, param, commandType: cType);
                 return result;
@@ -30,7 +32,7 @@ namespace SQICS_Api.Repository.Base
         public async Task<T> QuerySingleOrDefaultAsync(string query, object param = null, 
             CommandType cType = CommandType.StoredProcedure)
         {
-            using (var conn = _context.Connection)
+            using (var conn = _dapperContext.Connection)
             {
                 var result = await conn.QuerySingleOrDefaultAsync<T>(query, param, commandType: cType);
                 return result;
@@ -39,7 +41,7 @@ namespace SQICS_Api.Repository.Base
 
         public async Task AddAsync(T entity)
         {
-            await _context.AddAsync(entity);
+            await _efContext.AddAsync(entity);
         }
     }
 }

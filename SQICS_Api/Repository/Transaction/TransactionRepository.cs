@@ -11,7 +11,8 @@ namespace SQICS_Api.Repository.Transaction
 {
     public class TransactionRepository : RepositoryBase<tbl_t_transaction>, ITransactionRepository
     {
-        public TransactionRepository(SQICSContext context) : base(context){}
+        public TransactionRepository(SQICSContext efContext, DapperContext dapperContext) 
+            : base(efContext, dapperContext) {}
 
         public async Task AddTransactionAsync(tbl_t_transaction trans)
         {

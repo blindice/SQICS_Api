@@ -11,11 +11,16 @@ namespace SQICS_Api.UOW
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private SQICSContext _context;
+        private SQICSContext _efContext;
+        private DapperContext _dapperContext;
         private ITransactionRepository _transaction;
         private ISubAssyRepository _subAssy;
 
-        public UnitOfWork(SQICSContext context) => _context = context;
+        public UnitOfWork(SQICSContext efContext, DapperContext dapperContext)
+        {
+            _efContext = efContext;
+            _dapperContext = dapperContext;
+        }
 
         public ITransactionRepository Transaction
         {
@@ -23,7 +28,7 @@ namespace SQICS_Api.UOW
             {
                 if (_transaction == null)
                 {
-                    _transaction = new TransactionRepository(_context);
+                    _transaction = new TransactionRepository(_efContext, _dapperContext);
                 }
                 return _transaction;
             }
@@ -35,7 +40,7 @@ namespace SQICS_Api.UOW
             {
                 if (_subAssy == null)
                 {
-                    _subAssy = new SubAssyRepository(_context);
+                    _subAssy = new SubAssyRepository(_efContext, _dapperContext);
                 }
                 return _subAssy;
             }
@@ -43,7 +48,7 @@ namespace SQICS_Api.UOW
 
         public async Task Save()
         {
-            await _context.SaveChangesAsync();
+            await _efContext.SaveChangesAsync();
         }
     }
 }

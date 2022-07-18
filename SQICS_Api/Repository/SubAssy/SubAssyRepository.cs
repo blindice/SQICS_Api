@@ -12,7 +12,8 @@ namespace SQICS_Api.Repository.SubAssy
     public class SubAssyRepository : RepositoryBase<tbl_m_part>, ISubAssyRepository
     {
 
-        public SubAssyRepository(SQICSContext context) : base(context){}
+        public SubAssyRepository(SQICSContext efContext, DapperContext dapperContext) 
+            : base(efContext, dapperContext) {}
 
         public async Task<IEnumerable<tbl_m_part>> GetAllSubAssyAsync()
         {
