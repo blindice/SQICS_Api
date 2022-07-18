@@ -10,16 +10,10 @@ namespace SQICS_Api.Model.Context
 {
     public partial class SQICSContext : DbContext
     {
-        public SQICSContext()
-        {
-        }
-
         public SQICSContext(DbContextOptions<SQICSContext> options)
             : base(options)
         {
         }
-
-        public IDbConnection Connection { get => this.Database.GetDbConnection(); }
 
         public virtual DbSet<tbl_m_bom> tbl_m_boms { get; set; }
         public virtual DbSet<tbl_m_operator> tbl_m_operators { get; set; }
@@ -30,6 +24,8 @@ namespace SQICS_Api.Model.Context
         public virtual DbSet<tbl_t_lot_label> tbl_t_lot_labels { get; set; }
         public virtual DbSet<tbl_t_transaction> tbl_t_transactions { get; set; }
         public virtual DbSet<tbl_t_transaction_detail> tbl_t_transaction_details { get; set; }
+
+        public IDbConnection Connection { get => this.Database.GetDbConnection(); }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
