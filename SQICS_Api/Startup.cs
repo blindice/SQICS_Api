@@ -14,6 +14,7 @@ using SQICS_Api.Repository.Base;
 using SQICS_Api.Repository.Base.Interface;
 using SQICS_Api.Repository.Interface;
 using SQICS_Api.Repository.Transaction;
+using SQICS_Api.UOW;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace SQICS_Api
 
             services.AddControllers();
             services.AddDbContext<SQICSContext>(o => o.UseSqlServer(Configuration.GetConnectionString("SQICSConnection")));
-            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SQICS_Api", Version = "v1" });
