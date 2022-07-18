@@ -1,4 +1,6 @@
-﻿using SQICS_Api.DTOs;
+﻿using AutoMapper;
+using SQICS_Api.DTOs;
+using SQICS_Api.Model;
 using SQICS_Api.Service.Interface;
 using SQICS_Api.UOW;
 using System;
@@ -11,14 +13,24 @@ namespace SQICS_Api.Service
     public class PlanService : IPlanService
     {
         IUnitOfWork _uow;
+        IMapper _mapper;
 
-        public PlanService(IUnitOfWork uow)
+        public PlanService(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
-        public Task AddNewPlanAsync()
+        public async Task AddNewPlanAsync(AddPlanDTO plan)
         {
-            throw new NotImplementedException();
+            var subAssy = await _uow.SubAssy.GetSubAssyByCode(plan.SubAssyCode);         
+        }
+
+        public async Task<List<SubAssyDDLDTO>> GetAllSubAssyDDLAsync()
+        {
+            var subAssies =  await _uow.SubAssy.GetAllSubAssyAsync();
+            var subAssyDdl = _mapper.Map<List<SubAssyDDLDTO>>(subAssies);
+
+            return subAssyDdl;
         }
 
         public async Task<List<PlanDTO>> GetAllPlanAsync()
@@ -44,8 +56,6 @@ namespace SQICS_Api.Service
         public async Task<PlanDTO> GetPlanByTransactionNoAsync(int? transNo)
         {
             var transaction = await _uow.Transaction.GetTransactionByTransNoAsync(transNo);
-
-            if (transaction is null) throw new NullReferenceException("Transaction Not Found");
 
             var subAssy = (await _uow.SubAssy.GetAllSubAssyAsync())
                 .Where(s => s.fld_id == transaction?.fld_assyId).SingleOrDefault();
