@@ -41,9 +41,26 @@ namespace SQICS_Api.Service
             return result;
         }
 
-        public Task<PlanDTO> GetPlanByTransactionNoAsync(int transNo)
+        public async Task<PlanDTO> GetPlanByTransactionNoAsync(int? transNo)
         {
-            throw new NotImplementedException();
+            var transaction = await _uow.Transaction.GetTransactionByTransNoAsync(transNo);
+
+            if (transaction is null) throw new NullReferenceException("Transaction Not Found");
+
+            var subAssy = (await _uow.SubAssy.GetAllSubAssyAsync())
+                .Where(s => s.fld_id == transaction?.fld_assyId).SingleOrDefault();
+
+            var plan = new PlanDTO
+            {
+                Id = transaction.fld_id,
+                TransactionNo = transaction.fld_transactionNo,
+                SubAssyCode = subAssy.fld_partCode,
+                SubAssyName = subAssy.fld_partName,
+                Qty = transaction.fld_qty,
+                ETimeCompletion = transaction.ETimeCompletion
+            };
+
+            return plan;
         }
     }
 }
