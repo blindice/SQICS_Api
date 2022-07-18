@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,17 +8,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SQICS_Api.Middleware;
 using SQICS_Api.Model.Context;
-using SQICS_Api.Repository.Base;
-using SQICS_Api.Repository.Base.Interface;
-using SQICS_Api.Repository.Interface;
-using SQICS_Api.Repository.Transaction;
 using SQICS_Api.Service;
 using SQICS_Api.Service.Interface;
 using SQICS_Api.UOW;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SQICS_Api
 {
@@ -36,8 +26,8 @@ namespace SQICS_Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+            services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<SQICSContext>(o => o.UseSqlServer(Configuration.GetConnectionString("SQICSConnection")));
             services.AddSingleton<DapperContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
