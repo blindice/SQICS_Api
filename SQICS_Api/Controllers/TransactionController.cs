@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SQICS_Api.Repository.Interface;
+using SQICS_Api.UOW;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,26 +13,21 @@ namespace SQICS_Api.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-        ITransactionRepository _repo;
-        public TransactionController(ITransactionRepository repo)
+        public TransactionController()
         {
-            _repo = repo;
+
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllTransactionAsync()
         {
-            var result = await _repo.GetAllTransactionAsync();
-
-            return Ok(result);
+            return Ok();
         }
 
         [HttpGet("{transNo}")]
         public async Task<IActionResult> GetTransactionByTransactionNoAsync(int transNo)
         {
-            var result = await _repo.GetTransactionByTransNoAsync(transNo);
-
-            return Ok(result);
+            return Ok();
         }
     }
 }
