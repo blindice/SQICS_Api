@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using SQICS_Api.Model;
@@ -61,6 +60,11 @@ namespace SQICS_Api.Model.Context
                 entity.Property(e => e.fld_remarks).IsUnicode(false);
             });
 
+            modelBuilder.Entity<tbl_t_assy_defect>(entity =>
+            {
+                entity.Property(e => e.fld_transactionId).IsUnicode(false);
+            });
+
             modelBuilder.Entity<tbl_t_lot_label>(entity =>
             {
                 entity.Property(e => e.fld_lotNo).IsUnicode(false);
@@ -74,11 +78,13 @@ namespace SQICS_Api.Model.Context
                 entity.Property(e => e.fld_referenceNo).IsUnicode(false);
 
                 entity.Property(e => e.fld_remarks).IsUnicode(false);
+
+                entity.Property(e => e.fld_transactionId).IsUnicode(false);
             });
 
             modelBuilder.Entity<tbl_t_transaction>(entity =>
             {
-                entity.Property(e => e.fld_printFlag).HasDefaultValueSql("((0))");
+                entity.Property(e => e.fld_transactionNo).IsUnicode(false);
             });
 
             modelBuilder.Entity<tbl_t_transaction_detail>(entity =>
@@ -88,6 +94,8 @@ namespace SQICS_Api.Model.Context
                 entity.Property(e => e.fld_lotNo).IsUnicode(false);
 
                 entity.Property(e => e.fld_referenceNo).IsUnicode(false);
+
+                entity.Property(e => e.fld_transactionId).IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);
