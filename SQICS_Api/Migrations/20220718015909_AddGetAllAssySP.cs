@@ -17,7 +17,7 @@ BEGIN
           ,[fld_partName]
     FROM [dbo].[tbl_m_parts] WITH(NOLOCK)
     WHERE [fld_isAssy] = 1
-    AND [fld_active] = 1
+    AND [fld_active] = 1 
 
 END";
 
