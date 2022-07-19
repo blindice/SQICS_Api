@@ -13,6 +13,6 @@ namespace SQICS_Api.UOW
 
         ISubAssyRepository SubAssy { get; }
 
-        Task Save();
+        Task SaveAsync();
     }
 }

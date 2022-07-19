@@ -46,7 +46,7 @@ namespace SQICS_Api.UOW
             }
         }
 
-        public async Task Save()
+        public async Task SaveAsync()
         {
             await _efContext.SaveChangesAsync();
         }
