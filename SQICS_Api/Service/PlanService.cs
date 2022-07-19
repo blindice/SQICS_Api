@@ -58,7 +58,7 @@ namespace SQICS_Api.Service
             return result;
         }
 
-        public async Task<PlanDTO> GetPlanByTransactionNoAsync(int? transNo)
+        public async Task<PlanDTO> GetPlanByTransactionNoAsync(string transNo)
         {
             var transaction = await _uow.Transaction.GetTransactionByTransNoAsync(transNo);
 

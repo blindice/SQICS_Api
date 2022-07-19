@@ -9,7 +9,7 @@ namespace SQICS_Api.Service.Interface
 {
     public interface IPlanService
     {
-        Task<PlanDTO> GetPlanByTransactionNoAsync(int? transNo);
+        Task<PlanDTO> GetPlanByTransactionNoAsync(string transNo);
 
         Task<List<PlanDTO>> GetAllPlanAsync();
 
