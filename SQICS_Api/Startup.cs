@@ -6,11 +6,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using NLog;
+using SQICS_Api.Logger;
+using SQICS_Api.Logger.Interface;
 using SQICS_Api.Middleware;
 using SQICS_Api.Model.Context;
 using SQICS_Api.Service;
 using SQICS_Api.Service.Interface;
 using SQICS_Api.UOW;
+using System;
+using System.IO;
 
 namespace SQICS_Api
 {
@@ -18,6 +23,7 @@ namespace SQICS_Api
     {
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
 
@@ -30,6 +36,7 @@ namespace SQICS_Api
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<SQICSContext>(o => o.UseSqlServer(Configuration.GetConnectionString("SQICSConnection")));
             services.AddSingleton<DapperContext>();
+            services.AddSingleton<ILoggerManager, LoggerManager>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPlanService, PlanService>();
             services.AddSwaggerGen(c =>
