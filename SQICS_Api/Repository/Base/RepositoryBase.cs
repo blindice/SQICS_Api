@@ -29,7 +29,17 @@ namespace SQICS_Api.Repository.Base
             }
         }
 
-        public async Task<T> QuerySingleOrDefaultAsync(string query, object param = null, 
+        public async Task<TItem> QuerySingleOrDefaultAsync<TItem>(string query, object param = null, 
+            CommandType cType = CommandType.StoredProcedure)
+        {
+            using (var conn = _dapperContext.Connection)
+            {
+                var result = await conn.QuerySingleOrDefaultAsync<TItem>(query, param, commandType: cType);
+                return result;
+            }
+        }
+
+        public async Task<T> QuerySingleOrDefaultAsync(string query, object param = null,
             CommandType cType = CommandType.StoredProcedure)
         {
             using (var conn = _dapperContext.Connection)
