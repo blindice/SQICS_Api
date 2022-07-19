@@ -16,10 +16,7 @@ namespace SQICS_Api.Controllers
     {
         IPlanService _service;
 
-        public PlanController(IPlanService service)
-        {
-            _service = service;
-        }
+        public PlanController(IPlanService service) => _service = service;
 
         [HttpGet]
         public async Task<IActionResult> GetAllPlanAsync()
@@ -29,8 +26,8 @@ namespace SQICS_Api.Controllers
             return Ok(plans);
         }
 
-        [HttpGet("{transNo:int}")]
-        public async Task<IActionResult> GetPlanByTransactionNo(int? transNo)
+        [HttpGet("{transNo}")]
+        public async Task<IActionResult> GetPlanByTransactionNo(string transNo)
         {
             if (transNo is null) return NotFound();
 
