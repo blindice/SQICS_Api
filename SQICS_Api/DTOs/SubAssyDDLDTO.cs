@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SQICS_Api.Model
+namespace SQICS_Api.DTOs
 {
     public class SubAssyDDLDTO
     {
         public string SubAssyCode { get; set; }
 
-        public int Id { get; set; }
+        public string SubAssyName { get; set; }
     }
 }

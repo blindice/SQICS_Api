@@ -9,7 +9,7 @@ namespace SQICS_Api.DTOs
     {
         public int Id { get; set; }
 
-        public int TransactionNo { get; set; }
+        public string TransactionNo { get; set; }
 
         public string SubAssyCode { get; set; }
 
