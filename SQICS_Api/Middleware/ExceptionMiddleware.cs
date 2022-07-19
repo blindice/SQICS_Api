@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using SQICS_Api.Logger.Interface;
 using SQICS_Api.Model;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ namespace SQICS_Api.Middleware
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        public ExceptionMiddleware(RequestDelegate next)
+        private readonly ILoggerManager _logger;
+        public ExceptionMiddleware(RequestDelegate next, ILoggerManager logger)
         {
             _next = next;
+            _logger = logger;
         }
         public async Task InvokeAsync(HttpContext httpContext)
         {
@@ -23,6 +26,7 @@ namespace SQICS_Api.Middleware
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 await HandleExceptionAsync(httpContext, ex);
             }
         }
