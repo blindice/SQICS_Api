@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SQICS_Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/[controller]")]
     [ApiController]
     public class PlanController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace SQICS_Api.Controllers
 
         public PlanController(IPlanService service) => _service = service;
 
-        [HttpGet]
+        [HttpGet("plans")]
         public async Task<IActionResult> GetAllPlanAsync()
         {
             var plans = await _service.GetAllPlanAsync();
@@ -29,9 +29,11 @@ namespace SQICS_Api.Controllers
         [HttpGet("{transNo}")]
         public async Task<IActionResult> GetPlanByTransactionNo(string transNo)
         {
-            if (transNo is null) return NotFound();
+            if (transNo is null) return BadRequest();
 
             var plan = await _service.GetPlanByTransactionNoAsync(transNo);
+
+            if (plan is null) return NotFound();
 
             return Ok(plan);
         }
@@ -40,6 +42,8 @@ namespace SQICS_Api.Controllers
         public async Task<IActionResult> AddNewPlan([FromBody] AddPlanDTO plan)
         {
             if (plan is null) return BadRequest();
+
+            if (!ModelState.IsValid) return BadRequest();
 
             await _service.AddNewPlanAsync(plan);
 
