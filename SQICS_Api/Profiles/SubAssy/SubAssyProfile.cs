@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SQICS_Api.DTOs;
 using SQICS_Api.Model;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,10 @@ namespace SQICS_Api.Profiles.SubAssy
             CreateMap<tbl_m_part, SubAssyDDLDTO>()
                 .ForMember(dest => dest.SubAssyCode,
                 opt => opt.MapFrom(src => src.fld_partCode))
-                 .ForMember(dest => dest.Id,
-                opt => opt.MapFrom(src => src.fld_id)).ReverseMap();
+                 .ForMember(dest => dest.SubAssyName,
+                opt => opt.MapFrom(src => src.fld_partName)).ReverseMap();
+
+            CreateMap<AddPlanDTO, tbl_t_transaction>();
         }
     }
 }
