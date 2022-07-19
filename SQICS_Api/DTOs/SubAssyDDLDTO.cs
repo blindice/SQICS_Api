@@ -10,5 +10,9 @@ namespace SQICS_Api.DTOs
         public string SubAssyCode { get; set; }
 
         public string SubAssyName { get; set; }
+
+        public int? MOST { get; set; }
+
+        public int? SPQ { get; set; }
     }
 }
