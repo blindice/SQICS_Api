@@ -22,7 +22,12 @@ namespace SQICS_Api.Service
         }
         public async Task AddNewPlanAsync(AddPlanDTO plan)
         {
-            var subAssy = await _uow.SubAssy.GetSubAssyByCode(plan.SubAssyCode);         
+            var subAssyDdl = _mapper.Map<tbl_t_transaction>(plan);
+            subAssyDdl.fld_createdDate = DateTime.Now;
+            subAssyDdl.fld_transactionNo = await GenerateTransactionNo();
+
+            await _uow.Transaction.AddTransactionAsync(subAssyDdl);
+            await _uow.SaveAsync();
         }
 
         public async Task<List<SubAssyDDLDTO>> GetAllSubAssyDDLAsync()
@@ -71,6 +76,11 @@ namespace SQICS_Api.Service
             };
 
             return plan;
+        }
+
+        private async Task<string> GenerateTransactionNo()
+        {
+            return await _uow.Transaction.GenerateTransactionNoAsync();
         }
     }
 }

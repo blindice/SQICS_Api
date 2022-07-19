@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SQICS_Api.DTOs;
 using SQICS_Api.Model;
 using SQICS_Api.Service.Interface;
 using System;
@@ -14,6 +15,7 @@ namespace SQICS_Api.Controllers
     public class PlanController : ControllerBase
     {
         IPlanService _service;
+
         public PlanController(IPlanService service)
         {
             _service = service;
@@ -51,6 +53,8 @@ namespace SQICS_Api.Controllers
         public async Task<IActionResult> AddnewPlan()
         {
             var subAssyDdl =  await _service.GetAllSubAssyDDLAsync();
+
+            if (subAssyDdl is null) return NotFound();
 
             return Ok(subAssyDdl);
         }
