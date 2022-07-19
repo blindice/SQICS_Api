@@ -11,7 +11,7 @@ namespace SQICS_Api.Repository.Interface
     {
         Task<IEnumerable<tbl_t_transaction>> GetAllTransactionAsync();
 
-        Task<tbl_t_transaction> GetTransactionByTransNoAsync(int? transNo);
+        Task<tbl_t_transaction> GetTransactionByTransNoAsync(string transNo);
 
         Task AddTransactionAsync(tbl_t_transaction trans);
 

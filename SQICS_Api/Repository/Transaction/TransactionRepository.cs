@@ -24,7 +24,7 @@ namespace SQICS_Api.Repository.Transaction
             return await QueryAsync("usp_GetAllTransactions");
         }
 
-        public async Task<tbl_t_transaction> GetTransactionByTransNoAsync(int? transNo)
+        public async Task<tbl_t_transaction> GetTransactionByTransNoAsync(string transNo)
         {
             return await QuerySingleOrDefaultAsync("usp_GetTransactionByTransNo", new { transNo = transNo });
         }
