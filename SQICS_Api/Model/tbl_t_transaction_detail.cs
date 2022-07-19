@@ -12,7 +12,9 @@ namespace SQICS_Api.Model
     {
         [Key]
         public int fld_id { get; set; }
-        public int fld_transactionId { get; set; }
+        [Required]
+        [StringLength(12)]
+        public string fld_transactionId { get; set; }
         public int fld_stationId { get; set; }
         [Required]
         [StringLength(25)]
