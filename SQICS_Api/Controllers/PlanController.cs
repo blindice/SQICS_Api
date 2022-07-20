@@ -14,7 +14,7 @@ namespace SQICS_Api.Controllers
     [ApiController]
     public class PlanController : ControllerBase
     {
-        IPlanService _service;
+        private readonly IPlanService _service;
 
         public PlanController(IPlanService service) => _service = service;
 
