@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using SQICS_Api.Helper.CustomException;
 using SQICS_Api.Logger.Interface;
 using SQICS_Api.Model;
 using System;
@@ -24,6 +25,10 @@ namespace SQICS_Api.Middleware
             {
                 await _next(httpContext);
             }
+            catch (CustomException cex)
+            {
+                await HandleExceptionAsync(httpContext, cex);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
@@ -34,6 +39,13 @@ namespace SQICS_Api.Middleware
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+            context.Response.StatusCode = exception switch
+            {
+                CustomException => (int)HttpStatusCode.NotFound,
+                _ => (int)HttpStatusCode.InternalServerError
+            };
+
             await context.Response.WriteAsync(new ErrorDetails()
             {
                 StatusCode = context.Response.StatusCode,

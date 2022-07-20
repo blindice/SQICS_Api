@@ -23,17 +23,19 @@ namespace SQICS_Api.Controllers
         {
             var plans = await _service.GetAllPlanAsync();
 
+            if (plans is null) return NotFound("No Plan Found!");
+
             return Ok(plans);
         }
 
         [HttpGet("{transNo}")]
         public async Task<IActionResult> GetPlanByTransactionNo(string transNo)
         {
-            if (transNo is null) return BadRequest();
+            if (transNo is null) return BadRequest("Invalid Transaction No.!");
 
             var plan = await _service.GetPlanByTransactionNoAsync(transNo);
 
-            if (plan is null) return NotFound();
+            if (plan is null) return NotFound("Plan Not Found!");
 
             return Ok(plan);
         }
@@ -41,9 +43,9 @@ namespace SQICS_Api.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddNewPlan([FromBody] AddPlanDTO plan)
         {
-            if (plan is null) return BadRequest();
+            if (plan is null) return BadRequest("Invalid Plan!");
 
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return BadRequest("Invalid Plan!");
 
             await _service.AddNewPlanAsync(plan);
 
@@ -55,7 +57,7 @@ namespace SQICS_Api.Controllers
         {
             var subAssyDdl =  await _service.GetAllSubAssyDDLAsync();
 
-            if (subAssyDdl is null) return NotFound();
+            if (subAssyDdl is null) return NotFound("No SubAssy Found!");
 
             return Ok(subAssyDdl);
         }

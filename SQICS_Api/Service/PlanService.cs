@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SQICS_Api.DTOs;
+using SQICS_Api.Helper.CustomException;
 using SQICS_Api.Model;
 using SQICS_Api.Service.Interface;
 using SQICS_Api.UOW;
@@ -41,6 +42,7 @@ namespace SQICS_Api.Service
         public async Task<List<PlanDTO>> GetAllPlanAsync()
         {
             var transactions = await _uow.Transaction.GetAllTransactionAsync();
+
             var subAssies = await _uow.SubAssy.GetAllSubAssyAsync();
 
             var result = (from t in transactions
@@ -61,6 +63,8 @@ namespace SQICS_Api.Service
         public async Task<PlanDTO> GetPlanByTransactionNoAsync(string transNo)
         {
             var transaction = await _uow.Transaction.GetTransactionByTransNoAsync(transNo);
+
+            if (transaction is null) throw new CustomException("Plan Not Found!");
 
             var subAssy = (await _uow.SubAssy.GetAllSubAssyAsync())
                 .Where(s => s.fld_id == transaction?.fld_assyId).SingleOrDefault();
