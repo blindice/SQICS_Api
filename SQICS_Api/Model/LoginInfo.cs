@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SQICS_Api.Model
 {
-    public class UserInfoDTO
+    public class LoginInfo
     {
         public string Username { get; set; }
 
@@ -14,5 +14,9 @@ namespace SQICS_Api.Model
         public int SupplierId { get; set; }
 
         public string SupplierName { get; set; }
+
+        public string Password { get; set; }
+
+        public string Salt { get; set; }
     }
 }
