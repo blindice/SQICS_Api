@@ -9,12 +9,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SQICS_Api.Service
+namespace SQICS_Api.Service.Plan
 {
     public class PlanService : IPlanService
     {
-        IUnitOfWork _uow;
-        IMapper _mapper;
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
         public PlanService(IUnitOfWork uow, IMapper mapper)
         {
