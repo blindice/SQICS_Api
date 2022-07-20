@@ -13,6 +13,8 @@ using SQICS_Api.Middleware;
 using SQICS_Api.Model.Context;
 using SQICS_Api.Service;
 using SQICS_Api.Service.Interface;
+using SQICS_Api.Service.Login;
+using SQICS_Api.Service.Plan;
 using SQICS_Api.UOW;
 using System;
 using System.IO;
@@ -39,6 +41,7 @@ namespace SQICS_Api
             services.AddSingleton<ILoggerManager, LoggerManager>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPlanService, PlanService>();
+            services.AddScoped<ILoginService, LoginService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SQICS_Api", Version = "v1" });
