@@ -19,6 +19,7 @@ namespace SQICS_Api.Model.Context
         public virtual DbSet<tbl_m_operator_assy> tbl_m_operator_assies { get; set; }
         public virtual DbSet<tbl_m_operator_station> tbl_m_operator_stations { get; set; }
         public virtual DbSet<tbl_m_part> tbl_m_parts { get; set; }
+        public virtual DbSet<tbl_m_user> tbl_m_users { get; set; }
         public virtual DbSet<tbl_t_assy_defect> tbl_t_assy_defects { get; set; }
         public virtual DbSet<tbl_t_lot_label> tbl_t_lot_labels { get; set; }
         public virtual DbSet<tbl_t_transaction> tbl_t_transactions { get; set; }
@@ -58,6 +59,23 @@ namespace SQICS_Api.Model.Context
                 entity.Property(e => e.fld_partName).IsUnicode(false);
 
                 entity.Property(e => e.fld_remarks).IsUnicode(false);
+            });
+
+            modelBuilder.Entity<tbl_m_user>(entity =>
+            {
+                entity.Property(e => e.fld_active).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.fld_email).IsUnicode(false);
+
+                entity.Property(e => e.fld_name).IsUnicode(false);
+
+                entity.Property(e => e.fld_password).IsUnicode(false);
+
+                entity.Property(e => e.fld_resetPasswordFlag).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.fld_salt).IsUnicode(false);
+
+                entity.Property(e => e.fld_username).IsUnicode(false);
             });
 
             modelBuilder.Entity<tbl_t_assy_defect>(entity =>
