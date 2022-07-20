@@ -8,6 +8,6 @@ namespace SQICS_Api.Repository.Interface
 {
     public interface ILoginRepository
     {
-        Task<UserInfoDTO> VerifyUser(LoginDTO account);
+        Task<LoginInfo> VerifyUserAsync(string username);
     }
 }

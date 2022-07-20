@@ -9,14 +9,16 @@ using System.Threading.Tasks;
 
 namespace SQICS_Api.Repository.Login
 {
-    public class LoginRepository : RepositoryBase<UserInfoDTO>, ILoginRepository
+    public class LoginRepository : RepositoryBase<LoginInfo>, ILoginRepository
     {
         public LoginRepository(SQICSContext efContext, DapperContext dapperContext)
             : base(efContext, dapperContext) { }
 
-        public Task<UserInfoDTO> VerifyUser(LoginDTO account)
+        public async Task<LoginInfo> VerifyUserAsync(string username)
         {
-            throw new NotImplementedException();
+            var info = await QuerySingleOrDefaultAsync("usp_GetLoginInfo", new { username = username });
+
+            return info;
         }
     }
 }
