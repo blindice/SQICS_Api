@@ -13,6 +13,8 @@ namespace SQICS_Api.UOW
 
         ISubAssyRepository SubAssy { get; }
 
+        ILoginRepository Login { get; }
+
         Task SaveAsync();
     }
 }
