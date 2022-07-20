@@ -19,7 +19,7 @@ namespace SQICS_Api.Controllers
             _service = service;
         }
 
-        [HttpPost]
+        [HttpPost("verify")]
         public async Task<IActionResult> Post([FromBody] LoginDTO account)
         {
             if (account is null) return BadRequest("Invalid Account!");
