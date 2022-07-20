@@ -234,6 +234,81 @@ namespace SQICS_Api.Migrations
                     b.ToTable("tbl_m_parts");
                 });
 
+            modelBuilder.Entity("SQICS_Api.Model.tbl_m_user", b =>
+                {
+                    b.Property<int>("fld_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool?>("fld_active")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValueSql("((1))");
+
+                    b.Property<int>("fld_createdBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("fld_createdDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("fld_email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("fld_name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("fld_password")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(300)");
+
+                    b.Property<bool?>("fld_resetPasswordFlag")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValueSql("((1))");
+
+                    b.Property<int>("fld_role")
+                        .HasColumnType("int");
+
+                    b.Property<string>("fld_salt")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int?>("fld_supplierId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("fld_updatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("fld_updatedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("fld_username")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(25)");
+
+                    b.HasKey("fld_id");
+
+                    b.HasIndex(new[] { "fld_username" }, "username_Unique")
+                        .IsUnique();
+
+                    b.ToTable("tbl_m_users");
+                });
+
             modelBuilder.Entity("SQICS_Api.Model.tbl_t_assy_defect", b =>
                 {
                     b.Property<int>("fld_id")
@@ -253,8 +328,11 @@ namespace SQICS_Api.Migrations
                     b.Property<int>("fld_qty")
                         .HasColumnType("int");
 
-                    b.Property<int>("fld_transactionId")
-                        .HasColumnType("int");
+                    b.Property<string>("fld_transactionId")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(12)");
 
                     b.Property<int?>("fld_updatedBy")
                         .HasColumnType("int");
@@ -327,8 +405,11 @@ namespace SQICS_Api.Migrations
                     b.Property<bool>("fld_reprinted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("fld_transactionId")
-                        .HasColumnType("int");
+                    b.Property<string>("fld_transactionId")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(12)");
 
                     b.Property<int?>("fld_updatedBy")
                         .HasColumnType("int");
@@ -349,7 +430,7 @@ namespace SQICS_Api.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("ETimeCompletion")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("fld_assyId")
                         .HasColumnType("int");
@@ -363,19 +444,17 @@ namespace SQICS_Api.Migrations
                     b.Property<int>("fld_lineId")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("fld_printFlag")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValueSql("((0))");
-
                     b.Property<int>("fld_qty")
                         .HasColumnType("int");
 
                     b.Property<int>("fld_supplierId")
                         .HasColumnType("int");
 
-                    b.Property<int>("fld_transactionNo")
-                        .HasColumnType("int");
+                    b.Property<string>("fld_transactionNo")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(12)");
 
                     b.Property<int?>("fld_updatedBy")
                         .HasColumnType("int");
@@ -384,6 +463,9 @@ namespace SQICS_Api.Migrations
                         .HasColumnType("datetime");
 
                     b.HasKey("fld_id");
+
+                    b.HasIndex(new[] { "fld_transactionNo" }, "transNo_unique")
+                        .IsUnique();
 
                     b.ToTable("tbl_t_transactions");
                 });
@@ -434,8 +516,11 @@ namespace SQICS_Api.Migrations
                     b.Property<int>("fld_stationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("fld_transactionId")
-                        .HasColumnType("int");
+                    b.Property<string>("fld_transactionId")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(12)");
 
                     b.Property<int?>("fld_updatedBy")
                         .HasColumnType("int");
