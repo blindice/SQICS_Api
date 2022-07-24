@@ -16,10 +16,12 @@ namespace SQICS_Api.Service.Login
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
-        public LoginService(IUnitOfWork uow, IMapper mapper)
+        private readonly IJWTService _jwt;
+        public LoginService(IUnitOfWork uow, IMapper mapper, IJWTService jwt)
         {
             _uow = uow;
             _mapper = mapper;
+            _jwt = jwt;
         }
         public async Task<UserInfoDTO> VerifyUserAsync(LoginDTO account)
         {
@@ -34,6 +36,24 @@ namespace SQICS_Api.Service.Login
             var info = _mapper.Map<UserInfoDTO>(userInfo);
 
             return info;
+        }
+
+        public async Task<UserInfoDTO> GetUserByUserIdAsync(int userId)
+        {
+            var userInfo = await _uow.Login.GetUserByIdAsync(userId);
+
+            if (userInfo is null) throw new CustomException("Invalid User ID!");
+
+            var info = _mapper.Map<UserInfoDTO>(userInfo);
+
+            return info;
+        }
+
+        public async Task<string> GenerateJWTTokenAsync(UserInfoDTO userInfo)
+        {
+            if (userInfo is null) throw new CustomException("Can't Generate JWT Token, Invalid User Info!");
+
+            return await _jwt.GenerateJwtTokenAsync(userInfo);
         }
     }
 }
