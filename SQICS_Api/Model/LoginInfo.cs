@@ -7,6 +7,7 @@ namespace SQICS_Api.Model
 {
     public class LoginInfo
     {
+        public int Id { get; set; }
         public string Username { get; set; }
 
         public string FullName { get; set; }
