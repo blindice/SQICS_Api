@@ -15,6 +15,8 @@ namespace SQICS_Api.UOW
 
         ILoginRepository Login { get; }
 
+        ITransactionDetailsRepository TDetails { get; }
+
         Task SaveAsync();
     }
 }

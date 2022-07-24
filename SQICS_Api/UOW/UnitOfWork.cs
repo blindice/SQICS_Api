@@ -3,6 +3,7 @@ using SQICS_Api.Repository.Interface;
 using SQICS_Api.Repository.Login;
 using SQICS_Api.Repository.SubAssy;
 using SQICS_Api.Repository.Transaction;
+using SQICS_Api.Repository.TransactionDetail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace SQICS_Api.UOW
         private ITransactionRepository _transaction;
         private ISubAssyRepository _subAssy;
         private ILoginRepository _login;
+        private ITransactionDetailsRepository _tDetail;
 
         public UnitOfWork(SQICSContext efContext, DapperContext dapperContext)
         {
@@ -33,6 +35,18 @@ namespace SQICS_Api.UOW
                     _transaction = new TransactionRepository(_efContext, _dapperContext);
                 }
                 return _transaction;
+            }
+        }
+
+        public ITransactionDetailsRepository TDetails
+        {
+            get
+            {
+                if (_tDetail == null)
+                {
+                    _tDetail = new TransactionDetailsRepository(_efContext, _dapperContext);
+                }
+                return _tDetail;
             }
         }
 
