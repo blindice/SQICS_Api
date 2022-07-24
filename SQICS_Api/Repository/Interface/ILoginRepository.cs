@@ -9,5 +9,7 @@ namespace SQICS_Api.Repository.Interface
     public interface ILoginRepository
     {
         Task<LoginInfo> VerifyUserAsync(string username);
+
+        Task<LoginInfo> GetUserByIdAsync(int userId);
     }
 }

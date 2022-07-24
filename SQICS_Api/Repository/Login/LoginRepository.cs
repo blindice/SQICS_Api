@@ -20,5 +20,12 @@ namespace SQICS_Api.Repository.Login
 
             return info;
         }
+
+        public async Task<LoginInfo> GetUserByIdAsync(int userId)
+        {
+            var info = await QuerySingleOrDefaultAsync("usp_GetUserByUserId", new { userId = userId });
+
+            return info;
+        }
     }
 }
