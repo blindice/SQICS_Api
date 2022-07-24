@@ -21,7 +21,10 @@ using System;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
-using SQICS_Api.Helper.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using SQICS_Api.Service.JWT;
 
 namespace SQICS_Api
 {
@@ -38,10 +41,27 @@ namespace SQICS_Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                };
+            });
+
             services.AddControllers();
-            services.AddAuthentication("BasicAuthentication")
-                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
             services.AddAutoMapper(typeof(Startup));
+
             services.AddCors(policy =>
             {
                 policy.AddPolicy("CorsPolicy", opt => opt
@@ -49,13 +69,13 @@ namespace SQICS_Api
                     .AllowAnyHeader()
                     .AllowAnyMethod());
             });
-            //services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
             services.AddDbContext<SQICSContext>(o => o.UseSqlServer(Configuration.GetConnectionString("SQICSConnection")));
             services.AddSingleton<DapperContext>();
             services.AddSingleton<ILoggerManager, LoggerManager>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPlanService, PlanService>();
-            services.AddScoped<ILoginService, LoginService>();          
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IJWTService, JWTService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SQICS_Api", Version = "v1" });
@@ -72,7 +92,7 @@ namespace SQICS_Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SQICS_Api v1"));
             }
 
-            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<JWTMiddleware>();         
 
             app.UseHttpsRedirection();
 
@@ -84,10 +104,13 @@ namespace SQICS_Api
 
             app.UseAuthorization();
 
+            app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            
         }
     }
 }
