@@ -9,5 +9,9 @@ namespace SQICS_Api.Service.Interface
     public interface ILoginService
     {
         Task<UserInfoDTO> VerifyUserAsync(LoginDTO account);
+
+        Task<UserInfoDTO> GetUserByUserIdAsync(int userId);
+
+        Task<string> GenerateJWTTokenAsync(UserInfoDTO userInfo);
     }
 }

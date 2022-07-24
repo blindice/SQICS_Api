@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SQICS_Api.DTOs;
 using SQICS_Api.Model;
@@ -19,6 +20,7 @@ namespace SQICS_Api.Controllers
         public PlanController(IPlanService service) => _service = service;
 
         [HttpGet("plans")]
+        [Authorize]
         public async Task<IActionResult> GetAllPlanAsync()
         {
             var plans = await _service.GetAllPlanAsync();
@@ -29,6 +31,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("{transNo}")]
+        [Authorize]
         public async Task<IActionResult> GetPlanByTransactionNo(string transNo)
         {
             if (transNo is null) return BadRequest("Invalid Transaction No.!");
@@ -41,6 +44,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("add")]
+        [Authorize]
         public async Task<IActionResult> AddNewPlan([FromBody] AddPlanDTO plan)
         {
             if (plan is null) return BadRequest("Invalid Plan!");
@@ -53,6 +57,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("add")]
+        [Authorize]
         public async Task<IActionResult> AddnewPlan()
         {
             var subAssyDdl =  await _service.GetAllSubAssyDDLAsync();
