@@ -20,5 +20,12 @@ namespace SQICS_Api.Repository.Operator
 
             return result;
         }
+
+        public async Task<bool> ValidateOperator(int operatorId)
+        {
+            var isValid = await ExecuteScalarAsync<bool>("usp_ValidateOperator", new { operatorId = operatorId });
+
+            return isValid;
+        }
     }
 }
