@@ -1,4 +1,5 @@
-﻿using SQICS_Api.Helper.CustomException;
+﻿using SQICS_Api.DTOs;
+using SQICS_Api.Helper.CustomException;
 using SQICS_Api.Model;
 using SQICS_Api.Service.Interface;
 using SQICS_Api.UOW;
@@ -27,13 +28,28 @@ namespace SQICS_Api.Service.Transaction
             return result.ToList();
         }
 
-        public async Task<bool> ValidateOperatorAsync(string empId)
+        public async Task<bool> ValidateOperatorAsync(ValidateOperatorDTO info)
         {
-            var @operator = await _uow.Operator.GetOperatorByEmpId(empId);
+            var @operator = await _uow.Operator.GetOperatorByEmpId(info.EmployeeId);
 
             if (@operator is null) throw new CustomException("Operator Not Found!");
 
-            var isValid = await _uow.Operator.ValidateOperator(@operator.fld_id);
+            info.OperatorId = @operator.fld_id;
+
+            var isValid = await _uow.Operator.ValidateOperator(info);
+
+            return isValid;
+        }
+
+        public async Task<bool> ValidatePiecePartAsync(ValidatePiecePartDTO info)
+        {
+            var piecePart = await _uow.PiecePart.GetPiecePartByCode(info.PiecePartCOde);
+
+            if (piecePart is null) throw new CustomException("Piecepart Not Found!");
+
+            info.PiecePartId = piecePart.fld_id;
+
+            var isValid = await _uow.PiecePart.ValidatePiecePart(info);
 
             return isValid;
         }
