@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SQICS_Api.DTOs;
 using SQICS_Api.Repository.Interface;
 using SQICS_Api.Service.Interface;
 using SQICS_Api.UOW;
@@ -30,14 +31,28 @@ namespace SQICS_Api.Controllers
             return Ok(details);
         }
 
-        [HttpGet("validateOperator/{empId}")]
-        public async Task<IActionResult> ValidateOperatorAsync(string empId)
+        [HttpPost("validateoperator")]
+        public async Task<IActionResult> ValidateOperatorAsync([FromBody] ValidateOperatorDTO info)
         {
-            if (string.IsNullOrEmpty(empId)) return BadRequest("Invalid Employee Id!");
+            if (!ModelState.IsValid) return BadRequest("Invalid Validation Info!");
 
-            var isValid = await _service.ValidateOperatorAsync(empId);
+            if (info is null) return BadRequest("Invalid Validation Info!");
+
+            var isValid = await _service.ValidateOperatorAsync(info);
 
             return (isValid) ? Ok() : NotFound("Invalid Operator!");
+        }
+
+        [HttpPost("validatepiece")]
+        public async Task<IActionResult> ValidatePiecePartAsync([FromBody] ValidatePiecePartDTO info)
+        {
+            if (!ModelState.IsValid) return BadRequest("Invalid Validation Info!");
+
+            if (info is null) return BadRequest("Invalid Validation Info!");
+
+            var isValid = await _service.ValidatePiecePartAsync(info);
+
+            return (isValid) ? Ok() : NotFound("Invalid PiecePart!");
         }
     }
 }
