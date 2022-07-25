@@ -1,4 +1,5 @@
-﻿using SQICS_Api.Model;
+﻿using SQICS_Api.DTOs;
+using SQICS_Api.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace SQICS_Api.Repository.Interface
     {
         Task<tbl_m_operator> GetOperatorByEmpId(string empId);
 
-        Task<bool> ValidateOperator(int operatorId);
+        Task<bool> ValidateOperator(ValidateOperatorDTO info);
     }
 }

@@ -1,4 +1,5 @@
-﻿using SQICS_Api.Model;
+﻿using SQICS_Api.DTOs;
+using SQICS_Api.Model;
 using SQICS_Api.Model.Context;
 using SQICS_Api.Repository.Base;
 using SQICS_Api.Repository.Interface;
@@ -21,9 +22,15 @@ namespace SQICS_Api.Repository.Operator
             return result;
         }
 
-        public async Task<bool> ValidateOperator(int operatorId)
+        public async Task<bool> ValidateOperator(ValidateOperatorDTO info)
         {
-            var isValid = await ExecuteScalarAsync<bool>("usp_ValidateOperator", new { operatorId = operatorId });
+            var parameters = new Dictionary<string, object>()
+            {
+                ["operatorId"] = info.OperatorId,
+                ["subAssyId"] = info.SubAssyId,
+                ["stationId"] = info.StationId               
+            };
+            var isValid = await ExecuteScalarAsync<bool>("usp_ValidateOperator", parameters);
 
             return isValid;
         }
