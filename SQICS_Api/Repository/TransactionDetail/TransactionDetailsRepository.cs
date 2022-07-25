@@ -17,7 +17,7 @@ namespace SQICS_Api.Repository.TransactionDetail
 
         public async Task<IEnumerable<TransactionDetailsDTO>> GetTransactionDetailsByTransNoAsync(string transNo)
         {
-            var result = await QueryAsync<TransactionDetailsDTO>("usp_GetTransactionDetailsByTransNo");
+            var result = await QueryAsync<TransactionDetailsDTO>("usp_GetTransactionDetailsByTransNo", new { transNo = transNo});
 
             return result;
         }
