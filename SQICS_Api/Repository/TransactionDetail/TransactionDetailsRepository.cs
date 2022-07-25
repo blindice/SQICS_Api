@@ -15,9 +15,11 @@ namespace SQICS_Api.Repository.TransactionDetail
         public TransactionDetailsRepository(SQICSContext efContext, DapperContext dapperContext)
            : base(efContext, dapperContext) { }
 
-        public Task<dynamic> GetAllTransactionDetailsAsync()
+        public async Task<IEnumerable<TransactionDetailsDTO>> GetTransactionDetailsByTransNoAsync(string transNo)
         {
-            throw new NotImplementedException();
+            var result = await QueryAsync<TransactionDetailsDTO>("usp_GetTransactionDetailsByTransNo");
+
+            return result;
         }
     }
 }
