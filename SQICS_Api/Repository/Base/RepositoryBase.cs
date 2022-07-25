@@ -59,6 +59,16 @@ namespace SQICS_Api.Repository.Base
             }
         }
 
+        public async Task<TItem> ExecuteScalarAsync<TItem>(string query, object param = null, 
+            CommandType cType = CommandType.StoredProcedure)
+        {
+            using (var conn = _dapperContext.Connection)
+            {
+                var result = await conn.ExecuteScalarAsync<TItem>(query, param, commandType: cType);
+                return result;
+            }
+        }
+
         public async Task AddAsync(T entity)
         {
             await _efContext.AddAsync(entity);

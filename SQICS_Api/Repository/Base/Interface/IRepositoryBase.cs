@@ -16,6 +16,8 @@ namespace SQICS_Api.Repository.Base.Interface
 
         Task<T> QuerySingleOrDefaultAsync(string query, object param = null, CommandType cType = CommandType.StoredProcedure);
 
+        Task<TItem> ExecuteScalarAsync<TItem>(string query, object param = null, CommandType cType = CommandType.StoredProcedure);
+
         Task AddAsync(T entity);
 
     }
