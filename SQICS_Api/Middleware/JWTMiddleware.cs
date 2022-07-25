@@ -55,7 +55,7 @@ namespace SQICS_Api.Middleware
             if (string.IsNullOrEmpty(accountId)) throw new BadHttpRequestException("Error Attaching Account to Context");
 
             // attach account to context on successful jwt validation
-            //context.Items["User"] = service.GetUserByUserIdAsync(Convert.ToInt32(accountId));
+            context.Items["User"] = service.GetUserByUserIdAsync(Convert.ToInt32(accountId));
         }
     }
 }
