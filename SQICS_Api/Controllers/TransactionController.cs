@@ -29,5 +29,15 @@ namespace SQICS_Api.Controllers
 
             return Ok(details);
         }
+
+        [HttpGet("validateOperator/{empId}")]
+        public async Task<IActionResult> ValidateOperatorAsync(string empId)
+        {
+            if (string.IsNullOrEmpty(empId)) return BadRequest("Invalid Employee Id!");
+
+            var isValid = await _service.ValidateOperatorAsync(empId);
+
+            return (isValid) ? Ok() : NotFound("Invalid Operator!");
+        }
     }
 }

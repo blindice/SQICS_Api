@@ -9,5 +9,7 @@ namespace SQICS_Api.Service.Interface
     public interface ITransactionService
     {
         Task<List<TransactionDetailsDTO>> GetTransactionDetailsByTransNoAsync(string transNo);
+
+        Task<bool> ValidateOperatorAsync(string empId);
     }
 }

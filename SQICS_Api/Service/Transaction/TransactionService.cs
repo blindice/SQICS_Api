@@ -26,5 +26,12 @@ namespace SQICS_Api.Service.Transaction
 
             return result.ToList();
         }
+
+        public async Task<bool> ValidateOperatorAsync(string empId)
+        {
+            var @operator = await _uow.Operator.GetOperatorByEmpId(empId);
+
+            return (@operator is null) ? false : true;
+        }
     }
 }
