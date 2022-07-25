@@ -7,6 +7,7 @@ namespace SQICS_Api.Model
 {
     public class TransactionDetailsDTO
     {
+        public int Id { get; set; }
         public string StationName { get; set; }
 
         public string EmployeeId { get; set; }
