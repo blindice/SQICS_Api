@@ -31,7 +31,11 @@ namespace SQICS_Api.Service.Transaction
         {
             var @operator = await _uow.Operator.GetOperatorByEmpId(empId);
 
-            return (@operator is null) ? false : true;
+            if (@operator is null) throw new CustomException("Operator Not Found!");
+
+            var isValid = await _uow.Operator.ValidateOperator(@operator.fld_id);
+
+            return isValid;
         }
     }
 }
