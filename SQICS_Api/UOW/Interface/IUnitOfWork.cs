@@ -19,6 +19,8 @@ namespace SQICS_Api.UOW
 
         IOperatorRepository Operator { get; }
 
+        IPiecePartRepository PiecePart { get; }
+
         Task SaveAsync();
     }
 }
