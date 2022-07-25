@@ -53,5 +53,17 @@ namespace SQICS_Api.Service.Transaction
 
             return isValid;
         }
+
+        public async Task AddTransactionDetailsAsync(AddTransactionDetailsDTO details)
+        {
+            try
+            {
+                
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
     }
 }
