@@ -21,5 +21,10 @@ namespace SQICS_Api.Repository.TransactionDetail
 
             return result;
         }
+
+        public async Task AddTransactionDetailsAsync(tbl_t_transaction_detail transactionDetails)
+        {
+            await AddAsync(transactionDetails);
+        }
     }
 }
