@@ -27,6 +27,9 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("verify")]
+        [ProducesResponseType(typeof(string), statusCode:StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] LoginDTO account)
         {
@@ -41,14 +44,6 @@ namespace SQICS_Api.Controllers
             var tokenString = await _service.GenerateJWTTokenAsync(result);
 
             return Ok(new { Token = tokenString });
-        }
-
-        
-        [HttpGet("hello")]
-        [Authorize]
-        public IActionResult Hello()
-        {
-            return NoContent();
-        }
+        }     
     }
 }
