@@ -21,6 +21,10 @@ namespace SQICS_Api.Controllers
 
         [HttpGet("plans")]
         [Authorize]
+        [ProducesResponseType(typeof(List<PlanDTO>), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(statusCode: StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetAllPlanAsync()
         {
             var plans = await _service.GetAllPlanAsync();
@@ -32,6 +36,10 @@ namespace SQICS_Api.Controllers
 
         [HttpGet("{transNo}")]
         [Authorize]
+        [ProducesResponseType(typeof(PlanDTO), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(statusCode: StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetPlanByTransactionNo(string transNo)
         {
             if (transNo is null) return BadRequest("Invalid Transaction No.!");
@@ -45,6 +53,10 @@ namespace SQICS_Api.Controllers
 
         [HttpPost("add")]
         [Authorize]
+        [ProducesResponseType(typeof(AddPlanDTO), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(statusCode: StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> AddNewPlan([FromBody] AddPlanDTO plan)
         {
             if (plan is null) return BadRequest("Invalid Plan!");
@@ -58,6 +70,10 @@ namespace SQICS_Api.Controllers
 
         [HttpGet("add")]
         [Authorize]
+        [ProducesResponseType(typeof(List<SubAssyDDLDTO>), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(statusCode: StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> AddnewPlan()
         {
             var subAssyDdl =  await _service.GetAllSubAssyDDLAsync();
