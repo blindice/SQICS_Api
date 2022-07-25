@@ -34,9 +34,8 @@ namespace SQICS_Api.Controllers
         [HttpPost("validateoperator")]
         public async Task<IActionResult> ValidateOperatorAsync([FromBody] ValidateOperatorDTO info)
         {
-            if (!ModelState.IsValid) return BadRequest("Invalid Validation Info!");
-
-            if (info is null) return BadRequest("Invalid Validation Info!");
+            if (!ModelState.IsValid || info is null) 
+                return BadRequest("Invalid Validation Info!");
 
             var isValid = await _service.ValidateOperatorAsync(info);
 
@@ -46,13 +45,21 @@ namespace SQICS_Api.Controllers
         [HttpPost("validatepiece")]
         public async Task<IActionResult> ValidatePiecePartAsync([FromBody] ValidatePiecePartDTO info)
         {
-            if (!ModelState.IsValid) return BadRequest("Invalid Validation Info!");
-
-            if (info is null) return BadRequest("Invalid Validation Info!");
+            if (!ModelState.IsValid || info is null) 
+                return BadRequest("Invalid Validation Info!");
 
             var isValid = await _service.ValidatePiecePartAsync(info);
 
             return (isValid) ? Ok() : NotFound("Invalid PiecePart!");
+        }
+
+        [HttpPost("add")]
+        public async Task<IActionResult> AddTransactionDetailsAsync([FromBody] AddTransactionDetailsDTO transDetails)
+        {
+            if (!ModelState.IsValid || transDetails is null) 
+                return BadRequest("Invalid Transaction Details!");
+
+            return Ok();
         }
     }
 }
