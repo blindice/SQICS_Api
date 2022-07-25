@@ -18,14 +18,8 @@ namespace SQICS_Api.Controllers
 
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllTransactionAsync()
-        {
-            return Ok();
-        }
-
         [HttpGet("{transNo}")]
-        public async Task<IActionResult> GetTransactionByTransactionNoAsync(int transNo)
+        public async Task<IActionResult> GetTransactionDetailsByTransNoAsync(string transNo)
         {
             return Ok();
         }
