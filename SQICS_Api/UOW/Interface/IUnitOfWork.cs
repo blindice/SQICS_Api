@@ -17,6 +17,8 @@ namespace SQICS_Api.UOW
 
         ITransactionDetailsRepository TDetails { get; }
 
+        IOperatorRepository Operator { get; }
+
         Task SaveAsync();
     }
 }

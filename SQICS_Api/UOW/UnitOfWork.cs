@@ -1,6 +1,7 @@
 ﻿using SQICS_Api.Model.Context;
 using SQICS_Api.Repository.Interface;
 using SQICS_Api.Repository.Login;
+using SQICS_Api.Repository.Operator;
 using SQICS_Api.Repository.SubAssy;
 using SQICS_Api.Repository.Transaction;
 using SQICS_Api.Repository.TransactionDetail;
@@ -19,11 +20,24 @@ namespace SQICS_Api.UOW
         private ISubAssyRepository _subAssy;
         private ILoginRepository _login;
         private ITransactionDetailsRepository _tDetail;
+        private IOperatorRepository _operator;
 
         public UnitOfWork(SQICSContext efContext, DapperContext dapperContext)
         {
             _efContext = efContext;
             _dapperContext = dapperContext;
+        }
+
+        public IOperatorRepository Operator
+        {
+            get
+            {
+                if (_operator == null)
+                {
+                    _operator = new OperatorRepository(_efContext, _dapperContext);
+                }
+                return _operator;
+            }
         }
 
         public ITransactionRepository Transaction
