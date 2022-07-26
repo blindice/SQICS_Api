@@ -67,5 +67,13 @@ namespace SQICS_Api.Controllers
 
             return Ok();
         }
+
+        [HttpGet("defects")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllDefectsAsync()
+        {
+            return Ok();
+        }
+
     }
 }
