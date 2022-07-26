@@ -27,6 +27,7 @@ using System.Text;
 using SQICS_Api.Service.JWT;
 using SQICS_Api.Service.Transaction;
 using SQICS_Api.Service.Assembly;
+using Microsoft.AspNetCore.Http;
 
 namespace SQICS_Api
 {
@@ -62,7 +63,9 @@ namespace SQICS_Api
             });
 
             services.AddControllers();
+
             services.AddAutoMapper(typeof(Startup));
+
             services.AddHttpContextAccessor();
 
             services.AddCors(policy =>
@@ -84,6 +87,29 @@ namespace SQICS_Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SQICS_Api", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type=ReferenceType.SecurityScheme,
+                                Id="Bearer"
+                            }
+                        },
+                        new string[]{}
+                    }
+                });
             });
         }
 
