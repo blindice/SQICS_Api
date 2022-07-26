@@ -21,6 +21,8 @@ namespace SQICS_Api.UOW
 
         IPiecePartRepository PiecePart { get; }
 
+        IDefectRepository Defect { get; }
+
         Task SaveAsync();
     }
 }

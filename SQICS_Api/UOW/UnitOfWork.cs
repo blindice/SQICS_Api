@@ -1,4 +1,5 @@
 ﻿using SQICS_Api.Model.Context;
+using SQICS_Api.Repository.Defect;
 using SQICS_Api.Repository.Interface;
 using SQICS_Api.Repository.Login;
 using SQICS_Api.Repository.Operator;
@@ -23,11 +24,24 @@ namespace SQICS_Api.UOW
         private ITransactionDetailsRepository _tDetail;
         private IOperatorRepository _operator;
         private IPiecePartRepository _piecePart;
+        private IDefectRepository _defect;
 
         public UnitOfWork(SQICSContext efContext, DapperContext dapperContext)
         {
             _efContext = efContext;
             _dapperContext = dapperContext;
+        }
+
+        public IDefectRepository Defect
+        {
+            get
+            {
+                if (_defect == null)
+                {
+                    _defect = new DefectRepository(_efContext, _dapperContext);
+                }
+                return _defect;
+            }
         }
 
         public IPiecePartRepository PiecePart
