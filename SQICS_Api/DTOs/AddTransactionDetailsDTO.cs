@@ -11,7 +11,8 @@ namespace SQICS_Api.DTOs
         [Required]
         public string fld_transactionId { get; set; }
         [Required]
-        public int fld_stationId { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Station ID can't be zero!")]
+        public int? fld_stationId { get; set; }
         [Required]
         public string fld_employeeId { get; set; }
         [Required]
@@ -21,9 +22,11 @@ namespace SQICS_Api.DTOs
         [Required]
         public string fld_referenceNo { get; set; }
         [Required]
-        public int fld_qty { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Qty can't be zero!")]
+        public int? fld_qty { get; set; }
 
         [Required]
-        public int fld_createdBy { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Created By can't be zero!")]
+        public int? fld_createdBy { get; set; }
     }
 }

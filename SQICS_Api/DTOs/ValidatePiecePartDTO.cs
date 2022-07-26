@@ -15,6 +15,7 @@ namespace SQICS_Api.DTOs
         public int? PiecePartId { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "SubAssy ID can't be zero!")]
         public int? SubAssyId { get; set; }
     }
 }
