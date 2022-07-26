@@ -13,6 +13,8 @@ namespace SQICS_Api.Profiles.SubAssy
         public SubAssyProfile()
         {
             CreateMap<tbl_m_part, SubAssyDDLDTO>()
+                .ForMember(dest => dest.SubAssyId,
+                opt => opt.MapFrom(src => src.fld_id))
                 .ForMember(dest => dest.SubAssyCode,
                 opt => opt.MapFrom(src => src.fld_partCode))
                  .ForMember(dest => dest.SubAssyName,
