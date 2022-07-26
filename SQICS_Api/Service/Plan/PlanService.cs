@@ -61,21 +61,20 @@ namespace SQICS_Api.Service.Plan
             return result;
         }
 
-        public async Task<List<PlanDTO>> GetPlanByFilters(SearchParameters parameters)
+        public async Task<List<PlanDTO>> GetPlanByFilters(string param)
         {
             var transactions = (await _uow.Transaction.GetAllTransactionAsync()).AsQueryable();
 
             if (transactions is null) throw new CustomException("Plan Not Found!");
 
-            var filteredTrans = transactions
-                .Where(t => t.fld_transactionNo.Contains(parameters.TransactionNo));
-
             var subAssy = (await _uow.SubAssy.GetAllSubAssyAsync()).AsQueryable();
 
-            var plan = (from t in filteredTrans
-                       join s in subAssy
+            var plan = (from t in transactions
+                        join s in subAssy
                        on t.fld_assyId equals s.fld_id
-                       select new PlanDTO
+                       where t.fld_transactionNo.Contains(param) || t.fld_prodDate.ToString().Contains(param)
+                       || t.fld_shiftId.ToString().Contains(param) || s.fld_partCode.Contains(param)
+                        select new PlanDTO
                        {
                            Id = t.fld_id,
                            TransactionNo = t.fld_transactionNo,

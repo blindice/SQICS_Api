@@ -37,19 +37,19 @@ namespace SQICS_Api.Controllers
 
         [HttpGet("search")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(PlanDTO), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<PlanDTO>), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         [ProducesResponseType(statusCode: StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetPlanByTransactionNo([FromQuery] SearchParameters parameters)
+        public async Task<IActionResult> SearchPlanByFilterAsync([FromQuery] string value = "")
         {
-            if (parameters is null) return BadRequest("Invalid Transaction No.!");
+            if (value is null) return BadRequest("Invalid Transaction No.!");
 
-            var plan = await _service.GetPlanByFilters(parameters);
+            var plans = await _service.GetPlanByFilters(value);
 
-            if (plan is null) return NotFound("Plan Not Found!");
+            if (plans is null) return NotFound("Plan Not Found!");
 
-            return Ok(plan);
+            return Ok(plans);
         }
 
         [HttpPost("add")]

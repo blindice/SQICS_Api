@@ -10,7 +10,7 @@ namespace SQICS_Api.Service.Interface
 {
     public interface IPlanService
     {
-        Task<List<PlanDTO>> GetPlanByFilters(SearchParameters parameters);
+        Task<List<PlanDTO>> GetPlanByFilters(string param);
 
         Task<List<PlanDTO>> GetAllPlanAsync();
 
