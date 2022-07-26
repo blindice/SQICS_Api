@@ -9,18 +9,21 @@ namespace SQICS_Api.DTOs
     public class AddTransactionDetailsDTO
     {
         [Required]
-        public string TransactionNo { get; set; }
+        public string fld_transactionId { get; set; }
         [Required]
-        public int StationId { get; set; }
+        public int fld_stationId { get; set; }
         [Required]
-        public string EmployeeId { get; set; }
+        public string fld_employeeId { get; set; }
         [Required]
-        public string PiecePartId { get; set; }
+        public string fld_pieceId { get; set; }
         [Required]
-        public string LotNo { get; set; }
+        public string fld_lotNo { get; set; }
         [Required]
-        public string RefNo { get; set; }
+        public string fld_referenceNo { get; set; }
         [Required]
-        public int Qty { get; set; }
+        public int fld_qty { get; set; }
+
+        [Required]
+        public int fld_createdBy { get; set; }
     }
 }
