@@ -7,6 +7,8 @@ namespace SQICS_Api.DTOs
 {
     public class SubAssyDDLDTO
     {
+        public int SubAssyId { get; set; }
+
         public string SubAssyCode { get; set; }
 
         public string SubAssyName { get; set; }
