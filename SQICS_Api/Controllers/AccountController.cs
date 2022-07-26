@@ -17,16 +17,16 @@ namespace SQICS_Api.Controllers
 {
     [Route("api/v1.0/[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class AccountController : ControllerBase
     {
         private readonly ILoginService _service;
 
-        public LoginController(ILoginService service)
+        public AccountController(ILoginService service)
         {
             _service = service;
         }
 
-        [HttpPost("verify")]
+        [HttpPost("login")]
         [ProducesResponseType(typeof(string), statusCode:StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
