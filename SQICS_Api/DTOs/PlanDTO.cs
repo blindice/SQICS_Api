@@ -11,6 +11,26 @@ namespace SQICS_Api.DTOs
 
         public string TransactionNo { get; set; }
 
+        public DateTime ProdDate { get; set; }
+
+        private string _shift;
+
+        public string Shift { 
+            get 
+            {
+                return _shift;
+            }
+            set
+            {
+                _shift = value.ToString() switch
+                {
+                    "1" => "Day Shift",
+                    "2" => "Night Shift",
+                    _ => "Not Set"
+                };
+            }
+        }
+
         public string SubAssyCode { get; set; }
 
         public string SubAssyName { get; set; }

@@ -42,9 +42,9 @@ namespace SQICS_Api.Service.Plan
 
         public async Task<List<PlanDTO>> GetAllPlanAsync()
         {
-            var transactions = await _uow.Transaction.GetAllTransactionAsync();
+            var transactions = (await _uow.Transaction.GetAllTransactionAsync()).AsQueryable();
 
-            var subAssies = await _uow.SubAssy.GetAllSubAssyAsync();
+            var subAssies = (await _uow.SubAssy.GetAllSubAssyAsync()).AsQueryable();
 
             var result = (from t in transactions
                          join s in subAssies on t.fld_assyId equals s.fld_id
@@ -52,6 +52,8 @@ namespace SQICS_Api.Service.Plan
                          {
                              Id = t.fld_id,
                              TransactionNo = t.fld_transactionNo,
+                             ProdDate = t.fld_prodDate,
+                             Shift = t.fld_shiftId.ToString(),
                              SubAssyCode = s.fld_partCode,
                              SubAssyName = s.fld_partName,
                              Qty = t.fld_qty,
@@ -78,6 +80,8 @@ namespace SQICS_Api.Service.Plan
                        {
                            Id = t.fld_id,
                            TransactionNo = t.fld_transactionNo,
+                           ProdDate = t.fld_prodDate,
+                           Shift = t.fld_shiftId.ToString(),
                            SubAssyCode = s.fld_partCode,
                            SubAssyName = s.fld_partName,
                            Qty = t.fld_qty,

@@ -21,7 +21,7 @@ namespace SQICS_Api.Controllers
         public PlanController(IPlanService service) => _service = service;
 
         [HttpGet("plans")]
-        [Authorize]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(List<PlanDTO>), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
