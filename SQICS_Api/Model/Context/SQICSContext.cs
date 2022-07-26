@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using SQICS_Api.Model;
@@ -102,6 +102,8 @@ namespace SQICS_Api.Model.Context
 
             modelBuilder.Entity<tbl_t_transaction>(entity =>
             {
+                entity.Property(e => e.fld_prodDate).HasDefaultValueSql("(getdate())");
+
                 entity.Property(e => e.fld_transactionNo).IsUnicode(false);
             });
 

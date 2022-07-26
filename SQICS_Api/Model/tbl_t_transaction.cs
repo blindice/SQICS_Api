@@ -18,6 +18,9 @@ namespace SQICS_Api.Model
         [Required]
         [StringLength(12)]
         public string fld_transactionNo { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime fld_prodDate { get; set; }
+        public int fld_shiftId { get; set; }
         public int fld_assyId { get; set; }
         public int fld_qty { get; set; }
         public int fld_createdBy { get; set; }
