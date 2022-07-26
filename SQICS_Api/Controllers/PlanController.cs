@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SQICS_Api.DTOs;
+using SQICS_Api.Helper.POCO;
 using SQICS_Api.Model;
 using SQICS_Api.Service.Interface;
 using System;
@@ -34,17 +35,17 @@ namespace SQICS_Api.Controllers
             return Ok(plans);
         }
 
-        [HttpGet("{transNo}")]
-        [Authorize]
+        [HttpGet("search")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(PlanDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         [ProducesResponseType(statusCode: StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetPlanByTransactionNo(string transNo)
+        public async Task<IActionResult> GetPlanByTransactionNo([FromQuery] SearchParameters parameters)
         {
-            if (transNo is null) return BadRequest("Invalid Transaction No.!");
+            if (parameters is null) return BadRequest("Invalid Transaction No.!");
 
-            var plan = await _service.GetPlanByTransactionNoAsync(transNo);
+            var plan = await _service.GetPlanByFilters(parameters);
 
             if (plan is null) return NotFound("Plan Not Found!");
 

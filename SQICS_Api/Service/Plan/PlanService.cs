@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SQICS_Api.DTOs;
 using SQICS_Api.Helper.CustomException;
+using SQICS_Api.Helper.POCO;
 using SQICS_Api.Model;
 using SQICS_Api.Service.Interface;
 using SQICS_Api.UOW;
@@ -60,24 +61,29 @@ namespace SQICS_Api.Service.Plan
             return result;
         }
 
-        public async Task<PlanDTO> GetPlanByTransactionNoAsync(string transNo)
+        public async Task<List<PlanDTO>> GetPlanByFilters(SearchParameters parameters)
         {
-            var transaction = await _uow.Transaction.GetTransactionByTransNoAsync(transNo);
+            var transactions = (await _uow.Transaction.GetAllTransactionAsync()).AsQueryable();
 
-            if (transaction is null) throw new CustomException("Plan Not Found!");
+            if (transactions is null) throw new CustomException("Plan Not Found!");
 
-            var subAssy = (await _uow.SubAssy.GetAllSubAssyAsync())
-                .Where(s => s.fld_id == transaction?.fld_assyId).SingleOrDefault();
+            var filteredTrans = transactions
+                .Where(t => t.fld_transactionNo == parameters.TransactionNo);
 
-            var plan = new PlanDTO
-            {
-                Id = transaction.fld_id,
-                TransactionNo = transaction.fld_transactionNo,
-                SubAssyCode = subAssy.fld_partCode,
-                SubAssyName = subAssy.fld_partName,
-                Qty = transaction.fld_qty,
-                ETimeCompletion = transaction.ETimeCompletion
-            };
+            var subAssy = (await _uow.SubAssy.GetAllSubAssyAsync()).AsQueryable();
+
+            var plan = (from t in filteredTrans
+                       join s in subAssy
+                       on t.fld_assyId equals s.fld_id
+                       select new PlanDTO
+                       {
+                           Id = t.fld_id,
+                           TransactionNo = t.fld_transactionNo,
+                           SubAssyCode = s.fld_partCode,
+                           SubAssyName = s.fld_partName,
+                           Qty = t.fld_qty,
+                           ETimeCompletion = t.ETimeCompletion
+                       }).ToList();
 
             return plan;
         }

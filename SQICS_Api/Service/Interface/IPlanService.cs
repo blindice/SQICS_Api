@@ -1,4 +1,5 @@
 ﻿using SQICS_Api.DTOs;
+using SQICS_Api.Helper.POCO;
 using SQICS_Api.Model;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace SQICS_Api.Service.Interface
 {
     public interface IPlanService
     {
-        Task<PlanDTO> GetPlanByTransactionNoAsync(string transNo);
+        Task<List<PlanDTO>> GetPlanByFilters(SearchParameters parameters);
 
         Task<List<PlanDTO>> GetAllPlanAsync();
 
