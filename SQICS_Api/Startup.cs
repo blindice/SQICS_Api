@@ -26,6 +26,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using SQICS_Api.Service.JWT;
 using SQICS_Api.Service.Transaction;
+using SQICS_Api.Service.Assembly;
 
 namespace SQICS_Api
 {
@@ -62,6 +63,7 @@ namespace SQICS_Api
 
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
+            services.AddHttpContextAccessor();
 
             services.AddCors(policy =>
             {
@@ -78,6 +80,7 @@ namespace SQICS_Api
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<IAssemblyService, AssemblyService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SQICS_Api", Version = "v1" });
