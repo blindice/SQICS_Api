@@ -60,9 +60,7 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(statusCode: StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> AddNewPlan([FromBody] AddPlanDTO plan)
         {
-            if (plan is null) return BadRequest("Invalid Plan!");
-
-            if (!ModelState.IsValid) return BadRequest("Invalid Plan!");
+            if (!ModelState.IsValid || plan is null) return BadRequest("Invalid Plan!");
 
             await _service.AddNewPlanAsync(plan);
 
@@ -85,6 +83,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("servertime")]
+        [Authorize]
         [ProducesResponseType(typeof(List<SubAssyDDLDTO>), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]

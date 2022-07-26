@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using SQICS_Api.DTOs;
 using SQICS_Api.Helper.CustomException;
 using SQICS_Api.Helper.POCO;
@@ -16,15 +17,20 @@ namespace SQICS_Api.Service.Plan
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _accessor;
 
-        public PlanService(IUnitOfWork uow, IMapper mapper)
+        public PlanService(IUnitOfWork uow, IMapper mapper, IHttpContextAccessor accessor)
         {
             _uow = uow;
             _mapper = mapper;
+            _accessor = accessor;
         }
         public async Task AddNewPlanAsync(AddPlanDTO plan)
         {
+            var currUser = Convert.ToInt32(_accessor.HttpContext.User.Claims.First(c => c.Type == "id").Value);
+
             var subAssyDdl = _mapper.Map<tbl_t_transaction>(plan);
+            subAssyDdl.fld_createdBy = currUser;
             subAssyDdl.fld_createdDate = DateTime.Now;
             subAssyDdl.fld_transactionNo = await GenerateTransactionNo();
 
