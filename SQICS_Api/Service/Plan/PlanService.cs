@@ -68,7 +68,7 @@ namespace SQICS_Api.Service.Plan
             if (transactions is null) throw new CustomException("Plan Not Found!");
 
             var filteredTrans = transactions
-                .Where(t => t.fld_transactionNo == parameters.TransactionNo);
+                .Where(t => t.fld_transactionNo.Contains(parameters.TransactionNo));
 
             var subAssy = (await _uow.SubAssy.GetAllSubAssyAsync()).AsQueryable();
 
