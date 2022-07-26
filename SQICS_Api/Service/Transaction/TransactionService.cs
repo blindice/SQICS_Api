@@ -1,4 +1,6 @@
-﻿using SQICS_Api.DTOs;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using SQICS_Api.DTOs;
 using SQICS_Api.Helper.CustomException;
 using SQICS_Api.Model;
 using SQICS_Api.Service.Interface;
@@ -6,6 +8,7 @@ using SQICS_Api.UOW;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SQICS_Api.Service.Transaction
@@ -13,10 +16,12 @@ namespace SQICS_Api.Service.Transaction
     public class TransactionService : ITransactionService
     {
         IUnitOfWork _uow;
+        IMapper _mapper;
 
-        public TransactionService(IUnitOfWork uow)
+        public TransactionService(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
         public async Task<List<TransactionDetailsDTO>> GetTransactionDetailsByTransNoAsync(string transNo)
@@ -26,20 +31,7 @@ namespace SQICS_Api.Service.Transaction
             if (result is null) throw new CustomException("Invalid Transaction Details!");
 
             return result.ToList();
-        }
-
-        public async Task<bool> ValidateOperatorAsync(ValidateOperatorDTO info)
-        {
-            var @operator = await _uow.Operator.GetOperatorByEmpId(info.EmployeeId);
-
-            if (@operator is null) throw new CustomException("Operator Not Found!");
-
-            info.OperatorId = @operator.fld_id;
-
-            var isValid = await _uow.Operator.ValidateOperator(info);
-
-            return isValid;
-        }
+        }    
 
         public async Task<bool> ValidatePiecePartAsync(ValidatePiecePartDTO info)
         {
@@ -58,7 +50,11 @@ namespace SQICS_Api.Service.Transaction
         {
             try
             {
-                
+                var transDetails = _mapper.Map<tbl_t_transaction_detail>(details);
+                transDetails.fld_createdDate = DateTime.Now;
+
+                await _uow.TDetails.AddTransactionDetailsAsync(transDetails);
+                await _uow.SaveAsync();
             }
             catch(Exception)
             {

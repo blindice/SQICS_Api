@@ -11,8 +11,8 @@ namespace SQICS_Api.Service.Interface
     {
         Task<List<TransactionDetailsDTO>> GetTransactionDetailsByTransNoAsync(string transNo);
 
-        Task<bool> ValidateOperatorAsync(ValidateOperatorDTO info);
-
         Task<bool> ValidatePiecePartAsync(ValidatePiecePartDTO info);
+
+        Task AddTransactionDetailsAsync(AddTransactionDetailsDTO details);
     }
 }
