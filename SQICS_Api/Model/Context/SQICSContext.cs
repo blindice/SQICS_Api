@@ -15,6 +15,7 @@ namespace SQICS_Api.Model.Context
         }
 
         public virtual DbSet<tbl_m_bom> tbl_m_boms { get; set; }
+        public virtual DbSet<tbl_m_defect> tbl_m_defects { get; set; }
         public virtual DbSet<tbl_m_operator> tbl_m_operators { get; set; }
         public virtual DbSet<tbl_m_operator_assy> tbl_m_operator_assies { get; set; }
         public virtual DbSet<tbl_m_operator_station> tbl_m_operator_stations { get; set; }
@@ -36,6 +37,13 @@ namespace SQICS_Api.Model.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.Entity<tbl_m_defect>(entity =>
+            {
+                entity.Property(e => e.fld_active).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.fld_name).IsUnicode(false);
+            });
 
             modelBuilder.Entity<tbl_m_operator>(entity =>
             {
