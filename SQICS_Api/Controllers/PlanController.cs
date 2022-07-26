@@ -83,5 +83,15 @@ namespace SQICS_Api.Controllers
 
             return Ok(subAssyDdl);
         }
+
+        [HttpGet("servertime")]
+        [ProducesResponseType(typeof(List<SubAssyDDLDTO>), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(statusCode: StatusCodes.Status401Unauthorized)]
+        public IActionResult GetServerSystemTime()
+        {
+            return Ok(DateTime.Now);
+        }
     }
 }
