@@ -14,5 +14,7 @@ namespace SQICS_Api.Service.Interface
         Task<bool> ValidatePiecePartAsync(ValidatePiecePartDTO info);
 
         Task AddTransactionDetailsAsync(AddTransactionDetailsDTO details);
+
+        Task<List<DefectDTO>> GetAllDefectsAsync();
     }
 }

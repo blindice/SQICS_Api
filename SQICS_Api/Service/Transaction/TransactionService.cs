@@ -61,5 +61,16 @@ namespace SQICS_Api.Service.Transaction
                 throw;
             }
         }
+
+        public async Task<List<DefectDTO>> GetAllDefectsAsync()
+        {
+            var result = await _uow.Defect.GetAllDefectAsync();
+
+            if (result is null) throw new CustomException("No Defects Found!");
+
+            var defects = _mapper.Map<List<DefectDTO>>(result);
+
+            return defects.ToList();
+        }
     }
 }

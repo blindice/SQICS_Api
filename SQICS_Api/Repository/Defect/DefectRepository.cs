@@ -13,5 +13,12 @@ namespace SQICS_Api.Repository.Defect
     {
         public DefectRepository(SQICSContext efContext, DapperContext dapperContext)
         : base(efContext, dapperContext) { }
+
+        public async Task<IEnumerable<tbl_m_defect>> GetAllDefectAsync()
+        {
+            var defects = await QueryAsync("usp_GetAllDefects");
+
+            return defects;
+        }
     }
 }

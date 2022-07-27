@@ -70,9 +70,13 @@ namespace SQICS_Api.Controllers
 
         [HttpGet("defects")]
         [AllowAnonymous]
+        [ProducesResponseType(typeof(List<DefectDTO>), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllDefectsAsync()
         {
-            return Ok();
+            var defects = await _service.GetAllDefectsAsync();
+
+            return Ok(defects);
         }
 
     }
