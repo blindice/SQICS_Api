@@ -44,6 +44,14 @@ namespace SQICS_Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(policy =>
+            {
+                policy.AddPolicy("CorsPolicy", opt => opt
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
+            });
+
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -68,13 +76,7 @@ namespace SQICS_Api
 
             services.AddHttpContextAccessor();
 
-            services.AddCors(policy =>
-            {
-                policy.AddPolicy("CorsPolicy", opt => opt
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod());
-            });
+           
             services.AddDbContext<SQICSContext>(o => o.UseSqlServer(Configuration.GetConnectionString("SQICSConnection")));
             services.AddSingleton<DapperContext>();
             services.AddSingleton<ILoggerManager, LoggerManager>();
@@ -125,11 +127,11 @@ namespace SQICS_Api
 
             app.UseMiddleware<JWTMiddleware>();         
 
-            app.UseHttpsRedirection();
-
-            app.UseCors("CorsPolicy");
+            app.UseHttpsRedirection();           
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
 
