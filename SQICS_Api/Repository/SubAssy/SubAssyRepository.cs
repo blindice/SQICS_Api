@@ -24,5 +24,10 @@ namespace SQICS_Api.Repository.SubAssy
         {
             return await QuerySingleOrDefaultAsync("usp_GetSubAssyByCode", new { code = code });
         }
+
+        public async Task<IEnumerable<tbl_m_part>> GetSubAssyBySupplierId(int supplierId)
+        {
+            return await QueryAsync("usp_GetSubAssyBySupplierId", new { supplierId = supplierId });
+        }
     }
 }
