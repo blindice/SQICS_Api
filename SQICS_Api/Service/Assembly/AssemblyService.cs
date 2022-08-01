@@ -33,5 +33,19 @@ namespace SQICS_Api.Service.Assembly
 
             return isValid;
         }
+
+        public async Task<List<SubAssyDDLDTO>> GetSubAssyDdlDataAsync(int supplierId)
+        {
+            var subAssies = await _uow.SubAssy.GetSubAssyBySupplierId(supplierId);
+
+            if (subAssies is null) throw new CustomException("No Subassy for DDL Found!");
+
+            var subAssiDTO = _mapper.Map<List<SubAssyDDLDTO>>(subAssies);
+
+            if (subAssiDTO is null || subAssiDTO.Count == 0) 
+                throw new Exception("Invalid Mapping from tbl_m_part to SubAssyDDLDTO!");
+
+            return subAssiDTO;
+        }
     }
-}
+} 

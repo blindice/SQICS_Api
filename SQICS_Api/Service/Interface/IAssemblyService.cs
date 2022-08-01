@@ -9,5 +9,7 @@ namespace SQICS_Api.Service.Interface
     public interface IAssemblyService
     {
         Task<bool> ValidateOperatorAsync(ValidateOperatorDTO info);
+
+        Task<List<SubAssyDDLDTO>> GetSubAssyDdlDataAsync(int supplierId);
     }
 }
