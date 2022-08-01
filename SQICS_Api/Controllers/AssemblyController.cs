@@ -35,5 +35,18 @@ namespace SQICS_Api.Controllers
 
             return (isValid) ? Ok() : NotFound("Invalid Operator!");
         }
+
+        [HttpGet("subassies/{supplierId:int}")]
+        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetDDLSubassiesAsync(int? supplierId)
+        {
+            if (supplierId is null) return BadRequest("Invalid Supplier Id!");
+
+            var subAssies = await _service.GetSubAssyDdlDataAsync((int)supplierId);
+
+            return Ok(subAssies);
+        }
     }
 }
