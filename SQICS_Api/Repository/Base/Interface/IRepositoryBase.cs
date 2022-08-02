@@ -20,5 +20,7 @@ namespace SQICS_Api.Repository.Base.Interface
 
         Task AddAsync(T entity);
 
+        Task AddRangeAsync(List<T> items);
+
     }
 }
