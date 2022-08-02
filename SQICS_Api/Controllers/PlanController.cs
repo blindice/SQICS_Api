@@ -68,7 +68,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("add")]
-        [Authorize]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(List<SubAssyDDLDTO>), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -84,7 +84,7 @@ namespace SQICS_Api.Controllers
 
         [HttpGet("servertime")]
         [Authorize]
-        [ProducesResponseType(typeof(List<SubAssyDDLDTO>), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DateTime), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         [ProducesResponseType(statusCode: StatusCodes.Status401Unauthorized)]
