@@ -9,7 +9,7 @@ namespace SQICS_Api.Repository.Interface
 {
     public interface IOperatorRepository
     {
-        Task<tbl_m_operator> GetOperatorByEmpId(string empId);
+        Task<SubAssyByOperatorIdDTO> GetOperatorByEmpId(string empId);
 
         Task<bool> ValidateOperator(ValidateOperatorDTO info);
     }

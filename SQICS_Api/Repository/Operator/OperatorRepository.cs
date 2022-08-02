@@ -15,9 +15,9 @@ namespace SQICS_Api.Repository.Operator
         public OperatorRepository(SQICSContext efContext, DapperContext dapperContext)
            : base(efContext, dapperContext) { }
 
-        public async Task<tbl_m_operator> GetOperatorByEmpId(string empId)
+        public async Task<SubAssyByOperatorIdDTO> GetOperatorByEmpId(string empId)
         {
-            var result = await QuerySingleOrDefaultAsync("usp_GetOperatorByEmpId", new { empId = empId});
+            var result = await QuerySingleOrDefaultAsync<SubAssyByOperatorIdDTO>("usp_GetOperatorByEmpId", new { empId = empId});
 
             return result;
         }
