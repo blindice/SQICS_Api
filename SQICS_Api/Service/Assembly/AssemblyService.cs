@@ -21,17 +21,13 @@ namespace SQICS_Api.Service.Assembly
             _mapper = mapper;
         }
 
-        public async Task<bool> ValidateOperatorAsync(ValidateOperatorDTO info)
+        public async Task<SubAssyByOperatorIdDTO> GetOperatorDetailsAsync(string operatorId)
         {
-            var @operator = await _uow.Operator.GetOperatorByEmpId(info.EmployeeId);
+            var @operator = await _uow.Operator.GetOperatorByEmpId(operatorId);
 
             if (@operator is null) throw new CustomException("Operator Not Found!");
 
-            info.OperatorId = @operator.fld_id;
-
-            var isValid = await _uow.Operator.ValidateOperator(info);
-
-            return isValid;
+            return @operator;
         }
 
         public async Task<List<SubAssyDDLDTO>> GetSubAssyDdlDataAsync(int supplierId)

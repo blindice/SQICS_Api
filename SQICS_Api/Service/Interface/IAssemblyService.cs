@@ -8,7 +8,7 @@ namespace SQICS_Api.Service.Interface
 {
     public interface IAssemblyService
     {
-        Task<bool> ValidateOperatorAsync(ValidateOperatorDTO info);
+        Task<SubAssyByOperatorIdDTO> GetOperatorDetailsAsync(string operatorId);
 
         Task<List<SubAssyDDLDTO>> GetSubAssyDdlDataAsync(int supplierId);
     }
