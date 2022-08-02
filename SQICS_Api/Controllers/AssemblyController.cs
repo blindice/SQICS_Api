@@ -21,19 +21,19 @@ namespace SQICS_Api.Controllers
             _service = service;
         }
 
-        [HttpPost("validateoperator")]
+        [HttpGet("operatordetails")]
         [AllowAnonymous]
         [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ValidateOperatorAsync([FromBody] ValidateOperatorDTO info)
+        public async Task<IActionResult> GetOperatorDetails(string operatorId)
         {
-            if (!ModelState.IsValid || info is null)
-                return BadRequest("Invalid Validation Info!");
+            if (!ModelState.IsValid || operatorId is null)
+                return BadRequest("Invalid Operator Id!");
 
-            var isValid = await _service.ValidateOperatorAsync(info);
+            var operatorDetails = await _service.GetOperatorDetailsAsync(operatorId);
 
-            return (isValid) ? Ok() : NotFound("Invalid Operator!");
+            return Ok(operatorDetails);
         }
 
         [HttpGet("subassies/{supplierId:int}")]
