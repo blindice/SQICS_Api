@@ -15,6 +15,8 @@ namespace SQICS_Api.Profiles.SubAssy
             CreateMap<tbl_m_part, SubAssyDDLDTO>().ReverseMap();
 
             CreateMap<AddPlanDTO, tbl_t_transaction>();
+
+            CreateMap<tbl_m_part, SubAssyDetailsDTO>().ReverseMap();
         }
     }
 }
