@@ -37,6 +37,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("subassies/{supplierId:int}")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(SubAssyDDLDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -50,6 +51,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("subassybycode")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(SubAssyDetailsDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -65,6 +67,7 @@ namespace SQICS_Api.Controllers
 
 
         [HttpGet("subassybyname")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(SubAssyDetailsDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -76,6 +79,28 @@ namespace SQICS_Api.Controllers
             var subAssy = await _service.GetSubAssyByNameAsync((int)supplierId, subAssyName);
 
             return Ok(subAssy);
+        }
+
+        [HttpGet("servertime")]
+        [ProducesResponseType(typeof(DateTime), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(statusCode: StatusCodes.Status401Unauthorized)]
+        public IActionResult GetServerSystemTime()
+        {
+            return Ok(DateTime.Now);
+        }
+
+        [HttpPost("addtransactions")]
+        public async Task<IActionResult> AddTransactionsAsync([FromBody] List<AddPlanDTO> plans)
+        {
+            if (plans is null) return BadRequest("Invalid plans!");
+
+            if (plans.Count == 0) return NotFound("No Plan Found to Add!");
+
+            await _service.AddPlansAsync(plans);
+
+            return Ok();
         }
     }
 }
