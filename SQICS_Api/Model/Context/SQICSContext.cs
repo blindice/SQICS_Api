@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using SQICS_Api.Model;
@@ -9,6 +9,10 @@ namespace SQICS_Api.Model.Context
 {
     public partial class SQICSContext : DbContext
     {
+        public SQICSContext()
+        {
+        }
+
         public SQICSContext(DbContextOptions<SQICSContext> options)
             : base(options)
         {
@@ -20,9 +24,11 @@ namespace SQICS_Api.Model.Context
         public virtual DbSet<tbl_m_operator_assy> tbl_m_operator_assies { get; set; }
         public virtual DbSet<tbl_m_operator_station> tbl_m_operator_stations { get; set; }
         public virtual DbSet<tbl_m_part> tbl_m_parts { get; set; }
+        public virtual DbSet<tbl_m_status> tbl_m_statuses { get; set; }
         public virtual DbSet<tbl_m_user> tbl_m_users { get; set; }
         public virtual DbSet<tbl_t_assy_defect> tbl_t_assy_defects { get; set; }
         public virtual DbSet<tbl_t_lot_label> tbl_t_lot_labels { get; set; }
+        public virtual DbSet<tbl_t_lot_ongoing> tbl_t_lot_ongoings { get; set; }
         public virtual DbSet<tbl_t_transaction> tbl_t_transactions { get; set; }
         public virtual DbSet<tbl_t_transaction_detail> tbl_t_transaction_details { get; set; }
 
@@ -69,6 +75,14 @@ namespace SQICS_Api.Model.Context
                 entity.Property(e => e.fld_remarks).IsUnicode(false);
             });
 
+            modelBuilder.Entity<tbl_m_status>(entity =>
+            {
+                entity.HasKey(e => e.fld_id)
+                    .HasName("PK__tbl_m_st__5CBC763588198F29");
+
+                entity.Property(e => e.fld_statusName).IsUnicode(false);
+            });
+
             modelBuilder.Entity<tbl_m_user>(entity =>
             {
                 entity.Property(e => e.fld_active).HasDefaultValueSql("((1))");
@@ -108,9 +122,27 @@ namespace SQICS_Api.Model.Context
                 entity.Property(e => e.fld_transactionId).IsUnicode(false);
             });
 
+            modelBuilder.Entity<tbl_t_lot_ongoing>(entity =>
+            {
+                entity.HasKey(e => e.fld_id)
+                    .HasName("PK__tbl_t_lo__5CBC763531958C59");
+
+                entity.Property(e => e.fld_id).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.fld_lotNo).IsUnicode(false);
+
+                entity.Property(e => e.fld_partCode).IsUnicode(false);
+
+                entity.Property(e => e.fld_trans).IsUnicode(false);
+            });
+
             modelBuilder.Entity<tbl_t_transaction>(entity =>
             {
                 entity.Property(e => e.fld_prodDate).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.fld_remarks).IsUnicode(false);
+
+                entity.Property(e => e.fld_subAssyLotNo).IsUnicode(false);
 
                 entity.Property(e => e.fld_transactionNo).IsUnicode(false);
             });
