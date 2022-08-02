@@ -43,5 +43,41 @@ namespace SQICS_Api.Service.Assembly
 
             return subAssiDTO;
         }
+
+        public async Task<SubAssyDetailsDTO> GetSubAssyByCodeAsync(int supplierId, string subassyCode)
+        {
+            var subAssies = await _uow.SubAssy.GetSubAssyBySupplierId(supplierId);
+
+            if (subAssies is null) throw new CustomException("No Subassies Found!");
+
+            var subAssy = subAssies.Where(s => s.fld_partCode.Equals(subassyCode)).FirstOrDefault();
+
+            if (subAssy is null) throw new CustomException("No Subassy Found!");
+
+            var subAssyDTO = _mapper.Map<SubAssyDetailsDTO>(subAssy);
+
+            if (subAssyDTO is null)
+                throw new Exception("Invalid Mapping from tbl_m_part to SubAssyDetailsDTO!");
+
+            return subAssyDTO;
+        }
+
+        public async Task<SubAssyDetailsDTO> GetSubAssyByNameAsync(int supplierId, string subAssyName)
+        {
+            var subAssies = await _uow.SubAssy.GetSubAssyBySupplierId(supplierId);
+
+            if (subAssies is null) throw new CustomException("No Subassies Found!");
+
+            var subAssy = subAssies.Where(s => s.fld_partName.Equals(subAssyName)).FirstOrDefault();
+
+            if (subAssy is null) throw new CustomException("No Subassy Found!");
+
+            var subAssyDTO = _mapper.Map<SubAssyDetailsDTO>(subAssy);
+
+            if (subAssyDTO is null)
+                throw new Exception("Invalid Mapping from tbl_m_part to SubAssyDetailsDTO!");
+
+            return subAssyDTO;
+        }
     }
 } 

@@ -11,5 +11,9 @@ namespace SQICS_Api.Service.Interface
         Task<SubAssyByOperatorIdDTO> GetOperatorDetailsAsync(string operatorId);
 
         Task<List<SubAssyDDLDTO>> GetSubAssyDdlDataAsync(int supplierId);
+
+        Task<SubAssyDetailsDTO> GetSubAssyByCodeAsync(int supplierId, string subassyCode);
+
+        Task<SubAssyDetailsDTO> GetSubAssyByNameAsync(int supplierId, string subAssyName);
     }
 }
