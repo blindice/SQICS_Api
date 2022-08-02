@@ -21,12 +21,12 @@ namespace SQICS_Api.Controllers
             _service = service;
         }
 
-        [HttpGet("operatordetails")]
+        [HttpGet("operatordetails/{operatorId}")]
         [AllowAnonymous]
-        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SubAssyByOperatorIdDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetOperatorDetails(string operatorId)
+        public async Task<IActionResult> GetOperatorDetailsAsync(string operatorId)
         {
             if (!ModelState.IsValid || operatorId is null)
                 return BadRequest("Invalid Operator Id!");
@@ -37,7 +37,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("subassies/{supplierId:int}")]
-        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SubAssyDDLDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDDLSubassiesAsync(int? supplierId)
@@ -47,6 +47,35 @@ namespace SQICS_Api.Controllers
             var subAssies = await _service.GetSubAssyDdlDataAsync((int)supplierId);
 
             return Ok(subAssies);
+        }
+
+        [HttpGet("subassybycode")]
+        [ProducesResponseType(typeof(SubAssyDetailsDTO), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetSubAssyByCodeAsync([FromQuery] int? supplierId, [FromQuery] string subAssyCode)
+        {
+            if(supplierId is null || subAssyCode is null)
+                return BadRequest("Invalid Query Strings!");
+
+            var subAssy = await _service.GetSubAssyByCodeAsync((int)supplierId, subAssyCode);
+
+            return Ok(subAssy);
+        }
+
+
+        [HttpGet("subassybyname")]
+        [ProducesResponseType(typeof(SubAssyDetailsDTO), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetSubAssyByNameAsync([FromQuery] int? supplierId, [FromQuery] string subAssyName)
+        {
+            if (supplierId is null || subAssyName is null)
+                return BadRequest("Invalid Query Strings!");
+
+            var subAssy = await _service.GetSubAssyByNameAsync((int)supplierId, subAssyName);
+
+            return Ok(subAssy);
         }
     }
 }
