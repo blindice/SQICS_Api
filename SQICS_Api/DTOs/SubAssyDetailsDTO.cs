@@ -8,6 +8,8 @@ namespace SQICS_Api.DTOs
     public class SubAssyDetailsDTO
     {
 
+        public int fld_id { get; set; }
+
         public string fld_partName { get; set; }
 
         public string fld_partCode { get; set; }
