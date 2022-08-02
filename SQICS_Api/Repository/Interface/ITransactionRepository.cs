@@ -16,5 +16,7 @@ namespace SQICS_Api.Repository.Interface
         Task AddTransactionAsync(tbl_t_transaction trans);
 
         Task<string> GenerateTransactionNoAsync();
+
+        Task AddPlansAsync(List<tbl_t_transaction> transactions);
     }
 }
