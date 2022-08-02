@@ -7,14 +7,8 @@ namespace SQICS_Api.DTOs
 {
     public class SubAssyDDLDTO
     {
-        public int SubAssyId { get; set; }
+        public int fld_id { get; set; }
 
-        public string SubAssyCode { get; set; }
-
-        public string SubAssyName { get; set; }
-
-        public int? MOST { get; set; }
-
-        public int? SPQ { get; set; }
+        public string fld_partName { get; set; }
     }
 }
