@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SQICS_Api.DTOs;
 using SQICS_Api.Helper.CustomException;
+using SQICS_Api.Model;
 using SQICS_Api.Service.Interface;
 using SQICS_Api.UOW;
 using System;
@@ -78,6 +79,31 @@ namespace SQICS_Api.Service.Assembly
                 throw new Exception("Invalid Mapping from tbl_m_part to SubAssyDetailsDTO!");
 
             return subAssyDTO;
+        }
+
+        public async Task AddPlansAsync(List<AddPlanDTO> plansDTO)
+        {
+            var plans = _mapper.Map<List<tbl_t_transaction>>(plansDTO);
+
+            foreach(var plan in plans)
+            {
+                plan.fld_transactionNo = await GenerateTransactionNo();
+                plan.fld_shiftId = GetShift();
+            };
+
+            await _uow.Transaction.AddPlansAsync(plans);
+        }
+
+        private async Task<string> GenerateTransactionNo()
+        {
+            return await _uow.Transaction.GenerateTransactionNoAsync();
+        }
+
+        private int GetShift()
+        {
+            var currentTIme = DateTime.Now.Hour;
+            
+            return (currentTIme >= 7 && currentTIme < 19) ? 1 : 2;
         }
     }
 } 

@@ -15,5 +15,7 @@ namespace SQICS_Api.Service.Interface
         Task<SubAssyDetailsDTO> GetSubAssyByCodeAsync(int supplierId, string subassyCode);
 
         Task<SubAssyDetailsDTO> GetSubAssyByNameAsync(int supplierId, string subAssyName);
+
+        Task AddPlansAsync(List<AddPlanDTO> plansDTO);
     }
 }
