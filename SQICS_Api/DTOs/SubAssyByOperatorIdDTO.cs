@@ -13,8 +13,6 @@ namespace SQICS_Api.DTOs
 
         public string OperatorName { get; set; }
 
-        public string SubAssyName { get; set; }
-
-        public string SubAssyCode { get; set; }
+        public string SupplierName { get; set; }
     }
 }
