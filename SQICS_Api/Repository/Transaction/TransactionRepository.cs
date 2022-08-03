@@ -1,4 +1,5 @@
-﻿using SQICS_Api.Model;
+﻿using SQICS_Api.DTOs;
+using SQICS_Api.Model;
 using SQICS_Api.Model.Context;
 using SQICS_Api.Repository.Base;
 using SQICS_Api.Repository.Interface;
@@ -42,6 +43,11 @@ namespace SQICS_Api.Repository.Transaction
         public async Task AddPlansAsync(List<tbl_t_transaction> transactions)
         {
             await AddRangeAsync(transactions);
+        }
+
+        public async Task<IEnumerable<CurrentPlanDTO>> GetCurrentPlansAsyncByLineId(int lineId)
+        {
+            return await QueryAsync<CurrentPlanDTO>("usp_GetCurrentPlan", new { lineId = lineId });
         }
     }
 }

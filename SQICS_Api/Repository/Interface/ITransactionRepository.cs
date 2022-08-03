@@ -1,4 +1,5 @@
-﻿using SQICS_Api.Model;
+﻿using SQICS_Api.DTOs;
+using SQICS_Api.Model;
 using SQICS_Api.Repository.Base.Interface;
 using System;
 using System.Collections.Generic;
@@ -20,5 +21,7 @@ namespace SQICS_Api.Repository.Interface
         Task<string> GenerateLotNoAsync(int supplierId, int lineId);
 
         Task AddPlansAsync(List<tbl_t_transaction> transactions);
+
+        Task<IEnumerable<CurrentPlanDTO>> GetCurrentPlansAsyncByLineId(int lineId);
     }
 }
