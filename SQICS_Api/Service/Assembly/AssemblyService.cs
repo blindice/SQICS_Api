@@ -84,19 +84,41 @@ namespace SQICS_Api.Service.Assembly
         public async Task AddPlansAsync(List<AddPlanDTO> plansDTO)
         {
             var plans = _mapper.Map<List<tbl_t_transaction>>(plansDTO);
-
-            foreach(var plan in plans)
+            var transNo = await GenerateTransactionNo();
+            try
             {
-                plan.fld_transactionNo = await GenerateTransactionNo();
-                plan.fld_shiftId = GetShift();
-            };
+                foreach (var plan in plans)
+                {
+                    if (plan.fld_supplierId == 0 || plan.fld_lineId == 0)
+                        throw new CustomException("Cannot Add Plan! Incomplete details!");
 
-            await _uow.Transaction.AddPlansAsync(plans);
+                    plan.fld_transactionNo = transNo;
+                    plan.fld_shiftId = GetShift();
+                    plan.fld_statusId = 0;
+                    plan.fld_createdDate = DateTime.Now;
+                    plan.fld_subAssyLotNo = await GenerateLotNoAsync(plan.fld_supplierId, plan.fld_lineId);
+
+                    await _uow.Transaction.AddTransactionAsync(plan);
+                    await _uow.SaveAsync();
+                };
+            }catch(Exception ex)
+            {
+                throw new CustomException(ex.Message);
+            }
         }
 
         private async Task<string> GenerateTransactionNo()
         {
             return await _uow.Transaction.GenerateTransactionNoAsync();
+        }
+
+        private async Task<string> GenerateLotNoAsync(int supplierId, int lineId)
+        {
+            var lotNo = await _uow.Transaction.GenerateLotNoAsync(supplierId, lineId);
+
+            if (lotNo is null) throw new Exception("Unable to Create Lot No! Contact Administrator!");
+
+            return lotNo;
         }
 
         private int GetShift()
