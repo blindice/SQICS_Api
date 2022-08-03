@@ -107,6 +107,15 @@ namespace SQICS_Api.Service.Assembly
             }
         }
 
+        public async Task<List<CurrentPlanDTO>> GetCurrentPlansByLineIdAsync(int lineId)
+        {
+            var plans = await _uow.Transaction.GetCurrentPlansAsyncByLineId(lineId);
+
+            if (plans is null) throw new CustomException("Invalid Line Id");
+
+            return plans.ToList();
+        }
+
         private async Task<string> GenerateTransactionNo()
         {
             return await _uow.Transaction.GenerateTransactionNoAsync();
