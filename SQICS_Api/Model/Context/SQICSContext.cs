@@ -154,8 +154,6 @@ namespace SQICS_Api.Model.Context
                 entity.Property(e => e.fld_lotNo).IsUnicode(false);
 
                 entity.Property(e => e.fld_referenceNo).IsUnicode(false);
-
-                entity.Property(e => e.fld_transactionId).IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);
