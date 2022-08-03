@@ -56,7 +56,7 @@ namespace SQICS_Api.Service.Plan
                          join s in subAssies on t.fld_assyId equals s.fld_id
                          select new PlanDTO
                          {
-                             Id = t.fld_id,
+                             Id = t.fld_transactionId,
                              TransactionNo = t.fld_transactionNo,
                              ProdDate = t.fld_prodDate,
                              Shift = t.fld_shiftId.ToString(),
@@ -84,7 +84,7 @@ namespace SQICS_Api.Service.Plan
                        || t.fld_shiftId.ToString().Contains(param) || s.fld_partCode.Contains(param)
                         select new PlanDTO
                        {
-                           Id = t.fld_id,
+                           Id = t.fld_transactionId,
                            TransactionNo = t.fld_transactionNo,
                            ProdDate = t.fld_prodDate,
                            Shift = t.fld_shiftId.ToString(),
