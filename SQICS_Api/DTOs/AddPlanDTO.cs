@@ -27,5 +27,8 @@ namespace SQICS_Api.DTOs
         public int? fld_qty { get; set; }
         [Required]
         public DateTime? ETimeCompletion { get; set; }
+
+        [Required]
+        public int? fld_createdBy { get; set; }
     }
 }
