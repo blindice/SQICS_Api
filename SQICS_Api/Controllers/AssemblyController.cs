@@ -107,5 +107,20 @@ namespace SQICS_Api.Controllers
 
             return Ok();
         }
+
+        [HttpGet("currentplans")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(List<CurrentPlanDTO>), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(statusCode: StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetCurrentPlanAsync([FromQuery] int? lineId)
+        {
+            if (lineId is null) return BadRequest("Invalid Line Id!");
+
+            var plans = await _service.GetCurrentPlansByLineIdAsync((int)lineId);
+
+            return Ok(plans);
+        }
     }
 }
