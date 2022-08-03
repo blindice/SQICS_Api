@@ -82,6 +82,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("servertime")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(DateTime), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -92,6 +93,10 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("addtransactions")]
+        [AllowAnonymous]
+        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddTransactionsAsync([FromBody] List<AddPlanDTO> plans)
         {
             if (plans is null) return BadRequest("Invalid plans!");
