@@ -34,6 +34,11 @@ namespace SQICS_Api.Repository.Transaction
             return await QuerySingleOrDefaultAsync<string>("usp_GenerateTransactionNo");
         }
 
+        public async Task<string> GenerateLotNoAsync(int supplierId, int lineId)
+        {
+            return await QuerySingleOrDefaultAsync<string>("usp_GenerateLotNo", new { supplierId = supplierId, lineId = lineId });
+        }
+
         public async Task AddPlansAsync(List<tbl_t_transaction> transactions)
         {
             await AddRangeAsync(transactions);
