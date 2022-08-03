@@ -12,7 +12,7 @@ namespace SQICS_Api.Model
     public partial class tbl_t_transaction
     {
         [Key]
-        public int fld_id { get; set; }
+        public int fld_transactionId { get; set; }
         public int fld_supplierId { get; set; }
         public int fld_lineId { get; set; }
         public int? fld_stationId { get; set; }
