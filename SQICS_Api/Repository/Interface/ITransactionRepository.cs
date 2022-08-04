@@ -14,6 +14,8 @@ namespace SQICS_Api.Repository.Interface
 
         Task<tbl_t_transaction> GetTransactionByTransNoAsync(string transNo);
 
+        Task<tbl_t_transaction> GetTransactionByIdAsync(int Id);
+
         Task AddTransactionAsync(tbl_t_transaction trans);
 
         Task<string> GenerateTransactionNoAsync();
@@ -23,5 +25,7 @@ namespace SQICS_Api.Repository.Interface
         Task AddPlansAsync(List<tbl_t_transaction> transactions);
 
         Task<IEnumerable<CurrentPlanDTO>> GetCurrentPlansAsyncByLineId(int lineId);
+
+        void UpdateTransaction(tbl_t_transaction transaction);
     }
 }

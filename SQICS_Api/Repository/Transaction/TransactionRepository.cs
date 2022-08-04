@@ -25,6 +25,11 @@ namespace SQICS_Api.Repository.Transaction
             return await QueryAsync("usp_GetAllTransactions");
         }
 
+        public async Task<tbl_t_transaction> GetTransactionByIdAsync(int id)
+        {
+            return await QuerySingleOrDefaultAsync("usp_GetTransactionById", new { id = id });
+        }
+
         public async Task<tbl_t_transaction> GetTransactionByTransNoAsync(string transNo)
         {
             return await QuerySingleOrDefaultAsync("usp_GetTransactionByTransNo", new { transNo = transNo });
@@ -48,6 +53,11 @@ namespace SQICS_Api.Repository.Transaction
         public async Task<IEnumerable<CurrentPlanDTO>> GetCurrentPlansAsyncByLineId(int lineId)
         {
             return await QueryAsync<CurrentPlanDTO>("usp_GetCurrentPlan", new { lineId = lineId });
+        }
+
+        public void UpdateTransaction(tbl_t_transaction transaction)
+        {
+            Update(transaction);
         }
     }
 }
