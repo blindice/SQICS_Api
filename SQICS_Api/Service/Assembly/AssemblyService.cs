@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SQICS_Api.DTOs;
+using SQICS_Api.Enum;
 using SQICS_Api.Helper.CustomException;
 using SQICS_Api.Model;
 using SQICS_Api.Service.Interface;
@@ -116,6 +117,17 @@ namespace SQICS_Api.Service.Assembly
             return plans.ToList();
         }
 
+        public async Task StartProcessAsync(AddOngoingDTO transaction)
+        {
+            var onGoing = _mapper.Map<tbl_t_lot_ongoing>(transaction);
+
+            if (onGoing is null) throw new CustomException("Invalid Mapping!");
+
+
+
+            await _uow.Ongoing.AddOngoingLotAsync(onGoing);
+        }
+
         private async Task<string> GenerateTransactionNo()
         {
             return await _uow.Transaction.GenerateTransactionNoAsync();
@@ -134,7 +146,7 @@ namespace SQICS_Api.Service.Assembly
         {
             var currentTIme = DateTime.Now.Hour;
             
-            return (currentTIme >= 7 && currentTIme < 19) ? 1 : 2;
+            return (currentTIme >= 7 && currentTIme < 19) ? (int)Shift.Day : (int)Shift.Night;
         }
     }
 } 
