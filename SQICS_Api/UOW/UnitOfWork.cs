@@ -2,6 +2,7 @@
 using SQICS_Api.Repository;
 using SQICS_Api.Repository.Defect;
 using SQICS_Api.Repository.Interface;
+using SQICS_Api.Repository.Line;
 using SQICS_Api.Repository.Login;
 using SQICS_Api.Repository.Ongoing;
 using SQICS_Api.Repository.Operator;
@@ -29,6 +30,7 @@ namespace SQICS_Api.UOW
         private IDefectRepository _defect;
         private IOngoingRepository _ongoing;
         private IStationRepository _station;
+        private ILineRepository _line;
 
         public UnitOfWork(SQICSContext efContext, DapperContext dapperContext)
         {
@@ -141,6 +143,18 @@ namespace SQICS_Api.UOW
                     _station = new StationRepository(_efContext, _dapperContext);
                 }
                 return _station;
+            }
+        }
+
+        public ILineRepository Line
+        {
+            get
+            {
+                if (_line == null)
+                {
+                    _line = new LineRepository(_efContext, _dapperContext);
+                }
+                return _line;
             }
         }
 
