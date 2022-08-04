@@ -1,4 +1,5 @@
-﻿using SQICS_Api.Model;
+﻿using SQICS_Api.DTOs;
+using SQICS_Api.Model;
 using SQICS_Api.Model.Context;
 using SQICS_Api.Repository.Base;
 using SQICS_Api.Repository.Interface;
@@ -13,5 +14,10 @@ namespace SQICS_Api.Repository.Line
     {
         public LineRepository(SQICSContext efContext, DapperContext dapperContext)
             : base(efContext, dapperContext) { }
+
+        public Task<IEnumerable<LineDDLDTO>> GetLineDDLBySupplierIdAsync(int supplierId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
