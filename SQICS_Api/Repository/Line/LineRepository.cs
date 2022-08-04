@@ -15,9 +15,11 @@ namespace SQICS_Api.Repository.Line
         public LineRepository(SQICSContext efContext, DapperContext dapperContext)
             : base(efContext, dapperContext) { }
 
-        public Task<IEnumerable<LineDDLDTO>> GetLineDDLBySupplierIdAsync(int supplierId)
+        public async Task<IEnumerable<LineDDLDTO>> GetLineDDLBySupplierIdAsync(int supplierId)
         {
-            throw new NotImplementedException();
+            var lines = await QueryAsync<LineDDLDTO>("usp_GetLineDDL", new { supplierId = supplierId });
+
+            return lines;
         }
     }
 }
