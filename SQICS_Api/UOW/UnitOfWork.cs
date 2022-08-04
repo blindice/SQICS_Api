@@ -2,6 +2,7 @@
 using SQICS_Api.Repository.Defect;
 using SQICS_Api.Repository.Interface;
 using SQICS_Api.Repository.Login;
+using SQICS_Api.Repository.Ongoing;
 using SQICS_Api.Repository.Operator;
 using SQICS_Api.Repository.PiecePart;
 using SQICS_Api.Repository.SubAssy;
@@ -25,6 +26,7 @@ namespace SQICS_Api.UOW
         private IOperatorRepository _operator;
         private IPiecePartRepository _piecePart;
         private IDefectRepository _defect;
+        private IOngoingRepository _ongoing;
 
         public UnitOfWork(SQICSContext efContext, DapperContext dapperContext)
         {
@@ -65,6 +67,18 @@ namespace SQICS_Api.UOW
                     _operator = new OperatorRepository(_efContext, _dapperContext);
                 }
                 return _operator;
+            }
+        }
+
+        public IOngoingRepository Ongoing
+        {
+            get
+            {
+                if (_ongoing == null)
+                {
+                    _ongoing = new OngoingRepository(_efContext, _dapperContext);
+                }
+                return _ongoing;
             }
         }
 

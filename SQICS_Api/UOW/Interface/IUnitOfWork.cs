@@ -23,6 +23,8 @@ namespace SQICS_Api.UOW
 
         IDefectRepository Defect { get; }
 
+        IOngoingRepository Ongoing { get; }
+
         Task SaveAsync();
     }
 }
