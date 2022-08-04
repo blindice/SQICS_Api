@@ -20,10 +20,12 @@ namespace SQICS_Api.Model.Context
 
         public virtual DbSet<tbl_m_bom> tbl_m_boms { get; set; }
         public virtual DbSet<tbl_m_defect> tbl_m_defects { get; set; }
+        public virtual DbSet<tbl_m_line> tbl_m_lines { get; set; }
         public virtual DbSet<tbl_m_operator> tbl_m_operators { get; set; }
         public virtual DbSet<tbl_m_operator_assy> tbl_m_operator_assies { get; set; }
         public virtual DbSet<tbl_m_operator_station> tbl_m_operator_stations { get; set; }
         public virtual DbSet<tbl_m_part> tbl_m_parts { get; set; }
+        public virtual DbSet<tbl_m_station> tbl_m_stations { get; set; }
         public virtual DbSet<tbl_m_status> tbl_m_statuses { get; set; }
         public virtual DbSet<tbl_m_user> tbl_m_users { get; set; }
         public virtual DbSet<tbl_t_assy_defect> tbl_t_assy_defects { get; set; }
@@ -45,6 +47,13 @@ namespace SQICS_Api.Model.Context
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<tbl_m_defect>(entity =>
+            {
+                entity.Property(e => e.fld_active).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.fld_name).IsUnicode(false);
+            });
+
+            modelBuilder.Entity<tbl_m_line>(entity =>
             {
                 entity.Property(e => e.fld_active).HasDefaultValueSql("((1))");
 
@@ -73,6 +82,13 @@ namespace SQICS_Api.Model.Context
                 entity.Property(e => e.fld_partName).IsUnicode(false);
 
                 entity.Property(e => e.fld_remarks).IsUnicode(false);
+            });
+
+            modelBuilder.Entity<tbl_m_station>(entity =>
+            {
+                entity.Property(e => e.fld_active).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.fld_name).IsUnicode(false);
             });
 
             modelBuilder.Entity<tbl_m_status>(entity =>
