@@ -7,6 +7,9 @@ namespace SQICS_Api.DTOs
 {
     public class CurrentPlanDTO
     {
+
+        public int Id { get; set; }
+
         public string LotNo { get; set; }
 
         public int Qty { get; set; }
