@@ -8,6 +8,6 @@ namespace SQICS_Api.Repository.Interface
 {
     public interface IOngoingRepository
     {
-        Task AddOngoingLot(tbl_t_lot_ongoing lot);
+        Task AddOngoingLotAsync(tbl_t_lot_ongoing lot);
     }
 }

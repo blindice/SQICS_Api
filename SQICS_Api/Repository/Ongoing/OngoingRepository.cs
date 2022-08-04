@@ -14,7 +14,7 @@ namespace SQICS_Api.Repository.Ongoing
         public OngoingRepository(SQICSContext efContext, DapperContext dapperContext)
           : base(efContext, dapperContext) { }
 
-        public async Task AddOngoingLot(tbl_t_lot_ongoing lot)
+        public async Task AddOngoingLotAsync(tbl_t_lot_ongoing lot)
         {
             await AddAsync(lot);
         }
