@@ -119,13 +119,41 @@ namespace SQICS_Api.Service.Assembly
 
         public async Task StartProcessAsync(AddOngoingDTO transaction)
         {
+            var lineId = (int)transaction.fld_lineId;
+            int? statusId = await _uow.Ongoing.CheckIfOnGoing(lineId) ? (int)Status.Started : (int)Status.OnGoing;
+
+            await AddOngoingLotAsync(transaction, statusId);
+
+            await UpdateTransactionStatus(transaction, statusId);
+
+            await _uow.SaveAsync();
+        }
+
+        private async Task AddOngoingLotAsync(AddOngoingDTO transaction, int? statusId)
+        {
             var onGoing = _mapper.Map<tbl_t_lot_ongoing>(transaction);
 
             if (onGoing is null) throw new CustomException("Invalid Mapping!");
 
+            if (statusId is null) throw new CustomException("Invalid Status Id!");
 
+            onGoing.fld_statusId = statusId;
 
             await _uow.Ongoing.AddOngoingLotAsync(onGoing);
+        }
+
+        private async Task UpdateTransactionStatus(AddOngoingDTO transaction, int? statusId)
+        {
+            var trans = await _uow.Transaction.GetTransactionByIdAsync(transaction.TransId);
+
+            if (trans is null) throw new CustomException("Invalid Transaction!");
+
+            var operatorId = transaction.fld_createdBy;
+            trans.fld_statusId = statusId;
+            trans.fld_updatedBy = operatorId;
+            trans.fld_updatedDate = DateTime.Now;
+
+            _uow.Transaction.UpdateTransaction(trans);
         }
 
         private async Task<string> GenerateTransactionNo()
