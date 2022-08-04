@@ -78,5 +78,10 @@ namespace SQICS_Api.Repository.Base
         {
             await _efContext.AddRangeAsync(items);
         }
+
+        public void UpdateAsync(T entity)
+        {         
+            _efContext.Update(entity);
+        }
     }
 }
