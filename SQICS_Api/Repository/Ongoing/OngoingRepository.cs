@@ -18,5 +18,12 @@ namespace SQICS_Api.Repository.Ongoing
         {
             await AddAsync(lot);
         }
+
+        public async Task<bool> CheckIfOnGoing(int lineId)
+        {
+            var isOngoing = await ExecuteScalarAsync<bool>("usp_CheckIfOngoing", new { lineId = lineId });
+
+            return isOngoing;
+        }
     }
 }

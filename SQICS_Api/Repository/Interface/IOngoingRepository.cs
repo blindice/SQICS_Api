@@ -9,5 +9,7 @@ namespace SQICS_Api.Repository.Interface
     public interface IOngoingRepository
     {
         Task AddOngoingLotAsync(tbl_t_lot_ongoing lot);
+
+        Task<bool> CheckIfOnGoing(int lineId);
     }
 }
