@@ -21,5 +21,7 @@ namespace SQICS_Api.Service.Interface
         Task<List<CurrentPlanDTO>> GetCurrentPlansByLineIdAsync(int lineId);
 
         Task StartProcessAsync(AddOngoingDTO transaction);
+
+        Task<(List<StationDDLDTO>, List<LineDDLDTO>)> GetDDLDataAsync(int supplierId);
     }
 }

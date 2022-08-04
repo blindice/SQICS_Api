@@ -129,6 +129,19 @@ namespace SQICS_Api.Service.Assembly
             await _uow.SaveAsync();
         }
 
+        public async Task<(List<StationDDLDTO>, List<LineDDLDTO>)> GetDDLDataAsync(int supplierId)
+        {
+            var stations = await _uow.Station.GetStationDDLBySupplierIdAsync(supplierId);
+
+            if (stations is null) throw new CustomException("Station DDL Not Found!");
+
+            var lines = await _uow.Line.GetLineDDLBySupplierIdAsync(supplierId);
+
+            if (stations is null) throw new CustomException("Line DDL Not Found!");
+
+            return (stations.ToList(), lines.ToList());
+        }
+
         private async Task AddOngoingLotAsync(AddOngoingDTO transaction, int? statusId)
         {
             var onGoing = _mapper.Map<tbl_t_lot_ongoing>(transaction);
