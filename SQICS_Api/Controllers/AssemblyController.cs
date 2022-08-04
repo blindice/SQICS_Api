@@ -93,6 +93,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("addtransactions")]
+        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
@@ -121,6 +122,17 @@ namespace SQICS_Api.Controllers
             var plans = await _service.GetCurrentPlansByLineIdAsync((int)lineId);
 
             return Ok(plans);
+        }
+
+        [HttpPost("startprocess")]
+        [AllowAnonymous]
+        public async Task<IActionResult> StartProcessAsync([FromBody] AddOngoingDTO transaction)
+        {
+            if (!ModelState.IsValid || transaction is null) return BadRequest("Invalid Transaction!");
+
+            await _service.StartProcessAsync(transaction);
+
+            return Ok();
         }
     }
 }
