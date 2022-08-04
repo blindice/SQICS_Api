@@ -27,6 +27,8 @@ namespace SQICS_Api.UOW
 
         IStationRepository Station { get; }
 
+        ILineRepository Line { get; }
+
         Task SaveAsync();
     }
 }
