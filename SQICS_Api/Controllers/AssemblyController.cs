@@ -86,14 +86,12 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(DateTime), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(statusCode: StatusCodes.Status401Unauthorized)]
         public IActionResult GetServerSystemTime()
         {
             return Ok(DateTime.Now);
         }
 
         [HttpPost("addtransactions")]
-        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
@@ -114,7 +112,6 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(List<CurrentPlanDTO>), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(statusCode: StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetCurrentPlanAsync([FromQuery] int? lineId)
         {
             if (lineId is null) return BadRequest("Invalid Line Id!");
@@ -126,6 +123,9 @@ namespace SQICS_Api.Controllers
 
         [HttpPost("startprocess")]
         [AllowAnonymous]
+        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> StartProcessAsync([FromBody] AddOngoingDTO transaction)
         {
             if (!ModelState.IsValid || transaction is null) return BadRequest("Invalid Transaction!");
