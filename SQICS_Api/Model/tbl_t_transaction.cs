@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SQICS_Api.Model
 {
-    [Index(nameof(fld_transactionNo), Name = "transNo_unique", IsUnique = true)]
     public partial class tbl_t_transaction
     {
         [Key]
@@ -17,7 +16,7 @@ namespace SQICS_Api.Model
         public int fld_lineId { get; set; }
         public int? fld_stationId { get; set; }
         [Required]
-        [StringLength(12)]
+        [StringLength(30)]
         public string fld_transactionNo { get; set; }
         [StringLength(50)]
         public string fld_subAssyLotNo { get; set; }
