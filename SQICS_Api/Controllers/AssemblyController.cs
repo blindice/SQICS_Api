@@ -134,5 +134,16 @@ namespace SQICS_Api.Controllers
 
             return Ok();
         }
+
+        [HttpGet("ddldatas/{supplierId:int}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetDDLDataAsync(int? supplierId)
+        {
+            if (supplierId is null) return BadRequest("Invalid Supplier Id!");
+
+            var result = await _service.GetDDLDataAsync((int)supplierId);
+
+            return Ok(new { Stations = result.Item1, Lines = result.Item2});
+        }
     }
 }
