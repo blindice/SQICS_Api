@@ -25,6 +25,8 @@ namespace SQICS_Api.UOW
 
         IOngoingRepository Ongoing { get; }
 
+        IStationRepository Station { get; }
+
         Task SaveAsync();
     }
 }

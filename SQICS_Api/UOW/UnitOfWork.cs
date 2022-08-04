@@ -1,4 +1,5 @@
 ﻿using SQICS_Api.Model.Context;
+using SQICS_Api.Repository;
 using SQICS_Api.Repository.Defect;
 using SQICS_Api.Repository.Interface;
 using SQICS_Api.Repository.Login;
@@ -27,6 +28,7 @@ namespace SQICS_Api.UOW
         private IPiecePartRepository _piecePart;
         private IDefectRepository _defect;
         private IOngoingRepository _ongoing;
+        private IStationRepository _station;
 
         public UnitOfWork(SQICSContext efContext, DapperContext dapperContext)
         {
@@ -127,6 +129,18 @@ namespace SQICS_Api.UOW
                     _login = new LoginRepository(_efContext, _dapperContext);
                 }
                 return _login;
+            }
+        }
+
+        public IStationRepository Station
+        {
+            get
+            {
+                if (_station == null)
+                {
+                    _station = new StationRepository(_efContext, _dapperContext);
+                }
+                return _station;
             }
         }
 
