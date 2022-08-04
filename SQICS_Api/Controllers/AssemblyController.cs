@@ -137,6 +137,9 @@ namespace SQICS_Api.Controllers
 
         [HttpGet("ddldatas/{supplierId:int}")]
         [AllowAnonymous]
+        [ProducesResponseType(typeof((List<StationDDLDTO>, List<LineDDLDTO>)), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDDLDataAsync(int? supplierId)
         {
             if (supplierId is null) return BadRequest("Invalid Supplier Id!");
