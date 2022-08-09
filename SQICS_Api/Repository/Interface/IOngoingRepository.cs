@@ -11,5 +11,7 @@ namespace SQICS_Api.Repository.Interface
         Task AddOngoingLotAsync(tbl_t_lot_ongoing lot);
 
         Task<bool> CheckIfOnGoing(int lineId);
+
+        Task<IEnumerable<tbl_t_lot_ongoing>> GetLotsByTransNoAsync(string transNo);
     }
 }

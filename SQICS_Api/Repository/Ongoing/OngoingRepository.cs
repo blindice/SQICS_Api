@@ -25,5 +25,12 @@ namespace SQICS_Api.Repository.Ongoing
 
             return isOngoing;
         }
+
+        public async Task<IEnumerable<tbl_t_lot_ongoing>> GetLotsByTransNoAsync(string transNo)
+        {
+            var lots = await QueryAsync("", new { transNo = transNo });
+
+            return lots;
+        }
     }
 }
