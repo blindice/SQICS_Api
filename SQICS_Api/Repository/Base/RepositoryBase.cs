@@ -83,5 +83,10 @@ namespace SQICS_Api.Repository.Base
         {         
             _efContext.Update(entity);
         }
+
+        public void RemoveRange(List<T> items)
+        {
+            _efContext.RemoveRange(items);
+        }
     }
 }
