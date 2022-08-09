@@ -213,6 +213,50 @@ namespace SQICS_Api.Service.Assembly
             if (stations is null) throw new CustomException("Line DDL Not Found!");
 
             return (stations.ToList(), lines.ToList());
-        }              
+        }
+
+        #region Delete Plan
+        public async Task DeletePlanAsync(string transNo)
+        {
+            await RemoveLotsFromOngoingTable(transNo);
+
+            await UpdateLotStatusToDeletedInTransaction(transNo);
+
+            await UpdateLotStatusToDeletedInHeader(transNo);
+
+            await _uow.SaveAsync();
+        }
+
+        private async Task UpdateLotStatusToDeletedInHeader(string transNo)
+        {
+            var headers = await _uow.THeader.GetHeadersByTransNoAsync(transNo);
+
+            if (headers is null) throw new CustomException("Invalid Transaction No.!");
+
+            headers.ToList().ForEach(_ => _.StatusId = (int)Status.Deleted);
+
+            _uow.THeader.UpdateHeaders(headers);
+        }
+
+        private async Task UpdateLotStatusToDeletedInTransaction(string transNo)
+        {
+            var transactions = await _uow.Transaction.GetTransactionsByTransNoAsync(transNo);
+
+            if (transactions is null) throw new CustomException("Invalid Transaction No.!");
+
+            transactions.ToList().ForEach(_ => _.fld_statusId = (int)Status.Deleted);
+
+            _uow.Transaction.UpdateTransactions(transactions);
+        }
+
+        private async Task RemoveLotsFromOngoingTable(string transNo)
+        {
+            var lots = await _uow.Ongoing.GetLotsByTransNoAsync(transNo);
+
+            if (lots is null) throw new CustomException("Invalid Transaction No.!");
+
+            _uow.Ongoing.RemoveLots(lots);
+        }
+        #endregion
     }
 } 
