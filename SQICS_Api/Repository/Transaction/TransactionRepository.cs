@@ -59,5 +59,10 @@ namespace SQICS_Api.Repository.Transaction
         {
             Update(transaction);
         }
+
+        public void UpdateTransactions(IEnumerable<tbl_t_transaction> transactions)
+        {
+            UpdateRange(transactions);
+        }
     }
 }

@@ -27,5 +27,7 @@ namespace SQICS_Api.Repository.Interface
         Task<IEnumerable<CurrentPlanDTO>> GetCurrentPlansAsyncByLineId(int lineId);
 
         void UpdateTransaction(tbl_t_transaction transaction);
+
+        void UpdateTransactions(IEnumerable<tbl_t_transaction> transactions);
     }
 }
