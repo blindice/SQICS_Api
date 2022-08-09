@@ -19,9 +19,11 @@ namespace SQICS_Api.Repository.TransactionHeader
             await AddAsync(header);
         }
 
-        public async Task GetHeadersByTransNoAsync(string transNo)
+        public async Task<IEnumerable<tbl_t_transaction_header>> GetHeadersByTransNoAsync(string transNo)
         {
+            var headers = await QueryAsync("", new { transNo = transNo });
 
+            return headers;
         }
     }
 }
