@@ -10,6 +10,7 @@ namespace SQICS_Api.DTOs
 
         public int Id { get; set; }
 
+        public string TransNo { get; set; }
         public string LotNo { get; set; }
 
         public int Qty { get; set; }
