@@ -12,7 +12,7 @@ namespace SQICS_Api.Repository.Interface
     {
         Task<IEnumerable<tbl_t_transaction>> GetAllTransactionAsync();
 
-        Task<tbl_t_transaction> GetTransactionByTransNoAsync(string transNo);
+        Task<IEnumerable<tbl_t_transaction>> GetTransactionsByTransNoAsync(string transNo);
 
         Task<tbl_t_transaction> GetTransactionByIdAsync(int Id);
 

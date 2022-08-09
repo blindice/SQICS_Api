@@ -1,4 +1,4 @@
-﻿using SQICS_Api.DTOs;
+using SQICS_Api.DTOs;
 using SQICS_Api.Model;
 using SQICS_Api.Model.Context;
 using SQICS_Api.Repository.Base;
@@ -30,9 +30,9 @@ namespace SQICS_Api.Repository.Transaction
             return await QuerySingleOrDefaultAsync("usp_GetTransactionById", new { id = id });
         }
 
-        public async Task<tbl_t_transaction> GetTransactionByTransNoAsync(string transNo)
+        public async  Task<IEnumerable<tbl_t_transaction>> GetTransactionsByTransNoAsync(string transNo)
         {
-            return await QuerySingleOrDefaultAsync("usp_GetTransactionByTransNo", new { transNo = transNo });
+            return await QueryAsync("usp_GetTransactionByTransNo", new { transNo = transNo });
         }
 
         public async Task<string> GenerateTransactionNoAsync()
