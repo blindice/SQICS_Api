@@ -28,7 +28,7 @@ namespace SQICS_Api.Repository.Ongoing
 
         public async Task<IEnumerable<tbl_t_lot_ongoing>> GetLotsByTransNoAsync(string transNo)
         {
-            var lots = await QueryAsync("", new { transNo = transNo });
+            var lots = await QueryAsync("usp_GetOnGoingByTransNo", new { transNo = transNo });
 
             return lots;
         }
