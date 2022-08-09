@@ -33,6 +33,7 @@ namespace SQICS_Api.Model.Context
         public virtual DbSet<tbl_t_lot_ongoing> tbl_t_lot_ongoings { get; set; }
         public virtual DbSet<tbl_t_transaction> tbl_t_transactions { get; set; }
         public virtual DbSet<tbl_t_transaction_detail> tbl_t_transaction_details { get; set; }
+        public virtual DbSet<tbl_t_transaction_header> tbl_t_transaction_headers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -170,6 +171,11 @@ namespace SQICS_Api.Model.Context
                 entity.Property(e => e.fld_lotNo).IsUnicode(false);
 
                 entity.Property(e => e.fld_referenceNo).IsUnicode(false);
+            });
+
+            modelBuilder.Entity<tbl_t_transaction_header>(entity =>
+            {
+                entity.Property(e => e.TransNo).IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);
