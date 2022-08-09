@@ -10,6 +10,7 @@ using SQICS_Api.Repository.PiecePart;
 using SQICS_Api.Repository.SubAssy;
 using SQICS_Api.Repository.Transaction;
 using SQICS_Api.Repository.TransactionDetail;
+using SQICS_Api.Repository.TransactionHeader;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace SQICS_Api.UOW
         private IOngoingRepository _ongoing;
         private IStationRepository _station;
         private ILineRepository _line;
+        private ITransactionHeaderRepository _header;
 
         public UnitOfWork(SQICSContext efContext, DapperContext dapperContext)
         {
@@ -155,6 +157,17 @@ namespace SQICS_Api.UOW
                     _line = new LineRepository(_efContext, _dapperContext);
                 }
                 return _line;
+            }
+        }
+
+        public ITransactionHeaderRepository THeader {
+            get
+            {
+                if (_header == null)
+                {
+                    _header = new TransactionHeaderRepository(_efContext, _dapperContext);
+                }
+                return _header;
             }
         }
 

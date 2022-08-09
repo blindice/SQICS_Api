@@ -29,6 +29,8 @@ namespace SQICS_Api.UOW
 
         ILineRepository Line { get; }
 
+        ITransactionHeaderRepository THeader { get; }
+
         Task SaveAsync();
     }
 }
