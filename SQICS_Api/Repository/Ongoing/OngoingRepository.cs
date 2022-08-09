@@ -32,5 +32,10 @@ namespace SQICS_Api.Repository.Ongoing
 
             return lots;
         }
+
+        public void RemoveLots(IEnumerable<tbl_t_lot_ongoing> lots)
+        {
+            RemoveRange(lots);
+        }
     }
 }
