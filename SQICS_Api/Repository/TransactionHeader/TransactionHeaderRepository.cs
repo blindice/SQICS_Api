@@ -18,5 +18,10 @@ namespace SQICS_Api.Repository.TransactionHeader
         {
             await AddAsync(header);
         }
+
+        public async Task GetHeadersByTransNoAsync(string transNo)
+        {
+
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace SQICS_Api.Repository.Interface
     public interface ITransactionHeaderRepository
     {
         Task AddHeaderAsync(tbl_t_transaction_header header);
+
+        Task GetHeadersByTransNoAsync(string transNo);
     }
 }
