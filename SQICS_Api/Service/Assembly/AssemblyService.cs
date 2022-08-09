@@ -82,31 +82,75 @@ namespace SQICS_Api.Service.Assembly
             return subAssyDTO;
         }
 
+        #region Add Plan
         public async Task AddPlansAsync(List<AddPlanDTO> plansDTO)
         {
             var plans = _mapper.Map<List<tbl_t_transaction>>(plansDTO);
             var transNo = await GenerateTransactionNo();
-            try
-            {
-                foreach (var plan in plans)
-                {
-                    if (plan.fld_supplierId == 0 || plan.fld_lineId == 0)
-                        throw new CustomException("Cannot Add Plan! Incomplete details!");
 
-                    plan.fld_transactionNo = transNo;
-                    plan.fld_shiftId = GetShift();
-                    plan.fld_statusId = 0;
-                    plan.fld_createdDate = DateTime.Now;
-                    plan.fld_subAssyLotNo = await GenerateLotNoAsync(plan.fld_supplierId, plan.fld_lineId);
+            await AddToTransactions(plans, transNo);
+            await AddToHeader(plans, transNo);
 
-                    await _uow.Transaction.AddTransactionAsync(plan);
-                    await _uow.SaveAsync();
-                };
-            }catch(Exception ex)
-            {
-                throw new CustomException(ex.Message);
-            }
+            await _uow.SaveAsync();
         }
+
+        private async Task AddToHeader(List<tbl_t_transaction> plans, string transNo)
+        {
+            var header = (from trans in plans
+                          select new tbl_t_transaction_header
+                          {
+                              TransNo = transNo,
+                              SupplierId = trans.fld_supplierId,
+                              LineId = trans.fld_lineId,
+                              StationId = (int)trans.fld_stationId,
+                              Qty = plans.Sum(_ => _.fld_qty),
+                              StatusId = 0,
+                              CreatedBy = trans.fld_createdBy,
+                              CreatedDate = trans.fld_createdDate
+                          }).FirstOrDefault();
+
+            await _uow.THeader.AddHeaderAsync(header);
+        }
+
+        private async Task AddToTransactions(List<tbl_t_transaction> plans, string transNo)
+        {
+            foreach (var plan in plans)
+            {
+                if (plan.fld_supplierId == 0 || plan.fld_lineId == 0)
+                    throw new CustomException("Cannot Add Plan! Incomplete details!");
+
+                plan.fld_transactionNo = transNo;
+                plan.fld_shiftId = GetShift();
+                plan.fld_statusId = 0;
+                plan.fld_createdDate = DateTime.Now;
+                plan.fld_subAssyLotNo = await GenerateLotNoAsync(plan.fld_supplierId, plan.fld_lineId);
+
+                await _uow.Transaction.AddTransactionAsync(plan);
+
+            };
+        }
+
+        private async Task<string> GenerateTransactionNo()
+        {
+            return await _uow.Transaction.GenerateTransactionNoAsync();
+        }
+
+        private async Task<string> GenerateLotNoAsync(int supplierId, int lineId)
+        {
+            var lotNo = await _uow.Transaction.GenerateLotNoAsync(supplierId, lineId);
+
+            if (lotNo is null) throw new Exception("Unable to Create Lot No! Contact Administrator!");
+
+            return lotNo;
+        }
+
+        private int GetShift()
+        {
+            var currentTIme = DateTime.Now.Hour;
+
+            return (currentTIme >= 7 && currentTIme < 19) ? (int)Shift.Day : (int)Shift.Night;
+        }
+        #endregion
 
         public async Task<List<CurrentPlanDTO>> GetCurrentPlansByLineIdAsync(int lineId)
         {
@@ -117,6 +161,7 @@ namespace SQICS_Api.Service.Assembly
             return plans.ToList();
         }
 
+        #region Start Process
         public async Task StartProcessAsync(AddOngoingDTO transaction)
         {
             var lineId = (int)transaction.fld_lineId;
@@ -127,19 +172,6 @@ namespace SQICS_Api.Service.Assembly
             await UpdateTransactionStatus(transaction, statusId);
 
             await _uow.SaveAsync();
-        }
-
-        public async Task<(List<StationDDLDTO>, List<LineDDLDTO>)> GetDDLDataAsync(int supplierId)
-        {
-            var stations = await _uow.Station.GetStationDDLBySupplierIdAsync(supplierId);
-
-            if (stations is null) throw new CustomException("Station DDL Not Found!");
-
-            var lines = await _uow.Line.GetLineDDLBySupplierIdAsync(supplierId);
-
-            if (stations is null) throw new CustomException("Line DDL Not Found!");
-
-            return (stations.ToList(), lines.ToList());
         }
 
         private async Task AddOngoingLotAsync(AddOngoingDTO transaction, int? statusId)
@@ -168,26 +200,19 @@ namespace SQICS_Api.Service.Assembly
 
             _uow.Transaction.UpdateTransaction(trans);
         }
+        #endregion
 
-        private async Task<string> GenerateTransactionNo()
+        public async Task<(List<StationDDLDTO>, List<LineDDLDTO>)> GetDDLDataAsync(int supplierId)
         {
-            return await _uow.Transaction.GenerateTransactionNoAsync();
-        }
+            var stations = await _uow.Station.GetStationDDLBySupplierIdAsync(supplierId);
 
-        private async Task<string> GenerateLotNoAsync(int supplierId, int lineId)
-        {
-            var lotNo = await _uow.Transaction.GenerateLotNoAsync(supplierId, lineId);
+            if (stations is null) throw new CustomException("Station DDL Not Found!");
 
-            if (lotNo is null) throw new Exception("Unable to Create Lot No! Contact Administrator!");
+            var lines = await _uow.Line.GetLineDDLBySupplierIdAsync(supplierId);
 
-            return lotNo;
-        }
+            if (stations is null) throw new CustomException("Line DDL Not Found!");
 
-        private int GetShift()
-        {
-            var currentTIme = DateTime.Now.Hour;
-            
-            return (currentTIme >= 7 && currentTIme < 19) ? (int)Shift.Day : (int)Shift.Night;
-        }
+            return (stations.ToList(), lines.ToList());
+        }              
     }
 } 
