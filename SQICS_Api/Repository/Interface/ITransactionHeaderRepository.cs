@@ -11,5 +11,7 @@ namespace SQICS_Api.Repository.Interface
         Task AddHeaderAsync(tbl_t_transaction_header header);
 
         Task<IEnumerable<tbl_t_transaction_header>> GetHeadersByTransNoAsync(string transNo);
+
+        void UpdateHeaders(IEnumerable<tbl_t_transaction_header> headers);
     }
 }

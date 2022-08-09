@@ -25,5 +25,10 @@ namespace SQICS_Api.Repository.TransactionHeader
 
             return headers;
         }
+
+        public void UpdateHeaders(IEnumerable<tbl_t_transaction_header> headers)
+        {
+            UpdateRange(headers);
+        }
     }
 }
