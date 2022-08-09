@@ -84,6 +84,11 @@ namespace SQICS_Api.Repository.Base
             _efContext.Update(entity);
         }
 
+        public void UpdateRange(IEnumerable<T> items)
+        {
+            _efContext.UpdateRange(items);
+        }
+
         public void RemoveRange(IEnumerable<T> items)
         {
             _efContext.RemoveRange(items);

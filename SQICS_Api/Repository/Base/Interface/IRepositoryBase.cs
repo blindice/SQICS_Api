@@ -24,6 +24,8 @@ namespace SQICS_Api.Repository.Base.Interface
 
         void Update(T entity);
 
+        void UpdateRange(IEnumerable<T> items);
+
         void RemoveRange(IEnumerable<T> items);
 
     }
