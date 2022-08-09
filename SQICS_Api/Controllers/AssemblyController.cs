@@ -148,5 +148,19 @@ namespace SQICS_Api.Controllers
 
             return Ok(new { Stations = result.Item1, Lines = result.Item2});
         }
+
+        [HttpPost("deleteplan")]
+        [AllowAnonymous]
+        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeletePlan(string transNo)
+        {
+            if (transNo is null) return BadRequest("Invalid Transaction No.!");
+
+            await _service.DeletePlanAsync(transNo);
+
+            return Ok();
+        }
     }
 }
