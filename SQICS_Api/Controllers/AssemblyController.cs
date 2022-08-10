@@ -154,11 +154,11 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> DeletePlan(string transNo)
+        public async Task<IActionResult> DeletePlan([FromBody] DeletePlanDTO field)
         {
-            if (transNo is null) return BadRequest("Invalid Transaction No.!");
+            if (field is null) return BadRequest("Invalid Transaction!");
 
-            await _service.DeletePlanAsync(transNo);
+            await _service.DeletePlanAsync(field);
 
             return Ok();
         }
