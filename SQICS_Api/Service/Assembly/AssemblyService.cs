@@ -89,9 +89,8 @@ namespace SQICS_Api.Service.Assembly
             var transNo = await GenerateTransactionNo();
 
             await AddToTransactions(plans, transNo);
-            await AddToHeader(plans, transNo);
 
-            await _uow.SaveAsync();
+            await AddToHeader(plans, transNo);
         }
 
         private async Task AddToHeader(List<tbl_t_transaction> plans, string transNo)
@@ -110,6 +109,8 @@ namespace SQICS_Api.Service.Assembly
                           }).FirstOrDefault();
 
             await _uow.THeader.AddHeaderAsync(header);
+
+            await _uow.SaveAsync();
         }
 
         private async Task AddToTransactions(List<tbl_t_transaction> plans, string transNo)
@@ -127,6 +128,7 @@ namespace SQICS_Api.Service.Assembly
 
                 await _uow.Transaction.AddTransactionAsync(plan);
 
+                await _uow.SaveAsync();
             };
         }
 
@@ -216,13 +218,13 @@ namespace SQICS_Api.Service.Assembly
         }
 
         #region Delete Plan
-        public async Task DeletePlanAsync(string transNo)
+        public async Task DeletePlanAsync(DeletePlanDTO field)
         {
-            await RemoveLotsFromOngoingTable(transNo);
+            await RemoveLotsFromOngoingTable(field.TransNo);
 
-            await UpdateLotStatusToDeletedInTransaction(transNo);
+            await UpdateLotStatusToDeletedInTransaction(field);
 
-            await UpdateLotStatusToDeletedInHeader(transNo);
+            await UpdateLotStatusToDeletedInHeader(field.TransNo);
 
             await _uow.SaveAsync();
         }
@@ -238,13 +240,15 @@ namespace SQICS_Api.Service.Assembly
             _uow.THeader.UpdateHeaders(headers);
         }
 
-        private async Task UpdateLotStatusToDeletedInTransaction(string transNo)
+        private async Task UpdateLotStatusToDeletedInTransaction(DeletePlanDTO field)
         {
-            var transactions = await _uow.Transaction.GetTransactionsByTransNoAsync(transNo);
+            var transactions = await _uow.Transaction.GetTransactionsByTransNoAsync(field.TransNo);
 
             if (transactions is null) throw new CustomException("Invalid Transaction No.!");
 
             transactions.ToList().ForEach(_ => _.fld_statusId = (int)Status.Deleted);
+            transactions.ToList().ForEach(_ => _.fld_updatedBy = field.OperatorId);
+            transactions.ToList().ForEach(_ => _.fld_updatedDate = DateTime.Now);
 
             _uow.Transaction.UpdateTransactions(transactions);
         }

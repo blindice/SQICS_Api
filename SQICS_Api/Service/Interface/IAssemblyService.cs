@@ -24,6 +24,6 @@ namespace SQICS_Api.Service.Interface
 
         Task<(List<StationDDLDTO>, List<LineDDLDTO>)> GetDDLDataAsync(int supplierId);
 
-        Task DeletePlanAsync(string transNo);
+        Task DeletePlanAsync(DeletePlanDTO field);
     }
 }
