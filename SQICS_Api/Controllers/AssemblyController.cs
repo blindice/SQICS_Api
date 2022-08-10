@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using SQICS_Api.DTOs;
 using SQICS_Api.Model;
 using SQICS_Api.Service.Interface;
@@ -16,9 +17,12 @@ namespace SQICS_Api.Controllers
     public class AssemblyController : ControllerBase
     {
         IAssemblyService _service;
-        public AssemblyController(IAssemblyService service)
+        IHubContext<Hubs> _hub;
+
+        public AssemblyController(IAssemblyService service, IHubContext<Hubs> hub)
         {
             _service = service;
+            _hub = hub;
         }
 
         [HttpGet("operatordetails/{operatorId}")]
@@ -159,6 +163,22 @@ namespace SQICS_Api.Controllers
             if (field is null) return BadRequest("Invalid Transaction!");
 
             await _service.DeletePlanAsync(field);
+
+            return Ok();
+        }
+
+        [HttpPost("print")]
+        [AllowAnonymous]
+        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Print([FromBody] PrintDTO info)
+        {
+            if (info is null) return BadRequest("Invalid Line Id!");
+
+            var plans = await _service.GetCurrentPlansByLineIdAsync((int)info.LineId);
+
+            await _hub.Clients.All.SendAsync("Print", plans);
 
             return Ok();
         }
