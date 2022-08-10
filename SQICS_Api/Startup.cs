@@ -52,6 +52,8 @@ namespace SQICS_Api
                     .AllowAnyMethod());
             });
 
+            services.AddSignalR();
+
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -142,6 +144,7 @@ namespace SQICS_Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<Hubs>("/hubs");
             });
             
         }
