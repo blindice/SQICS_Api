@@ -29,7 +29,6 @@ namespace SQICS_Api.Model
         [StringLength(50)]
         public string fld_remarks { get; set; }
         public int fld_createdBy { get; set; }
-        [Column(TypeName = "datetime")]
         public DateTime fld_createdDate { get; set; }
         public int? fld_updatedBy { get; set; }
         [Column(TypeName = "datetime")]
