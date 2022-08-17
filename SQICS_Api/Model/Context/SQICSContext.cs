@@ -119,7 +119,15 @@ namespace SQICS_Api.Model.Context
 
             modelBuilder.Entity<tbl_t_assy_defect>(entity =>
             {
-                entity.Property(e => e.fld_transactionId).IsUnicode(false);
+                entity.Property(e => e.fld_assyCode).IsUnicode(false);
+
+                entity.Property(e => e.fld_assyLot).IsUnicode(false);
+
+                entity.Property(e => e.fld_pieceCode).IsUnicode(false);
+
+                entity.Property(e => e.fld_pieceLot).IsUnicode(false);
+
+                entity.Property(e => e.fld_remarks).IsUnicode(false);
             });
 
             modelBuilder.Entity<tbl_t_lot_label>(entity =>

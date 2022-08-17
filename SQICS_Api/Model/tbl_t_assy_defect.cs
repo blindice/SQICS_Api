@@ -13,15 +13,22 @@ namespace SQICS_Api.Model
         [Key]
         public int fld_id { get; set; }
         [Required]
-        [StringLength(12)]
-        public string fld_transactionId { get; set; }
+        [StringLength(30)]
+        public string fld_pieceCode { get; set; }
+        [Required]
+        [StringLength(30)]
+        public string fld_pieceLot { get; set; }
+        [Required]
+        [StringLength(30)]
+        public string fld_assyCode { get; set; }
+        [Required]
+        [StringLength(30)]
+        public string fld_assyLot { get; set; }
         public int fld_defectId { get; set; }
+        public string fld_remarks { get; set; }
         public int fld_qty { get; set; }
         public int fld_createdBy { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime fld_createdDate { get; set; }
-        public int? fld_updatedBy { get; set; }
-        [Column(TypeName = "datetime")]
-        public DateTime? fld_updatedDate { get; set; }
     }
 }
