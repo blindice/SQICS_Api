@@ -219,9 +219,47 @@ namespace SQICS_Api.Controllers
 
             var info = new ValidatePieceBySupplierDTO() { PiecePartCode = pieceCode, SupplierId = (int)supplierId };
 
-            var partName = await _service.GetPiecePartname(info);
+            var partName = await _service.GetPiecePartnameAsync(info);
 
             return Ok(partName);
+        }
+
+        [HttpPost("verifysubassy")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetSubAssyNameAsync([FromQuery] int? supplierId, [FromQuery] string pieceCode, 
+            [FromQuery] string assyCode)
+        {
+            if (supplierId is null || pieceCode is null)
+                return BadRequest(new ErrorDetails { Message = "Invalid Query string!", StatusCode = 400 });
+
+            var info = new ValidateSubAssyBySupplierDTO() 
+            { 
+                PieceCode = pieceCode, 
+                SupplierId = (int)supplierId,
+                AssyCode = assyCode
+            };
+
+            var partName = await _service.GetSubAssyNameAsync(info);
+
+            return Ok(partName);
+        }
+
+        [HttpPost("addassydefect")]
+        [AllowAnonymous]
+        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddAssyDefectAsync([FromBody] AddAssyDefectDTO dto)
+        {
+            if (!ModelState.IsValid || dto is null)
+                return BadRequest(new ErrorDetails { Message = "Invalid Assy Defect!", StatusCode = 400 });
+
+            await _service.AddAssyDefectAsync(dto);
+
+            return Ok();
         }
     }
 }
