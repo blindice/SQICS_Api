@@ -34,5 +34,18 @@ namespace SQICS_Api.Repository.PiecePart
 
             return isValid;
         }
+
+        public async Task<bool> ValidatePiecepartBySupplierIdAsync(ValidatePieceBySupplierDTO info)
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                ["supplierId"] = info.SupplierId,
+                ["pieceCode"] = info.PiecePartCode
+            };
+
+            var isValid = await ExecuteScalarAsync<bool>("usp_ValidatePiecePartBySupplier", parameters);
+
+            return isValid;
+        }
     }
 }
