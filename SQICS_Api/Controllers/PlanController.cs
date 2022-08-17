@@ -17,10 +17,10 @@ namespace SQICS_Api.Controllers
     [ApiController]
     public class PlanController : ControllerBase
     {
-        IAssemblyService _service;
+        IPlanService _service;
         IHubContext<Hubs> _hub;
 
-        public PlanController(IAssemblyService service, IHubContext<Hubs> hub)
+        public PlanController(IPlanService service, IHubContext<Hubs> hub)
         {
             _service = service;
             _hub = hub;
@@ -198,7 +198,7 @@ namespace SQICS_Api.Controllers
         public async Task<IActionResult> Print([FromBody] PrintDTO info)
         {
             if (!ModelState.IsValid || info is null) 
-                BadRequest(new ErrorDetails { Message = "Invalid Line Id!", StatusCode = 400 });
+                return BadRequest(new ErrorDetails { Message = "Invalid Line Id!", StatusCode = 400 });
 
             var plans = await _service.GetCurrentPlansByLineIdAsync((int)info.LineId);
 
@@ -207,6 +207,21 @@ namespace SQICS_Api.Controllers
             return Ok();
         }
 
+        [HttpPost("verifypiecepart")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetPiecePartnameAsync([FromQuery] int? supplierId, [FromQuery] string pieceCode)
+        {
+            if(supplierId is null || pieceCode is null)
+                return BadRequest(new ErrorDetails { Message = "Invalid Query string!", StatusCode = 400 });
 
+            var info = new ValidatePieceBySupplierDTO() { PiecePartCode = pieceCode, SupplierId = (int)supplierId };
+
+            var partName = await _service.GetPiecePartname(info);
+
+            return Ok(partName);
+        }
     }
 }
