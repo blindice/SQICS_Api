@@ -10,12 +10,24 @@ namespace SQICS_Api.Service.Interface
 {
     public interface IPlanService
     {
-        Task<List<PlanDTO>> GetPlanByFilters(string param);
+        Task<SubAssyByOperatorIdDTO> GetOperatorDetailsAsync(string operatorId);
 
-        Task<List<PlanDTO>> GetAllPlanAsync();
+        Task<List<SubAssyDDLDTO>> GetSubAssyDdlDataAsync(int supplierId);
 
-        Task AddNewPlanAsync(AddPlanDTO plan);
+        Task<SubAssyDetailsDTO> GetSubAssyByCodeAsync(int supplierId, string subassyCode);
 
-        Task<List<SubAssyDDLDTO>> GetAllSubAssyDDLAsync();
+        Task<SubAssyDetailsDTO> GetSubAssyByNameAsync(int supplierId, string subAssyName);
+
+        Task AddPlansAsync(List<AddPlanDTO> plansDTO);
+
+        Task<List<CurrentPlanDTO>> GetCurrentPlansByLineIdAsync(int lineId);
+
+        Task StartProcessAsync(AddOngoingDTO transaction);
+
+        Task<(List<StationDDLDTO>, List<LineDDLDTO>)> GetDDLDataAsync(int supplierId);
+
+        Task DeletePlanAsync(DeletePlanDTO field);
+
+        Task<string> GetPiecePartname(ValidatePieceBySupplierDTO info);
     }
 }
