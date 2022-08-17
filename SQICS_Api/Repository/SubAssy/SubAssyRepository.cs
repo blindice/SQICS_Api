@@ -40,7 +40,7 @@ namespace SQICS_Api.Repository.SubAssy
                 ["assyCode"] = info.AssyCode
             };
 
-            var isValid = await ExecuteScalarAsync<bool>("usp_ValidatePiecePartBySupplier", parameters);
+            var isValid = await ExecuteScalarAsync<bool>("usp_ValidateSubAssyBySupplier", parameters);
 
             return isValid;
         }
