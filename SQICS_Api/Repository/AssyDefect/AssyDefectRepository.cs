@@ -12,6 +12,11 @@ namespace SQICS_Api.Repository.AssyDefect
     public class AssyDefectRepository : RepositoryBase<tbl_t_assy_defect>, IAssyDefectRepository
     {
         public AssyDefectRepository(SQICSContext efContext, DapperContext dapperContext)
-       : base(efContext, dapperContext) { }
+        : base(efContext, dapperContext) { }
+
+        public async Task AddAssyDefectAsync(tbl_t_assy_defect assyDefect)
+        {
+            await AddAsync(assyDefect);
+        }
     }
 }
