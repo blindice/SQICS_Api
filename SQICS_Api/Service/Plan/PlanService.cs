@@ -290,5 +290,17 @@ namespace SQICS_Api.Service.Plan
 
             return subassyName;
         }
+
+        public async Task AddAssyDefectAsync(AddAssyDefectDTO dto)
+        {
+            var defect = _mapper.Map<tbl_t_assy_defect>(dto);
+
+            if (defect is null)
+                throw new CustomException("Invalid Mapping");
+
+            await _uow.AssyDefect.AddAssyDefectAsync(defect);
+
+            await _uow.SaveAsync();
+        }
     }
 }

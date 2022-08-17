@@ -29,5 +29,9 @@ namespace SQICS_Api.Service.Interface
         Task DeletePlanAsync(DeletePlanDTO field);
 
         Task<string> GetPiecePartnameAsync(ValidatePieceBySupplierDTO info);
+
+        Task<string> GetSubAssyNameAsync(ValidateSubAssyBySupplierDTO info);
+
+        Task AddAssyDefectAsync(AddAssyDefectDTO dto);
     }
 }
