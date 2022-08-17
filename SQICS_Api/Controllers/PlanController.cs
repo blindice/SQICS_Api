@@ -26,6 +26,21 @@ namespace SQICS_Api.Controllers
             _hub = hub;
         }
 
+        [HttpPost("addtogroup")]
+        [AllowAnonymous]
+        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddToGroupAsync([FromBody] GroupDTO group)
+        {
+            if (!ModelState.IsValid || group is null)
+                return BadRequest("Invalid Group Info!");
+
+            await _hub.Groups.AddToGroupAsync(group.ConnectionId, group.GroupName);
+
+            return Ok();
+        }
+
         [HttpGet("operatordetails/{operatorId}")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(SubAssyByOperatorIdDTO), statusCode: StatusCodes.Status200OK)]
@@ -161,7 +176,7 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeletePlan([FromBody] DeletePlanDTO field)
         {
-            if (field is null) return BadRequest("Invalid Transaction!");
+            if (!ModelState.IsValid || field is null) return BadRequest(new { message = "Invalid Transaction!" });
 
             await _service.DeletePlanAsync(field);
 
@@ -175,7 +190,7 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Print([FromBody] PrintDTO info)
         {
-            if (info is null) return BadRequest("Invalid Line Id!");
+            if (!ModelState.IsValid ||  info is null) return BadRequest("Invalid Line Id!");
 
             var plans = await _service.GetCurrentPlansByLineIdAsync((int)info.LineId);
 
