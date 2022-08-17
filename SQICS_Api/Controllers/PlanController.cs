@@ -34,7 +34,7 @@ namespace SQICS_Api.Controllers
         public async Task<IActionResult> AddToGroupAsync([FromBody] GroupDTO group)
         {
             if (!ModelState.IsValid || group is null)
-                return BadRequest("Invalid Group Info!");
+                return BadRequest(new ErrorDetails { Message = "Invalid Group Info!", StatusCode = 400 });
 
             await _hub.Groups.AddToGroupAsync(group.ConnectionId, group.GroupName);
 
@@ -49,7 +49,7 @@ namespace SQICS_Api.Controllers
         public async Task<IActionResult> GetOperatorDetailsAsync(string operatorId)
         {
             if (!ModelState.IsValid || operatorId is null)
-                return BadRequest("Invalid Operator Id!");
+                return BadRequest(new ErrorDetails { Message = "Invalid Operator Id!", StatusCode = 400 });
 
             var operatorDetails = await _service.GetOperatorDetailsAsync(operatorId);
 
@@ -63,7 +63,8 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDDLSubassiesAsync(int? supplierId)
         {
-            if (supplierId is null) return BadRequest("Invalid Supplier Id!");
+            if (supplierId is null) 
+                return BadRequest(new ErrorDetails { Message = "Invalid Supplier Id!", StatusCode = 400 });
 
             var subAssies = await _service.GetSubAssyDdlDataAsync((int)supplierId);
 
@@ -78,7 +79,7 @@ namespace SQICS_Api.Controllers
         public async Task<IActionResult> GetSubAssyByCodeAsync([FromQuery] int? supplierId, [FromQuery] string subAssyCode)
         {
             if (supplierId is null || subAssyCode is null)
-                return BadRequest("Invalid Query Strings!");
+                return BadRequest(new ErrorDetails { Message = "Invalid Query string!", StatusCode = 400 });
 
             var subAssy = await _service.GetSubAssyByCodeAsync((int)supplierId, subAssyCode);
 
@@ -94,7 +95,7 @@ namespace SQICS_Api.Controllers
         public async Task<IActionResult> GetSubAssyByNameAsync([FromQuery] int? supplierId, [FromQuery] string subAssyName)
         {
             if (supplierId is null || subAssyName is null)
-                return BadRequest("Invalid Query Strings!");
+                return BadRequest(new ErrorDetails { Message = "Invalid Query String!", StatusCode = 400 });
 
             var subAssy = await _service.GetSubAssyByNameAsync((int)supplierId, subAssyName);
 
@@ -118,9 +119,11 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddTransactionsAsync([FromBody] List<AddPlanDTO> plans)
         {
-            if (plans is null) return BadRequest("Invalid plans!");
+            if (plans is null) 
+                return BadRequest(new ErrorDetails { Message = "Invalid Plans!", StatusCode = 400 });
 
-            if (plans.Count == 0) return NotFound("No Plan Found to Add!");
+            if (plans.Count == 0) 
+                return NotFound(new ErrorDetails { Message = "No Plan Found to Add!", StatusCode = 404 });
 
             await _service.AddPlansAsync(plans);
 
@@ -134,7 +137,8 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetCurrentPlanAsync([FromQuery] int? lineId)
         {
-            if (lineId is null) return BadRequest("Invalid Line Id!");
+            if (lineId is null) 
+                return BadRequest(new ErrorDetails { Message = "Invalid Line Id!", StatusCode = 400 });
 
             var plans = await _service.GetCurrentPlansByLineIdAsync((int)lineId);
 
@@ -148,7 +152,8 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> StartProcessAsync([FromBody] AddOngoingDTO transaction)
         {
-            if (!ModelState.IsValid || transaction is null) return BadRequest("Invalid Transaction!");
+            if (!ModelState.IsValid || transaction is null) 
+                return BadRequest(new ErrorDetails { Message = "Invalid Transaction!", StatusCode = 400 });
 
             await _service.StartProcessAsync(transaction);
 
@@ -162,7 +167,8 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDDLDataAsync(int? supplierId)
         {
-            if (supplierId is null) return BadRequest("Invalid Supplier Id!");
+            if (supplierId is null) 
+                return BadRequest(new ErrorDetails { Message = "Invalid Supplier Id!", StatusCode = 400 });
 
             var result = await _service.GetDDLDataAsync((int)supplierId);
 
@@ -176,7 +182,8 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeletePlan([FromBody] DeletePlanDTO field)
         {
-            if (!ModelState.IsValid || field is null) return BadRequest(new { message = "Invalid Transaction!" });
+            if (!ModelState.IsValid || field is null) 
+                return BadRequest(new ErrorDetails { Message = "Invalid Transaction!", StatusCode = 400 });
 
             await _service.DeletePlanAsync(field);
 
@@ -190,7 +197,8 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Print([FromBody] PrintDTO info)
         {
-            if (!ModelState.IsValid ||  info is null) return BadRequest("Invalid Line Id!");
+            if (!ModelState.IsValid || info is null) 
+                BadRequest(new ErrorDetails { Message = "Invalid Line Id!", StatusCode = 400 });
 
             var plans = await _service.GetCurrentPlansByLineIdAsync((int)info.LineId);
 
@@ -198,5 +206,7 @@ namespace SQICS_Api.Controllers
 
             return Ok();
         }
+
+
     }
 }
