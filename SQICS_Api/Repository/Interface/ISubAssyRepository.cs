@@ -1,4 +1,5 @@
-﻿using SQICS_Api.Model;
+﻿using SQICS_Api.DTOs;
+using SQICS_Api.Model;
 using SQICS_Api.Repository.Base.Interface;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,7 @@ namespace SQICS_Api.Repository.Interface
         Task<tbl_m_part> GetSubAssyByCode(string code);
 
         Task<IEnumerable<tbl_m_part>> GetSubAssyBySupplierId(int supplierId);
+
+        Task<bool> ValidatePiecepartBySupplierIdAsync(ValidateSubAssyBySupplierDTO info);
     }
 }

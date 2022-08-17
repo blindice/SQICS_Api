@@ -1,4 +1,5 @@
-﻿using SQICS_Api.Model;
+﻿using SQICS_Api.DTOs;
+using SQICS_Api.Model;
 using SQICS_Api.Model.Context;
 using SQICS_Api.Repository.Base;
 using SQICS_Api.Repository.Interface;
@@ -29,5 +30,20 @@ namespace SQICS_Api.Repository.SubAssy
         {
             return await QueryAsync("usp_GetSubAssyBySupplierId", new { supplierId = supplierId });
         }
+
+        public async Task<bool> ValidatePiecepartBySupplierIdAsync(ValidateSubAssyBySupplierDTO info)
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                ["supplierId"] = info.SupplierId,
+                ["pieceCode"] = info.PieceCode,
+                ["assyCode"] = info.AssyCode
+            };
+
+            var isValid = await ExecuteScalarAsync<bool>("usp_ValidatePiecePartBySupplier", parameters);
+
+            return isValid;
+        }
+
     }
 }
