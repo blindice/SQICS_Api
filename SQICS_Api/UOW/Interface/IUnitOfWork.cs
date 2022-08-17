@@ -31,6 +31,8 @@ namespace SQICS_Api.UOW
 
         ITransactionHeaderRepository THeader { get; }
 
+        IAssyDefectRepository AssyDefect { get; }
+
         Task SaveAsync();
     }
 }

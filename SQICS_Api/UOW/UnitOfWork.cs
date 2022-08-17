@@ -1,5 +1,6 @@
 ﻿using SQICS_Api.Model.Context;
 using SQICS_Api.Repository;
+using SQICS_Api.Repository.AssyDefect;
 using SQICS_Api.Repository.Defect;
 using SQICS_Api.Repository.Interface;
 using SQICS_Api.Repository.Line;
@@ -33,6 +34,7 @@ namespace SQICS_Api.UOW
         private IStationRepository _station;
         private ILineRepository _line;
         private ITransactionHeaderRepository _header;
+        private IAssyDefectRepository _assyDefect;
 
         public UnitOfWork(SQICSContext efContext, DapperContext dapperContext)
         {
@@ -168,6 +170,18 @@ namespace SQICS_Api.UOW
                     _header = new TransactionHeaderRepository(_efContext, _dapperContext);
                 }
                 return _header;
+            }
+        }
+
+        public IAssyDefectRepository AssyDefect
+        {
+            get
+            {
+                if (_assyDefect == null)
+                {
+                    _assyDefect = new AssyDefectRepository(_efContext, _dapperContext);
+                }
+                return _assyDefect;
             }
         }
 
