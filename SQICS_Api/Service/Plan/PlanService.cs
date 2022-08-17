@@ -265,7 +265,7 @@ namespace SQICS_Api.Service.Plan
         }
         #endregion
 
-        public async Task<string> GetPiecePartname(ValidatePieceBySupplierDTO info)
+        public async Task<string> GetPiecePartnameAsync(ValidatePieceBySupplierDTO info)
         {
             var isValid = await _uow.PiecePart.ValidatePiecepartBySupplierIdAsync(info);
 
@@ -276,6 +276,19 @@ namespace SQICS_Api.Service.Plan
             var pieceName = piece.fld_partName;
 
             return pieceName;
+        }
+
+        public async Task<string> GetSubAssyNameAsync(ValidateSubAssyBySupplierDTO info)
+        {
+            var isValid = await _uow.SubAssy.ValidatePiecepartBySupplierIdAsync(info);
+
+            if (!isValid) throw new CustomException("Sub-assy Not Found!");
+
+            var subassy = await _uow.SubAssy.GetSubAssyByCode(info.AssyCode);
+
+            var subassyName = subassy.fld_partName;
+
+            return subassyName;
         }
     }
 }
