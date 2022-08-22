@@ -15,11 +15,10 @@ namespace SQICS_Api.DTOs
         public int? fld_stationId { get; set; }
         [Required]
         public string fld_employeeId { get; set; }
-        [Required]
-        public string fld_pieceId { get; set; }
+
+        public int fld_pieceId { get; set; }
         [Required]
         public string fld_lotNo { get; set; }
-        [Required]
         public string fld_referenceNo { get; set; }
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Qty can't be zero!")]
@@ -28,5 +27,11 @@ namespace SQICS_Api.DTOs
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Created By can't be zero!")]
         public int? fld_createdBy { get; set; }
+
+        [Required]
+        public int SupplierId { get; set; }
+
+        [Required]
+        public string PiecePartCode { get; set; }
     }
 }

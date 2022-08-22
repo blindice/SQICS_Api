@@ -263,11 +263,30 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("defectddl")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(List<DefectDTO>), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDefectDDLAsync()
         {
             var defects = await _service.GetDefectDDLAsync();
 
             return Ok(defects);
+        }
+
+        [HttpPost("addtransdetails")]
+        [AllowAnonymous]
+        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddTransactionDetailsAsync([FromBody] AddTransactionDetailsDTO details)
+        {
+            if (!ModelState.IsValid || details is null)
+                return BadRequest(new ErrorDetails { Message = "Invalid Transaction Details!", StatusCode = 400 });
+
+            await _service.AddTransactionDetails(details);
+
+            return Ok();
         }
     }
 }

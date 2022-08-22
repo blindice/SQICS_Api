@@ -303,15 +303,36 @@ namespace SQICS_Api.Service.Plan
             await _uow.SaveAsync();
         }
 
-        public async Task<DefectDTO> GetDefectDDLAsync()
+        public async Task<List<DefectDTO>> GetDefectDDLAsync()
         {
             var defects = await _uow.Defect.GetAllDefectAsync();
 
             if (defects is null) throw new CustomException("No Defects Found!");
 
-            var result = _mapper.Map<DefectDTO>(defects);
+            var result = _mapper.Map<List<DefectDTO>>(defects);
 
             return result;
         }
+
+        #region Add Transaction Details
+
+        public async Task AddTransactionDetails(AddTransactionDetailsDTO details)
+        {
+            var isValid = await _uow.PiecePart.ValidatePiecepartBySupplierIdAsync(
+                new ValidatePieceBySupplierDTO { PiecePartCode = details.PiecePartCode, SupplierId = details.SupplierId });
+
+            if (!isValid) throw new CustomException("Invalid Piece Part Code!");
+
+            var piece = await _uow.PiecePart.GetPiecePartByCode(details.PiecePartCode);
+
+            details.fld_pieceId = piece.fld_id;
+
+            var result = _mapper.Map<tbl_t_transaction_detail>(details);
+
+            await _uow.TDetails.AddTransactionDetailsAsync(result);
+            await _uow.SaveAsync();
+        }
+
+        #endregion
     }
 }

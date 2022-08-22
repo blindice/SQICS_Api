@@ -34,6 +34,8 @@ namespace SQICS_Api.Service.Interface
 
         Task AddAssyDefectAsync(AddAssyDefectDTO dto);
 
-        Task<DefectDTO> GetDefectDDLAsync()
+        Task<List<DefectDTO>> GetDefectDDLAsync();
+
+        Task AddTransactionDetails(AddTransactionDetailsDTO details);
     }
 }
