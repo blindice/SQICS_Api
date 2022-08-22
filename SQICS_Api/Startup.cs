@@ -25,7 +25,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using SQICS_Api.Service.JWT;
-using SQICS_Api.Service.Transaction;
 using SQICS_Api.Service.Assembly;
 using Microsoft.AspNetCore.Http;
 
@@ -86,7 +85,6 @@ namespace SQICS_Api
             services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IJWTService, JWTService>();
-            services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IAssemblyService, AssemblyService>();
             services.AddSwaggerGen(c =>
             {
