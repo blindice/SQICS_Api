@@ -302,5 +302,16 @@ namespace SQICS_Api.Service.Plan
 
             await _uow.SaveAsync();
         }
+
+        public async Task<DefectDTO> GetDefectDDLAsync()
+        {
+            var defects = await _uow.Defect.GetAllDefectAsync();
+
+            if (defects is null) throw new CustomException("No Defects Found!");
+
+            var result = _mapper.Map<DefectDTO>(defects);
+
+            return result;
+        }
     }
 }

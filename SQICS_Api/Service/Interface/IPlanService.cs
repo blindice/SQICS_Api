@@ -33,5 +33,7 @@ namespace SQICS_Api.Service.Interface
         Task<string> GetSubAssyNameAsync(ValidateSubAssyBySupplierDTO info);
 
         Task AddAssyDefectAsync(AddAssyDefectDTO dto);
+
+        Task<DefectDTO> GetDefectDDLAsync()
     }
 }

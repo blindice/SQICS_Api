@@ -261,5 +261,13 @@ namespace SQICS_Api.Controllers
 
             return Ok();
         }
+
+        [HttpGet("defectddl")]
+        public async Task<IActionResult> GetDefectDDLAsync()
+        {
+            var defects = await _service.GetDefectDDLAsync();
+
+            return Ok(defects);
+        }
     }
 }
