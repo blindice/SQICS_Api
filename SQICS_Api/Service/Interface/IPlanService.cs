@@ -37,5 +37,7 @@ namespace SQICS_Api.Service.Interface
         Task<List<DefectDTO>> GetDefectDDLAsync();
 
         Task AddTransactionDetails(AddTransactionDetailsDTO details);
+
+        Task<int> GetTransIdByAssyLotAsync(string assyLot);
     }
 }

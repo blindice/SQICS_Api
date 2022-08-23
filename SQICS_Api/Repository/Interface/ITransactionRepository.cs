@@ -29,5 +29,7 @@ namespace SQICS_Api.Repository.Interface
         void UpdateTransaction(tbl_t_transaction transaction);
 
         void UpdateTransactions(IEnumerable<tbl_t_transaction> transactions);
+
+        Task<int?> GetTransactionIdByAssyLotAsync(string assyLot);
     }
 }

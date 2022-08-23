@@ -288,5 +288,20 @@ namespace SQICS_Api.Controllers
 
             return Ok();
         }
+
+        [HttpGet("transidbyassylot/{assyLot}")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(int), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetTransIdByAssylotAsync(string assyLot)
+        {
+            if(string.IsNullOrEmpty(assyLot))
+                return BadRequest(new ErrorDetails { Message = "Invalid Sub-assy Lot!", StatusCode = 400 });
+
+            var transId = await _service.GetTransIdByAssyLotAsync(assyLot);
+
+            return Ok(transId);
+        }
     }
 }

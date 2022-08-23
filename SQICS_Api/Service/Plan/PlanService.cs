@@ -334,5 +334,14 @@ namespace SQICS_Api.Service.Plan
         }
 
         #endregion
+
+        public async Task<int> GetTransIdByAssyLotAsync(string assyLot)
+        {
+            var transId = await _uow.Transaction.GetTransactionIdByAssyLotAsync(assyLot);
+
+            if (transId is null) throw new CustomException("Invalid Sub-assy Lot!");
+
+            return (int)transId;
+        }
     }
 }

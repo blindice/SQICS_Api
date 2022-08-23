@@ -64,5 +64,12 @@ namespace SQICS_Api.Repository.Transaction
         {
             UpdateRange(transactions);
         }
+
+        public async Task<int?> GetTransactionIdByAssyLotAsync(string assyLot)
+        {
+            int? transId = await ExecuteScalarAsync<int?>("usp_GetTransactionIdByAssyLot", new { assyLot = assyLot });
+
+            return transId;
+        }
     }
 }
