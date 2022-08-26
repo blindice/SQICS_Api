@@ -90,9 +90,33 @@ namespace SQICS_Api.Service.Plan
             var plans = _mapper.Map<List<tbl_t_transaction>>(plansDTO);
             var transNo = await GenerateTransactionNo();
 
-            await AddToTransactions(plans, transNo);
+            var generatedPlans = await AddToTransactions(plans, transNo);
+
+            await AddToLotLabel(plansDTO, generatedPlans);
 
             await AddToHeader(plans, transNo);
+        }
+
+        private async Task AddToLotLabel(List<AddPlanDTO> plansDTO, List<tbl_t_transaction> generatedPlans)
+        {
+            var subAssyId = plansDTO.Select(p => p.fld_assyId).FirstOrDefault();
+
+            var subAssy = await _uow.SubAssy.GetAssyByIdAsync((int)subAssyId);
+
+            var lotLabels = (from label in generatedPlans
+                             select new tbl_t_lot_label
+                             {
+                                 fld_transactionId = label.fld_transactionNo,
+                                 fld_referenceNo = plansDTO.Select(p => p.ReferenceNo).FirstOrDefault(),
+                                 fld_lotNo = label.fld_subAssyLotNo,
+                                 fld_partCode = subAssy.fld_partCode,
+                                 fld_partName = subAssy.fld_partName,
+                                 fld_qty = label.fld_qty,
+                                 fld_createdBy = label.fld_createdBy,
+                                 fld_createdDate = label.fld_createdDate
+                             }).ToList();
+
+            await _uow.LotLabel.AddLotLabelsAsync(lotLabels);
         }
 
         private async Task AddToHeader(List<tbl_t_transaction> plans, string transNo)
@@ -115,8 +139,10 @@ namespace SQICS_Api.Service.Plan
             await _uow.SaveAsync();
         }
 
-        private async Task AddToTransactions(List<tbl_t_transaction> plans, string transNo)
+        private async Task<List<tbl_t_transaction>> AddToTransactions(List<tbl_t_transaction> plans, string transNo)
         {
+            List<tbl_t_transaction> generatedPlans = new();
+
             foreach (var plan in plans)
             {
                 if (plan.fld_supplierId == 0 || plan.fld_lineId == 0)
@@ -131,7 +157,11 @@ namespace SQICS_Api.Service.Plan
                 await _uow.Transaction.AddTransactionAsync(plan);
 
                 await _uow.SaveAsync();
+
+                generatedPlans.Add(plan);
             };
+
+            return generatedPlans;
         }
 
         private async Task<string> GenerateTransactionNo()
