@@ -9,5 +9,7 @@ namespace SQICS_Api.Service.Interface
     public interface IReprintService
     {
         Task<List<LotLabelDTO>> GetAllLotLabelAsync();
+
+        Task PrintLotLabelAsync(UpdateLotLabelDTO details);
     }
 }

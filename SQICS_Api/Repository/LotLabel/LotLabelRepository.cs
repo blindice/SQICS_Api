@@ -1,4 +1,5 @@
-﻿using SQICS_Api.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using SQICS_Api.Model;
 using SQICS_Api.Model.Context;
 using SQICS_Api.Repository.Base;
 using SQICS_Api.Repository.Interface;
@@ -18,6 +19,12 @@ namespace SQICS_Api.Repository.LotLabel
         {
             return await QueryAsync("usp_GetAllLotLabels");
         }
+
+        public async Task<tbl_t_lot_label> GetLotLabelByIdAsync(int id)
+        {
+            return await GetByCondition(l => l.fld_id == id).FirstOrDefaultAsync();
+        }
+
 
         public async Task AddLotLabelsAsync(List<tbl_t_lot_label> lotLabels)
         {
