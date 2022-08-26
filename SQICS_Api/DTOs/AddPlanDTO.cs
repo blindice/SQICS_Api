@@ -25,6 +25,10 @@ namespace SQICS_Api.DTOs
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Qty can't be zero!")]
         public int? fld_qty { get; set; }
+
+        [Required]
+        public string ReferenceNo { get; set; }
+
         [Required]
         public DateTime? ETimeCompletion { get; set; }
 
