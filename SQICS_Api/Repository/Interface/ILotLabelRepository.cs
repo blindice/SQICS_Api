@@ -8,7 +8,7 @@ namespace SQICS_Api.Repository.Interface
 {
     public interface ILotLabelRepository
     {
-        Task AddLotLabelAsync(tbl_t_lot_label lotLabel);
+        Task AddLotLabelsAsync(List<tbl_t_lot_label> lotLabels);
 
         void UpdateLotLabelAsync(tbl_t_lot_label lotLabel);
     }
