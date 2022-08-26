@@ -29,7 +29,6 @@ namespace SQICS_Api.Model
         [StringLength(100)]
         public string fld_partName { get; set; }
         public int fld_qty { get; set; }
-        [Required]
         [StringLength(50)]
         public string fld_remarks { get; set; }
         public int? fld_modelId { get; set; }
