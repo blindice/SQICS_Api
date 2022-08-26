@@ -18,5 +18,10 @@ namespace SQICS_Api.Repository.LotLabel
         {
             await AddAsync(lotLabel);
         }
+
+        public void UpdateLotLabelAsync(tbl_t_lot_label lotLabel)
+        {
+            Update(lotLabel);
+        }
     }
 }
