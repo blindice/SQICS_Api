@@ -14,6 +14,11 @@ namespace SQICS_Api.Repository.LotLabel
         public LotLabelRepository(SQICSContext efContext, DapperContext dapperContext)
         : base(efContext, dapperContext) { }
 
+        public async Task<IEnumerable<tbl_t_lot_label>> GetAllLotLabelAsync()
+        {
+            return await QueryAsync("usp_GetAllLotLabels");
+        }
+
         public async Task AddLotLabelsAsync(List<tbl_t_lot_label> lotLabels)
         {
             await AddRangeAsync(lotLabels);

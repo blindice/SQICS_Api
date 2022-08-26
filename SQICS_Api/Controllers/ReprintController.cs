@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SQICS_Api.DTOs;
+using SQICS_Api.Model;
+using SQICS_Api.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +15,22 @@ namespace SQICS_Api.Controllers
     [ApiController]
     public class ReprintController : ControllerBase
     {
+        IReprintService _service;
+        public ReprintController(IReprintService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet("getlotlabels")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(List<LotLabelDTO>), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAllLotLabels()
+        {
+            var lotLabels = await _service.GetAllLotLabelAsync();
+
+            return Ok(lotLabels);
+        }
     }
 }
