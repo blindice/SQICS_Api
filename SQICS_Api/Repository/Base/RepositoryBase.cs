@@ -1,10 +1,12 @@
 ﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 using SQICS_Api.Model.Context;
 using SQICS_Api.Repository.Base.Interface;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SQICS_Api.Repository.Base
@@ -69,29 +71,34 @@ namespace SQICS_Api.Repository.Base
             }
         }
 
+        public IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression)
+        {
+            return _efContext.Set<T>().Where(expression).AsNoTracking();
+        }
+
         public async Task AddAsync(T entity)
         {
-            await _efContext.AddAsync(entity);
+            await _efContext.Set<T>().AddAsync(entity);
         }
 
         public async Task AddRangeAsync(List<T> items)
         {
-            await _efContext.AddRangeAsync(items);
+            await _efContext.Set<T>().AddRangeAsync(items);
         }
 
         public void Update(T entity)
         {         
-            _efContext.Update(entity);
+            _efContext.Set<T>().Update(entity);
         }
 
         public void UpdateRange(IEnumerable<T> items)
         {
-            _efContext.UpdateRange(items);
+            _efContext.Set<T>().UpdateRange(items);
         }
 
         public void RemoveRange(IEnumerable<T> items)
         {
-            _efContext.RemoveRange(items);
+            _efContext.Set<T>().RemoveRange(items);
         }
     }
 }

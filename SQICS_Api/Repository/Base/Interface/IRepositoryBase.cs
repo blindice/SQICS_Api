@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SQICS_Api.Repository.Base.Interface
@@ -17,6 +18,8 @@ namespace SQICS_Api.Repository.Base.Interface
         Task<T> QuerySingleOrDefaultAsync(string query, object param = null, CommandType cType = CommandType.StoredProcedure);
 
         Task<TItem> ExecuteScalarAsync<TItem>(string query, object param = null, CommandType cType = CommandType.StoredProcedure);
+
+        IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression);
 
         Task AddAsync(T entity);
 
