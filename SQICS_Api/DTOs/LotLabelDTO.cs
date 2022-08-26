@@ -7,6 +7,8 @@ namespace SQICS_Api.DTOs
 {
     public class LotLabelDTO
     {
+        public int fld_id { get; set; }
+
         public string fld_transactionId { get; set; }
 
         public string fld_referenceNo { get; set; }
