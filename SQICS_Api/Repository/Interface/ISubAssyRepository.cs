@@ -17,5 +17,7 @@ namespace SQICS_Api.Repository.Interface
         Task<IEnumerable<tbl_m_part>> GetSubAssyBySupplierId(int supplierId);
 
         Task<bool> ValidatePiecepartBySupplierIdAsync(ValidateSubAssyBySupplierDTO info);
+
+        Task<tbl_m_part> GetAssyByIdAsync(int id);
     }
 }

@@ -1,4 +1,5 @@
-﻿using SQICS_Api.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using SQICS_Api.DTOs;
 using SQICS_Api.Model;
 using SQICS_Api.Model.Context;
 using SQICS_Api.Repository.Base;
@@ -45,5 +46,9 @@ namespace SQICS_Api.Repository.SubAssy
             return isValid;
         }
 
+        public async Task<tbl_m_part> GetAssyByIdAsync(int id)
+        {
+            return await GetByCondition(s => s.fld_id == id && s.fld_isAssy == true).FirstOrDefaultAsync();
+        }
     }
 }
