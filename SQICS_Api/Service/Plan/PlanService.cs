@@ -325,9 +325,10 @@ namespace SQICS_Api.Service.Plan
 
             var piece = await _uow.PiecePart.GetPiecePartByCode(details.PiecePartCode);
 
-            details.fld_pieceId = piece.fld_id;
+            details.fld_pieceId = piece.fld_id;          
 
             var result = _mapper.Map<tbl_t_transaction_detail>(details);
+            result.fld_createdDate = DateTime.Now;
 
             await _uow.TDetails.AddTransactionDetailsAsync(result);
             await _uow.SaveAsync();
