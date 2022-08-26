@@ -27,6 +27,7 @@ using System.Text;
 using SQICS_Api.Service.JWT;
 using SQICS_Api.Service.Assembly;
 using Microsoft.AspNetCore.Http;
+using SQICS_Api.Service.Reprint;
 
 namespace SQICS_Api
 {
@@ -86,6 +87,7 @@ namespace SQICS_Api
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAssemblyService, AssemblyService>();
+            services.AddScoped<IReprintService, ReprintService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SQICS_Api", Version = "v1" });
