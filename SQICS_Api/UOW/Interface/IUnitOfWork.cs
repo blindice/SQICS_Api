@@ -33,6 +33,8 @@ namespace SQICS_Api.UOW
 
         IAssyDefectRepository AssyDefect { get; }
 
+        ILotLabelRepository LotLabel { get; }
+
         Task SaveAsync();
     }
 }

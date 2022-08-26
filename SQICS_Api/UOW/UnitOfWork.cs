@@ -5,6 +5,7 @@ using SQICS_Api.Repository.Defect;
 using SQICS_Api.Repository.Interface;
 using SQICS_Api.Repository.Line;
 using SQICS_Api.Repository.Login;
+using SQICS_Api.Repository.LotLabel;
 using SQICS_Api.Repository.Ongoing;
 using SQICS_Api.Repository.Operator;
 using SQICS_Api.Repository.PiecePart;
@@ -35,6 +36,7 @@ namespace SQICS_Api.UOW
         private ILineRepository _line;
         private ITransactionHeaderRepository _header;
         private IAssyDefectRepository _assyDefect;
+        private ILotLabelRepository _lotLabel;
 
         public UnitOfWork(SQICSContext efContext, DapperContext dapperContext)
         {
@@ -182,6 +184,18 @@ namespace SQICS_Api.UOW
                     _assyDefect = new AssyDefectRepository(_efContext, _dapperContext);
                 }
                 return _assyDefect;
+            }
+        }
+
+        public ILotLabelRepository LotLabel
+        {
+            get
+            {
+                if (_lotLabel == null)
+                {
+                    _lotLabel = new LotLabelRepository(_efContext, _dapperContext);
+                }
+                return _lotLabel;
             }
         }
 
