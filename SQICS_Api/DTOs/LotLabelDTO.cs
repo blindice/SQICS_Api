@@ -19,6 +19,8 @@ namespace SQICS_Api.DTOs
 
         public string fld_partName { get; set; }
 
+        public int fld_qty { get; set; }
+
         public string fld_remarks { get; set; }
 
         public int? fld_updatedBy { get; set; }
