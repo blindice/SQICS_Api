@@ -13,6 +13,8 @@ namespace SQICS_Api.DTOs
         public string TransNo { get; set; }
         public string LotNo { get; set; }
 
+        public string RefNo { get; set; }
+
         public int Qty { get; set; }
 
         public string PartCode { get; set; }
