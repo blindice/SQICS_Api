@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SQICS_Api.DTOs;
+using SQICS_Api.Model;
 using SQICS_Api.Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,11 @@ namespace SQICS_Api.Controllers
             _service = service;
         }
 
-        [HttpGet]
+        [HttpGet("defectinquiries")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(List<DefectInquiryDTO>), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDefectInquiryAsync([FromQuery] DefectInquiryParams @params)
         {
             if (@params is null) return BadRequest("Invalid Defect Inquiry!");
