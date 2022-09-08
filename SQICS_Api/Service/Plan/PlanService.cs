@@ -414,7 +414,7 @@ namespace SQICS_Api.Service.Plan
         async Task UpdateTransStatusToFinishAsync(string assyLot, int operatorId)
         {
             var trans = await _uow.Transaction.GetTransactionByAssyLot(assyLot);
-            trans.fld_stationId = (int)Status.Finish;
+            trans.fld_statusId = (int)Status.Finish;
             trans.fld_updatedBy = operatorId;
             trans.fld_updatedDate = DateTime.Now;
             _uow.Transaction.UpdateTransaction(trans);
