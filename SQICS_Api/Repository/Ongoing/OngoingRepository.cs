@@ -37,5 +37,12 @@ namespace SQICS_Api.Repository.Ongoing
         {
             RemoveRange(lots);
         }
+
+        public async Task<int?> GetCountByAssyLot(string assyLot)
+        {
+            var count = await ExecuteScalarAsync<int?>("sp_GetCountByAssyLot", new { assyLot = assyLot});
+
+            return count;
+        }
     }
 }
