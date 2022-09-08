@@ -16,6 +16,10 @@ namespace SQICS_Api.Repository.Interface
 
         void RemoveLots(IEnumerable<tbl_t_lot_ongoing> lots);
 
-        Task<int?> GetCountByAssyLot(string assyLot);
+        Task<tbl_t_lot_ongoing> GetOngoingByAssyLot(string assyLot);
+
+        void UpdateOnGoing(tbl_t_lot_ongoing ongoing);
+
+        void RemoveOnGoing(tbl_t_lot_ongoing ongoing);
     }
 }

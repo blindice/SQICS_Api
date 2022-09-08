@@ -38,11 +38,22 @@ namespace SQICS_Api.Repository.Ongoing
             RemoveRange(lots);
         }
 
-        public async Task<int?> GetCountByAssyLot(string assyLot)
+        public async Task<tbl_t_lot_ongoing> GetOngoingByAssyLot(string assyLot)
         {
-            var count = await ExecuteScalarAsync<int?>("sp_GetCountByAssyLot", new { assyLot = assyLot});
+            var onGoing = await QuerySingleOrDefaultAsync("sp_GetOnGoingByAssyLot", new { assyLot = assyLot});
 
-            return count;
+            return onGoing;
         }
+
+        public void UpdateOnGoing(tbl_t_lot_ongoing ongoing)
+        {
+            Update(ongoing);
+        }
+
+        public void RemoveOnGoing(tbl_t_lot_ongoing ongoing)
+        {
+            Remove(ongoing);
+        }
+        
     }
 }
