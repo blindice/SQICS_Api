@@ -23,5 +23,6 @@ namespace SQICS_Api.Model
         public string fld_partCode { get; set; }
         public int? fld_qty { get; set; }
         public int? fld_statusId { get; set; }
+        public int fld_count { get; set; }
     }
 }
