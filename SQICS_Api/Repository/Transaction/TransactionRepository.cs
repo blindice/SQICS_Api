@@ -71,5 +71,12 @@ namespace SQICS_Api.Repository.Transaction
 
             return transId;
         }
+
+        public async Task<tbl_t_transaction> GetTransactionByAssyLot(string assyLot)
+        {
+            var transaction = await QuerySingleOrDefaultAsync("sp_GetTransByAssyLot", new { assyLot = assyLot });
+
+            return transaction;
+        }
     }
 }
