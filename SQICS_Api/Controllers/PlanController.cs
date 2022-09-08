@@ -318,5 +318,20 @@ namespace SQICS_Api.Controllers
 
             return Ok(count);
         }
+
+        [HttpGet("incrementcount")]
+        [AllowAnonymous]
+        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> IncrementCountAsync([FromQuery] string assyLot, [FromQuery] int? operatorId)
+        {
+            if(string.IsNullOrEmpty(assyLot) || operatorId is null)
+                return BadRequest(new ErrorDetails { Message = "Invalid Querystrings!", StatusCode = 400 });
+
+            await _service.TriggerIncrementCountAsync(assyLot, (int)operatorId);
+
+            return Ok();
+        }
     }
 }
