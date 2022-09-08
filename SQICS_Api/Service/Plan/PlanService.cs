@@ -199,11 +199,10 @@ namespace SQICS_Api.Service.Plan
         public async Task StartProcessAsync(AddOngoingDTO transaction)
         {
             var lineId = (int)transaction.fld_lineId;
-            int? statusId = await _uow.Ongoing.CheckIfOnGoing(lineId) ? (int)Status.Started : (int)Status.OnGoing;
 
-            await AddOngoingLotAsync(transaction, statusId);
+            await AddOngoingLotAsync(transaction, (int)Status.OnGoing);
 
-            await UpdateTransactionStatus(transaction, statusId);
+            await UpdateTransactionStatus(transaction, (int)Status.OnGoing);
 
             await _uow.SaveAsync();
         }
@@ -373,6 +372,15 @@ namespace SQICS_Api.Service.Plan
             if (transId is null) throw new CustomException("Invalid Sub-assy Lot!");
 
             return (int)transId;
+        }
+
+        public async Task<int> GetCountByAssyLotAsync(string assyLot)
+        {
+            var count = await _uow.Ongoing.GetCountByAssyLot(assyLot);
+
+            if(count is null) throw new CustomException("Invalid Count!");
+
+            return (int)count;
         }
     }
 }
