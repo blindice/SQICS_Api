@@ -31,5 +31,7 @@ namespace SQICS_Api.Repository.Base.Interface
 
         void RemoveRange(IEnumerable<T> items);
 
+        void Remove(T item);
+
     }
 }

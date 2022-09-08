@@ -100,5 +100,10 @@ namespace SQICS_Api.Repository.Base
         {
             _efContext.Set<T>().RemoveRange(items);
         }
+
+        public void Remove(T item)
+        {
+            _efContext.Set<T>().Remove(item);
+        }
     }
 }
