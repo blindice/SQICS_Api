@@ -22,5 +22,7 @@ namespace SQICS_Api.DTOs
         public string PartName { get; set; }
 
         public string Status { get; set; }
+
+        public int Count { get; set; }
     }
 }
