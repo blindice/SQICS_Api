@@ -376,11 +376,50 @@ namespace SQICS_Api.Service.Plan
 
         public async Task<int> GetCountByAssyLotAsync(string assyLot)
         {
-            var count = await _uow.Ongoing.GetCountByAssyLot(assyLot);
+            var onGoing = await _uow.Ongoing.GetOngoingByAssyLot(assyLot);
 
-            if(count is null) throw new CustomException("Invalid Count!");
+            if (onGoing is null) throw new CustomException("Invalid SubAssy Lot!");
 
-            return (int)count;
+            return onGoing.fld_count;
         }
+
+        #region Trigger Increment Count
+        public async Task TriggerIncrementCountAsync(string assyLot, int operatorId)
+        {
+            var onGoing = await _uow.Ongoing.GetOngoingByAssyLot(assyLot);
+
+            if (onGoing is null) throw new CustomException("Invalid SubAssy Lot!");
+
+            onGoing.fld_count += 1;
+
+            if (onGoing.fld_count > onGoing.fld_qty)
+                throw new CustomException("Invalid Count!");
+
+            //if count < qty increment count by 1 of current ongoing 
+            if (onGoing.fld_count < onGoing.fld_qty)
+            {
+                _uow.Ongoing.UpdateOnGoing(onGoing);
+                await _uow.SaveAsync();
+                return;
+            }
+
+            //if count = qty
+            await UpdateTransStatusToFinishAsync(assyLot, operatorId);
+
+            _uow.Ongoing.RemoveOnGoing(onGoing);
+
+            await _uow.SaveAsync();
+        }
+
+        async Task UpdateTransStatusToFinishAsync(string assyLot, int operatorId)
+        {
+            var trans = await _uow.Transaction.GetTransactionByAssyLot(assyLot);
+            trans.fld_stationId = (int)Status.Finish;
+            trans.fld_updatedBy = operatorId;
+            trans.fld_updatedDate = DateTime.Now;
+            _uow.Transaction.UpdateTransaction(trans);
+        }
+
+        #endregion
     }
 }

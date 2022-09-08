@@ -41,5 +41,7 @@ namespace SQICS_Api.Service.Interface
         Task<int> GetTransIdByAssyLotAsync(string assyLot);
 
         Task<int> GetCountByAssyLotAsync(string assyLot);
+
+        Task TriggerIncrementCountAsync(string assyLot, int operatorId);
     }
 }
