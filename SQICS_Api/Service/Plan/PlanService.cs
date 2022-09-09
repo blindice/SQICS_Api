@@ -327,6 +327,8 @@ namespace SQICS_Api.Service.Plan
             if (defect is null)
                 throw new CustomException("Invalid Mapping");
 
+            defect.fld_createdDate = DateTime.Now;
+
             await _uow.AssyDefect.AddAssyDefectAsync(defect);
 
             await _uow.SaveAsync();
@@ -390,24 +392,26 @@ namespace SQICS_Api.Service.Plan
 
             if (onGoing is null) throw new CustomException("Invalid SubAssy Lot!");
 
-            onGoing.fld_count += 1;
+            await IncrementCountAsync(onGoing);
 
             if (onGoing.fld_count > onGoing.fld_qty)
                 throw new CustomException("Invalid Count!");
 
-            //if count < qty increment count by 1 of current ongoing 
             if (onGoing.fld_count < onGoing.fld_qty)
-            {
-                _uow.Ongoing.UpdateOnGoing(onGoing);
-                await _uow.SaveAsync();
                 return;
-            }
 
             //if count = qty
             await UpdateTransStatusToFinishAsync(assyLot, operatorId);
 
             _uow.Ongoing.RemoveOnGoing(onGoing);
 
+            await _uow.SaveAsync();
+        }
+
+        private async Task IncrementCountAsync(tbl_t_lot_ongoing onGoing)
+        {
+            onGoing.fld_count += 1;
+            _uow.Ongoing.UpdateOnGoing(onGoing);
             await _uow.SaveAsync();
         }
 
