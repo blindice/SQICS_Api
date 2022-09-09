@@ -400,12 +400,16 @@ namespace SQICS_Api.Service.Plan
             if (onGoing.fld_count < onGoing.fld_qty)
                 return;
 
-            //if count = qty
-            await UpdateTransStatusToFinishAsync(assyLot, operatorId);
+            if (onGoing.fld_count == onGoing.fld_qty)
+            {
+                await UpdateTransStatusToFinishAsync(assyLot, operatorId);
 
-            _uow.Ongoing.RemoveOnGoing(onGoing);
+                _uow.Ongoing.RemoveOnGoing(onGoing);
 
-            await _uow.SaveAsync();
+                await _uow.SaveAsync();
+
+                throw new CustomException("Proceed to next Lot!");
+            }                        
         }
 
         private async Task IncrementCountAsync(tbl_t_lot_ongoing onGoing)
