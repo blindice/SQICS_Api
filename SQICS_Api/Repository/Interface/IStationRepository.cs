@@ -8,6 +8,6 @@ namespace SQICS_Api.Repository.Interface
 {
     public interface IStationRepository
     {
-        Task<IEnumerable<StationDDLDTO>> GetStationDDLBySupplierIdAsync(int supplierId);
+        Task<IEnumerable<StationDDLDTO>> GetStationDDLByLineIdAsync(int lineId);
     }
 }

@@ -14,9 +14,9 @@ namespace SQICS_Api.Repository
     {
         public StationRepository(SQICSContext efContext, DapperContext dapperContext)
     : base(efContext, dapperContext) { }
-        public async Task<IEnumerable<StationDDLDTO>> GetStationDDLBySupplierIdAsync(int supplierId)
+        public async Task<IEnumerable<StationDDLDTO>> GetStationDDLByLineIdAsync(int lineId)
         {
-            var stations = await QueryAsync<StationDDLDTO>("usp_GetStationDDL", new { supplierId = supplierId });
+            var stations = await QueryAsync<StationDDLDTO>("usp_GetStationDDL", new { lineId = lineId });
 
             return stations;
         }
