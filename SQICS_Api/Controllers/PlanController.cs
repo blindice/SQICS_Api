@@ -160,19 +160,34 @@ namespace SQICS_Api.Controllers
             return Ok();
         }
 
-        [HttpGet("ddldatas/{supplierId:int}")]
+        [HttpGet("lineddl/{supplierId:int}")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof((List<StationDDLDTO>, List<LineDDLDTO>)), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<LineDDLDTO>), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetDDLDataAsync(int? supplierId)
+        public async Task<IActionResult> GetLineDDLAsync(int? supplierId)
         {
             if (supplierId is null) 
                 return BadRequest(new ErrorDetails { Message = "Invalid Supplier Id!", StatusCode = 400 });
 
-            var result = await _service.GetDDLDataAsync((int)supplierId);
+            var result = await _service.GetLineDataAsync((int)supplierId);
 
-            return Ok(new { Stations = result.Item1, Lines = result.Item2 });
+            return Ok(result);
+        }
+
+        [HttpGet("stationddl/{lineId:int}")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(List<StationDDLDTO>), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetStationDDLAsync(int? lineId)
+        {
+            if (lineId is null)
+                return BadRequest(new ErrorDetails { Message = "Invalid Line Id!", StatusCode = 400 });
+
+            var result = await _service.GetStationDataByLineAsync((int)lineId);
+
+            return Ok(result);
         }
 
         [HttpPost("deleteplan")]
