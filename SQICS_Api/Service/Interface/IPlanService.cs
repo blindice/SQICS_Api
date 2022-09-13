@@ -24,7 +24,10 @@ namespace SQICS_Api.Service.Interface
 
         Task StartProcessAsync(AddOngoingDTO transaction);
 
-        Task<(List<StationDDLDTO>, List<LineDDLDTO>)> GetDDLDataAsync(int supplierId);
+        Task<List<LineDDLDTO>> GetLineDataAsync(int supplierId);
+
+
+        Task<List<StationDDLDTO>> GetStationDataByLineAsync(int lineId);
 
         Task DeletePlanAsync(DeletePlanDTO field);
 

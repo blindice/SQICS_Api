@@ -235,17 +235,22 @@ namespace SQICS_Api.Service.Plan
         }
         #endregion
 
-        public async Task<(List<StationDDLDTO>, List<LineDDLDTO>)> GetDDLDataAsync(int supplierId)
+        public async Task<List<LineDDLDTO>> GetLineDataAsync(int supplierId)
         {
-            var stations = await _uow.Station.GetStationDDLBySupplierIdAsync(supplierId);
+            var lines = await _uow.Line.GetLineDDLBySupplierIdAsync(supplierId);
+
+            if (lines is null) throw new CustomException("Line DDL Not Found!");
+
+            return lines.ToList();
+        }
+
+        public async Task<List<StationDDLDTO>> GetStationDataByLineAsync(int lineId)
+        {
+            var stations = await _uow.Station.GetStationDDLByLineIdAsync(lineId);
 
             if (stations is null) throw new CustomException("Station DDL Not Found!");
 
-            var lines = await _uow.Line.GetLineDDLBySupplierIdAsync(supplierId);
-
-            if (stations is null) throw new CustomException("Line DDL Not Found!");
-
-            return (stations.ToList(), lines.ToList());
+            return stations.ToList();
         }
 
         #region Delete Plan
