@@ -376,7 +376,9 @@ namespace SQICS_Api.Service.Plan
         {
             var transId = await _uow.Transaction.GetTransactionIdByAssyLotAsync(assyLot);
 
-            if (transId is null) throw new CustomException("Invalid Sub-assy Lot!");
+            var ongoing = await _uow.Ongoing.GetOngoingByAssyLot(assyLot);
+
+            if (transId is null || ongoing is null) throw new CustomException("Invalid Sub-assy Lot!");
 
             return (int)transId;
         }
