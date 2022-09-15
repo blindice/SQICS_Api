@@ -22,7 +22,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("getlotlabels")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(List<LotLabelDTO>), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -34,7 +34,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("printlotlabel")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]

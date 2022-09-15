@@ -22,7 +22,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("defectinquiries")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(List<DefectInquiryDTO>), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]

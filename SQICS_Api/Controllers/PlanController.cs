@@ -27,7 +27,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("addtogroup")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -42,7 +42,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("operatordetails/{operatorId}")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(SubAssyByOperatorIdDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -57,7 +57,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("subassies/{supplierId:int}")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(SubAssyDDLDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -72,7 +72,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("subassybycode")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(SubAssyDetailsDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -88,7 +88,7 @@ namespace SQICS_Api.Controllers
 
 
         [HttpGet("subassybyname")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(SubAssyDetailsDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -103,7 +103,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("servertime")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(DateTime), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -113,7 +113,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("addtransactions")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -131,7 +131,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("currentplans")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(List<CurrentPlanDTO>), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -146,7 +146,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("startprocess")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -161,7 +161,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("lineddl/{supplierId:int}")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(List<LineDDLDTO>), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -176,7 +176,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("stationddl/{lineId:int}")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(List<StationDDLDTO>), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -191,7 +191,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("deleteplan")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -206,7 +206,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("print")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -223,7 +223,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("verifypiecepart")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -240,7 +240,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("verifysubassy")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -263,7 +263,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("addassydefect")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -278,7 +278,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("defectddl")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(List<DefectDTO>), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -290,7 +290,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpPost("addtransdetails")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -305,7 +305,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("transidbyassylot/{assyLot}")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(int), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -320,7 +320,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("countbyassylot/{assyLot}")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(typeof(int), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
@@ -335,7 +335,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("incrementcount")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
