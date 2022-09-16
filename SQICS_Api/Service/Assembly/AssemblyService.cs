@@ -207,11 +207,11 @@ namespace SQICS_Api.Service.Assembly
         #region Delete Plan
         public async Task DeletePlanAsync(DeletePlanDTO field)
         {
-            await RemoveLotsFromOngoingTable(field.TransNo);
+            await RemoveLotsFromOngoingTable(field.LotNo);
 
             await UpdateLotStatusToDeletedInTransaction(field);
 
-            await UpdateLotStatusToDeletedInHeader(field.TransNo);
+            await UpdateLotStatusToDeletedInHeader(field.LotNo);
 
             await _uow.SaveAsync();
         }
@@ -229,7 +229,7 @@ namespace SQICS_Api.Service.Assembly
 
         private async Task UpdateLotStatusToDeletedInTransaction(DeletePlanDTO field)
         {
-            var transactions = await _uow.Transaction.GetTransactionsByTransNoAsync(field.TransNo);
+            var transactions = await _uow.Transaction.GetTransactionsByTransNoAsync(field.LotNo);
 
             if (transactions is null) throw new CustomException("Invalid Transaction No.!");
 

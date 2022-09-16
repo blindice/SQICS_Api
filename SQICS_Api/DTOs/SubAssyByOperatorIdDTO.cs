@@ -9,10 +9,7 @@ namespace SQICS_Api.DTOs
     {
         public int OperatorId { get; set; }
 
-        public int SupplierId { get; set; }
-
         public string OperatorName { get; set; }
 
-        public string SupplierName { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace SQICS_Api.DTOs
     public class DeletePlanDTO
     {
         [Required]
-        public string TransNo { get; set; }
+        public string LotNo { get; set; }
         
         [Required]
         public int OperatorId { get; set; }

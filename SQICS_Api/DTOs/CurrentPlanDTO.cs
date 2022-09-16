@@ -24,5 +24,7 @@ namespace SQICS_Api.DTOs
         public string Status { get; set; }
 
         public int Count { get; set; }
+
+        public string Remarks { get; set; }
     }
 }

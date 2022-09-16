@@ -29,7 +29,14 @@ namespace SQICS_Api.Service.Plan
         {
             var @operator = await _uow.Operator.GetOperatorByEmpId(operatorId);
 
-            if (@operator is null) throw new CustomException("Operator Not Found!");
+            if (@operator is null)
+            {
+                @operator = new SubAssyByOperatorIdDTO
+                {
+                    OperatorId = Convert.ToInt32(operatorId),
+                    OperatorName = "4M"
+                };
+            }
 
             return @operator;
         }
@@ -256,46 +263,44 @@ namespace SQICS_Api.Service.Plan
         #region Delete Plan
         public async Task DeletePlanAsync(DeletePlanDTO field)
         {
-            await RemoveLotsFromOngoingTable(field.TransNo);
+            await RemoveLotFromOngoingTable(field.LotNo);
 
             await UpdateLotStatusToDeletedInTransaction(field);
-
-            await UpdateLotStatusToDeletedInHeader(field.TransNo);
 
             await _uow.SaveAsync();
         }
 
-        private async Task UpdateLotStatusToDeletedInHeader(string transNo)
-        {
-            var headers = await _uow.THeader.GetHeadersByTransNoAsync(transNo);
+        //private async Task UpdateLotStatusToDeletedInHeader(string transNo)
+        //{
+        //    var headers = await _uow.THeader.GetHeadersByTransNoAsync(transNo);
 
-            if (headers is null) throw new CustomException("Invalid Transaction No.!");
+        //    if (headers is null) throw new CustomException("Invalid Transaction No.!");
 
-            headers.ToList().ForEach(_ => _.StatusId = (int)Status.Deleted);
+        //    headers.ToList().ForEach(_ => _.StatusId = (int)Status.Deleted);
 
-            _uow.THeader.UpdateHeaders(headers);
-        }
+        //    _uow.THeader.UpdateHeaders(headers);
+        //}
 
         private async Task UpdateLotStatusToDeletedInTransaction(DeletePlanDTO field)
         {
-            var transactions = await _uow.Transaction.GetTransactionsByTransNoAsync(field.TransNo);
+            var transaction = await _uow.Transaction.GetTransactionByAssyLot(field.LotNo);
 
-            if (transactions is null) throw new CustomException("Invalid Transaction No.!");
+            if (transaction is null) throw new CustomException("Invalid Transaction No.!");
 
-            transactions.ToList().ForEach(_ => _.fld_statusId = (int)Status.Deleted);
-            transactions.ToList().ForEach(_ => _.fld_updatedBy = field.OperatorId);
-            transactions.ToList().ForEach(_ => _.fld_updatedDate = DateTime.Now);
+            transaction.fld_statusId = (int)Status.Deleted;
+            transaction.fld_updatedBy = field.OperatorId;
+            transaction.fld_updatedDate = DateTime.Now;
 
-            _uow.Transaction.UpdateTransactions(transactions);
+            _uow.Transaction.UpdateTransaction(transaction);
         }
 
-        private async Task RemoveLotsFromOngoingTable(string transNo)
+        private async Task RemoveLotFromOngoingTable(string LotNo)
         {
-            var lots = await _uow.Ongoing.GetLotsByTransNoAsync(transNo);
+            var lot = await _uow.Ongoing.GetOngoingByAssyLot(LotNo);
 
-            if (lots is null) throw new CustomException("Invalid Transaction No.!");
+            if (lot is null) throw new CustomException("Invalid Transaction No.!");
 
-            _uow.Ongoing.RemoveLots(lots);
+            _uow.Ongoing.RemoveOnGoing(lot);
         }
         #endregion
 
@@ -372,15 +377,27 @@ namespace SQICS_Api.Service.Plan
 
         #endregion
 
-        public async Task<int> GetTransIdByAssyLotAsync(string assyLot)
+        public async Task<SubAssyLotDetailsDTO> GetSubAssyLotDetailsByLotAsync(string assyLot)
         {
-            var transId = await _uow.Transaction.GetTransactionIdByAssyLotAsync(assyLot);
+            var trans = await _uow.Transaction.GetTransactionByAssyLot(assyLot);
 
             var ongoing = await _uow.Ongoing.GetOngoingByAssyLot(assyLot);
 
-            if (transId is null || ongoing is null) throw new CustomException("Invalid Sub-assy Lot!");
+            if (trans is null || ongoing is null) throw new CustomException("Invalid Sub-assy Lot!");
 
-            return (int)transId;
+            var assy = await _uow.SubAssy.GetAssyByIdAsync(trans.fld_assyId);
+
+            if (assy is null) throw new CustomException("Invalid SubAssy!");
+
+            var dtoResult = new SubAssyLotDetailsDTO()
+            {
+                SubAssyCode = assy.fld_partCode,
+                SubAssyname = assy.fld_partName,
+                SubAssyLot = trans.fld_subAssyLotNo,
+                Qty = trans.fld_qty
+            };
+
+            return dtoResult;
         }
 
         public async Task<int> GetCountByAssyLotAsync(string assyLot)
