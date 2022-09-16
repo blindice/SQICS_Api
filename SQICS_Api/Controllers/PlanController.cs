@@ -306,7 +306,7 @@ namespace SQICS_Api.Controllers
 
         [HttpGet("transbyassylot/{assyLot}")]
         [Authorize]
-        [ProducesResponseType(typeof(int), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SubAssyLotDetailsDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetTransByAssylotAsync(string assyLot)
