@@ -391,6 +391,7 @@ namespace SQICS_Api.Service.Plan
 
             var dtoResult = new SubAssyLotDetailsDTO()
             {
+                TransId = trans.fld_transactionId,
                 SubAssyCode = assy.fld_partCode,
                 SubAssyname = assy.fld_partName,
                 SubAssyLot = trans.fld_subAssyLotNo,
