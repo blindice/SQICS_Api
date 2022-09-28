@@ -10,5 +10,7 @@ namespace SQICS_Api.DTOs
         public int Order { get; set; }
 
         public string StationName { get; set; }
+
+        public int StationId { get; set; }
     }
 }
