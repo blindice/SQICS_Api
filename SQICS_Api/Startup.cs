@@ -29,6 +29,7 @@ using SQICS_Api.Service.Assembly;
 using Microsoft.AspNetCore.Http;
 using SQICS_Api.Service.Reprint;
 using SQICS_Api.Service.DefectInquiry;
+using SQICS_Api.Service.QCInspection;
 
 namespace SQICS_Api
 {
@@ -90,6 +91,7 @@ namespace SQICS_Api
             services.AddScoped<IAssemblyService, AssemblyService>();
             services.AddScoped<IReprintService, ReprintService>();
             services.AddScoped<IDefectInquiryService, DefectInquiryService>();
+            services.AddScoped<IQCInspectionService, QCInspectionService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SQICS_Api", Version = "v1" });
