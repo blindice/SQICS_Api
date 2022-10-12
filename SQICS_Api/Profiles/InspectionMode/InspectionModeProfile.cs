@@ -10,7 +10,7 @@ namespace SQICS_Api.Profiles.InspectionMode
 {
     public class InspectionModeProfile : Profile
     {
-        public LoginProfile()
+        public InspectionModeProfile()
         {
             CreateMap<tbl_m_inspection_mode, InspectionModeDDLDTO>().ReverseMap();
         }
