@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SQICS_Api.DTOs;
 using SQICS_Api.Model;
@@ -19,6 +20,10 @@ namespace SQICS_Api.Controllers
         public QCInspectionController(IQCInspectionService service) => _service = service;
 
         [HttpPost("addqcinspection")]
+        [Authorize]
+        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddQCInspectionAsync([FromBody] AddQCInspectionDTO inspection)
         {
             if (!ModelState.IsValid || inspection is null)
