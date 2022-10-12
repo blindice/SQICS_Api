@@ -9,33 +9,33 @@ namespace SQICS_Api.DTOs
     public class AddQCInspectionDTO
     {
         [Required]
-        public int? SupplierId { get; set; }
+        public int? fld_supplierId { get; set; }
 
         [Required]
-        public int? PieceId { get; set; }
+        public int? fld_pieceId { get; set; }
 
         [Required]
-        public string PartName { get; set; }
+        public string fld_partName { get; set; }
 
         [Required]
-        public string SubassyLot { get; set; }
+        public string fld_assyLot { get; set; }
 
         [Required]
-        public string RefNo { get; set; }
+        public string fld_referenceNo { get; set; }
 
         [Required]
-        public int? Qty { get; set; }
+        public int? fld_qty { get; set; }
 
         [Required]
-        public string Remarks { get; set; }
+        public string fld_remarks { get; set; }
 
         [Required]
-        public int? InspectionMode { get; set; }
+        public int? fld_inspectionMode { get; set; }
 
         [Required]
-        public int? InspectionQty { get; set; }
+        public int? fld_inspectedQty { get; set; }
 
         [Required]
-        public bool Judgement { get; set; }
+        public bool fld_judgement { get; set; }
     }
 }
