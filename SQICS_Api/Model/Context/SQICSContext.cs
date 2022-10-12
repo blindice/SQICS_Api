@@ -20,6 +20,7 @@ namespace SQICS_Api.Model.Context
 
         public virtual DbSet<tbl_m_bom> tbl_m_boms { get; set; }
         public virtual DbSet<tbl_m_defect> tbl_m_defects { get; set; }
+        public virtual DbSet<tbl_m_inspection_mode> tbl_m_inspection_modes { get; set; }
         public virtual DbSet<tbl_m_line> tbl_m_lines { get; set; }
         public virtual DbSet<tbl_m_operator> tbl_m_operators { get; set; }
         public virtual DbSet<tbl_m_operator_assy> tbl_m_operator_assies { get; set; }
@@ -53,6 +54,13 @@ namespace SQICS_Api.Model.Context
                 entity.Property(e => e.fld_active).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.fld_name).IsUnicode(false);
+            });
+
+            modelBuilder.Entity<tbl_m_inspection_mode>(entity =>
+            {
+                entity.Property(e => e.fld_createdDate).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.fld_id).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<tbl_m_line>(entity =>
