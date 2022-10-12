@@ -2,6 +2,7 @@
 using SQICS_Api.Repository;
 using SQICS_Api.Repository.AssyDefect;
 using SQICS_Api.Repository.Defect;
+using SQICS_Api.Repository.InspectionMode;
 using SQICS_Api.Repository.Interface;
 using SQICS_Api.Repository.Line;
 using SQICS_Api.Repository.Login;
@@ -39,6 +40,7 @@ namespace SQICS_Api.UOW
         private IAssyDefectRepository _assyDefect;
         private ILotLabelRepository _lotLabel;
         private IQCInspectionRepository _qcInspection;
+        private IInspectionModeRepository _inspectionMode;
 
         public UnitOfWork(SQICSContext efContext, DapperContext dapperContext)
         {
@@ -210,6 +212,18 @@ namespace SQICS_Api.UOW
                     _qcInspection = new QCInspectionRepository(_efContext, _dapperContext);
                 }
                 return _qcInspection;
+            }
+        }
+
+        public IInspectionModeRepository InspectionMode
+        {
+            get
+            {
+                if (_inspectionMode == null)
+                {
+                    _inspectionMode = new InspectionModeRepository(_efContext, _dapperContext);
+                }
+                return _inspectionMode;
             }
         }
 

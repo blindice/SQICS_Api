@@ -37,6 +37,8 @@ namespace SQICS_Api.UOW
 
         IQCInspectionRepository QCInspection { get; }
 
+        IInspectionModeRepository InspectionMode { get; }
+
         Task SaveAsync();
     }
 }
