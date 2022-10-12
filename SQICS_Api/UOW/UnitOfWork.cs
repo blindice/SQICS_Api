@@ -9,6 +9,7 @@ using SQICS_Api.Repository.LotLabel;
 using SQICS_Api.Repository.Ongoing;
 using SQICS_Api.Repository.Operator;
 using SQICS_Api.Repository.PiecePart;
+using SQICS_Api.Repository.QCInspection;
 using SQICS_Api.Repository.SubAssy;
 using SQICS_Api.Repository.Transaction;
 using SQICS_Api.Repository.TransactionDetail;
@@ -37,6 +38,7 @@ namespace SQICS_Api.UOW
         private ITransactionHeaderRepository _header;
         private IAssyDefectRepository _assyDefect;
         private ILotLabelRepository _lotLabel;
+        private IQCInspectionRepository _qcInspection;
 
         public UnitOfWork(SQICSContext efContext, DapperContext dapperContext)
         {
@@ -196,6 +198,18 @@ namespace SQICS_Api.UOW
                     _lotLabel = new LotLabelRepository(_efContext, _dapperContext);
                 }
                 return _lotLabel;
+            }
+        }
+
+        public IQCInspectionRepository QCInspection
+        {
+            get
+            {
+                if (_qcInspection == null)
+                {
+                    _qcInspection = new QCInspectionRepository(_efContext, _dapperContext);
+                }
+                return _qcInspection;
             }
         }
 

@@ -35,6 +35,8 @@ namespace SQICS_Api.UOW
 
         ILotLabelRepository LotLabel { get; }
 
+        IQCInspectionRepository QCInspection { get; }
+
         Task SaveAsync();
     }
 }
