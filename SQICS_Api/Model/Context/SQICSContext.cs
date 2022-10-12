@@ -29,6 +29,7 @@ namespace SQICS_Api.Model.Context
         public virtual DbSet<tbl_m_status> tbl_m_statuses { get; set; }
         public virtual DbSet<tbl_m_user> tbl_m_users { get; set; }
         public virtual DbSet<tbl_t_assy_defect> tbl_t_assy_defects { get; set; }
+        public virtual DbSet<tbl_t_lot_inspection> tbl_t_lot_inspections { get; set; }
         public virtual DbSet<tbl_t_lot_label> tbl_t_lot_labels { get; set; }
         public virtual DbSet<tbl_t_lot_ongoing> tbl_t_lot_ongoings { get; set; }
         public virtual DbSet<tbl_t_transaction> tbl_t_transactions { get; set; }
@@ -126,6 +127,24 @@ namespace SQICS_Api.Model.Context
                 entity.Property(e => e.fld_pieceCode).IsUnicode(false);
 
                 entity.Property(e => e.fld_pieceLot).IsUnicode(false);
+
+                entity.Property(e => e.fld_remarks).IsUnicode(false);
+            });
+
+            modelBuilder.Entity<tbl_t_lot_inspection>(entity =>
+            {
+                entity.HasKey(e => e.fld_id)
+                    .HasName("PK__tbl_t_lo__5CBC763500BF46E1");
+
+                entity.Property(e => e.fld_assyLot).IsUnicode(false);
+
+                entity.Property(e => e.fld_createdDate).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.fld_deleteFlag).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.fld_partName).IsUnicode(false);
+
+                entity.Property(e => e.fld_referenceNo).IsUnicode(false);
 
                 entity.Property(e => e.fld_remarks).IsUnicode(false);
             });
