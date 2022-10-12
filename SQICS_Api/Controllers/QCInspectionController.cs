@@ -34,5 +34,15 @@ namespace SQICS_Api.Controllers
             return Ok();
         }
 
+        [HttpGet("getinspectionmodes")]
+        [ProducesResponseType(typeof(InspectionModeDDLDTO), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetInspectionModeDDLAsync()
+        {
+            var inspectionModes = await _service.GetInspectionModeDDLAsync();
+
+            return Ok(inspectionModes);
+        }
     }
 }
