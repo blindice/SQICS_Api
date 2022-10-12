@@ -9,5 +9,7 @@ namespace SQICS_Api.Service.Interface
     public interface IQCInspectionService
     {
         Task AddInspectionAsync(AddQCInspectionDTO inspection);
+
+        Task<List<InspectionModeDDLDTO>> GetInspectionModeDDLAsync();
     }
 }

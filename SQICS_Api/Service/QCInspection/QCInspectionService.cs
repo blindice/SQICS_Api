@@ -36,5 +36,16 @@ namespace SQICS_Api.Service.QCInspection
             await _uow.QCInspection.AddQCInspectionAsync(lotInspection);
             await _uow.SaveAsync();
         }
+
+        public async Task<List<InspectionModeDDLDTO>> GetInspectionModeDDLAsync()
+        {
+            var result = await _uow.InspectionMode.GetInspectionModes();
+
+            if(result is null) throw new CustomException("Error while getting Inspection Modes");
+
+            var ddlDatas = _mapper.Map<List<InspectionModeDDLDTO>>(result);
+
+            return ddlDatas;
+        }
     }
 }
