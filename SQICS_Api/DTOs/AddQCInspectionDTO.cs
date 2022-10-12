@@ -18,6 +18,9 @@ namespace SQICS_Api.DTOs
         public string fld_partName { get; set; }
 
         [Required]
+        public int fld_createdBy { get; set; }
+
+        [Required]
         public string fld_assyLot { get; set; }
 
         [Required]
