@@ -14,5 +14,11 @@ namespace SQICS_Api.Repository.InspectionMode
         public InspectionModeRepository(SQICSContext efContext, DapperContext dapperContext)
             : base(efContext, dapperContext) { }
 
+        public async Task<IEnumerable<tbl_m_inspection_mode>> GetInspectionModes()
+        {
+            var results = await QueryAsync("usp_GetInspectionModes");
+
+            return results;
+        }
     }
 }
