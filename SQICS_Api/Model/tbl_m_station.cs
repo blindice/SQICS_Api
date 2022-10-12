@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace SQICS_Api.Model
 {
     [Index(nameof(fld_name), Name = "name_unique", IsUnique = true)]
+    [Index(nameof(fld_lineId), nameof(fld_order), Name = "uq_yourtablename", IsUnique = true)]
     public partial class tbl_m_station
     {
         [Key]

@@ -26,5 +26,7 @@ namespace SQICS_Api.DTOs
         public int Count { get; set; }
 
         public string Remarks { get; set; }
+
+        public int Most { get; set; }
     }
 }

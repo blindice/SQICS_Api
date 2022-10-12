@@ -26,6 +26,7 @@ namespace SQICS_Api.Model
         public int fld_assyId { get; set; }
         public int fld_qty { get; set; }
         public int? fld_statusId { get; set; }
+        public int? fld_judgement { get; set; }
         [StringLength(50)]
         public string fld_remarks { get; set; }
         public int fld_createdBy { get; set; }

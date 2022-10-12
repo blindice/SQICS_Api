@@ -163,6 +163,8 @@ namespace SQICS_Api.Model.Context
 
             modelBuilder.Entity<tbl_t_transaction>(entity =>
             {
+                entity.Property(e => e.fld_judgement).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.fld_prodDate).HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.fld_remarks).IsUnicode(false);
