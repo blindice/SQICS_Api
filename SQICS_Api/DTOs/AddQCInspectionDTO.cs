@@ -12,7 +12,7 @@ namespace SQICS_Api.DTOs
         public int? fld_supplierId { get; set; }
 
         [Required]
-        public int? fld_pieceId { get; set; }
+        public string fld_partCode { get; set; }
 
         [Required]
         public string fld_partName { get; set; }
