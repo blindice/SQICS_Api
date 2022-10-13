@@ -14,7 +14,9 @@ namespace SQICS_Api.Model
         [Key]
         public int fld_id { get; set; }
         public int fld_supplierId { get; set; }
-        public int fld_pieceId { get; set; }
+        [Required]
+        [StringLength(30)]
+        public string fld_partCode { get; set; }
         [Required]
         [StringLength(30)]
         public string fld_partName { get; set; }

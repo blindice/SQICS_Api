@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SQICS_Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/[controller]")]
     [ApiController]
     public class QCInspectionController : ControllerBase
     {
@@ -35,6 +35,7 @@ namespace SQICS_Api.Controllers
         }
 
         [HttpGet("getinspectionmodes")]
+        [Authorize]
         [ProducesResponseType(typeof(InspectionModeDDLDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]

@@ -150,6 +150,8 @@ namespace SQICS_Api.Model.Context
 
                 entity.Property(e => e.fld_deleteFlag).HasDefaultValueSql("((0))");
 
+                entity.Property(e => e.fld_partCode).IsUnicode(false);
+
                 entity.Property(e => e.fld_partName).IsUnicode(false);
 
                 entity.Property(e => e.fld_referenceNo).IsUnicode(false);
