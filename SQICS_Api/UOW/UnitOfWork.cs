@@ -72,6 +72,7 @@ namespace SQICS_Api.UOW
             }
         }
 
+
         public IOperatorRepository Operator
         {
             get

@@ -22,6 +22,14 @@ namespace SQICS_Api.Repository.PiecePart
             return result;
         }
 
+        //Roy Oct 19, 2022
+        public async Task<tbl_m_part> GetPiecePartByCodeIsAssy1(string pieceCode)
+        {
+            var result = await QuerySingleOrDefaultAsync("usp_GetPiecePartByCodeIsAssy1", new { pieceCode = pieceCode });
+
+            return result;
+        }
+
         public async Task<bool> ValidatePiecePart(ValidatePiecePartDTO info)
         {
             var parameters = new Dictionary<string, object>()

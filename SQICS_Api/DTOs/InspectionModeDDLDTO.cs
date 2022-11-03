@@ -9,5 +9,7 @@ namespace SQICS_Api.DTOs
     {
         public int fld_id { get; set; }
         public string fld_description { get; set; }
+
+        public int fld_value { get; set; }
     }
 }

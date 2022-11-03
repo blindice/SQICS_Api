@@ -10,8 +10,11 @@ namespace SQICS_Api.Repository.Interface
     public interface IPiecePartRepository
     {
         Task<tbl_m_part> GetPiecePartByCode(string pieceCode);
-        Task<bool> ValidatePiecePart(ValidatePiecePartDTO info);
 
+        //Roy Oct 19, 2022
+        Task<tbl_m_part> GetPiecePartByCodeIsAssy1(string pieceCode);
+        Task<bool> ValidatePiecePart(ValidatePiecePartDTO info);
         Task<bool> ValidatePiecepartBySupplierIdAsync(ValidatePieceBySupplierDTO info);
+
     }
 }

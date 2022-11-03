@@ -28,9 +28,9 @@ namespace SQICS_Api.Service.QCInspection
 
             if(result is null) throw new CustomException("Invalid Inspection!");
 
-            var part = await _uow.PiecePart.GetPiecePartByCode(inspection.fld_partCode);
+            var part = await _uow.PiecePart.GetPiecePartByCodeIsAssy1(inspection.fld_partCode);
 
-            if (part is null) throw new CustomException("Invalid Piece Part!");
+            if (part is null) throw new CustomException("Invalid Part Code!");
 
             var lotInspection = _mapper.Map<tbl_t_lot_inspection>(inspection);
             lotInspection.fld_shiftId = result.fld_shiftId;
