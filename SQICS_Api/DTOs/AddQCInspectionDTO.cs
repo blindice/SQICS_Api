@@ -29,6 +29,8 @@ namespace SQICS_Api.DTOs
         [Required]
         public int? fld_qty { get; set; }
 
+        public string fld_defectName { get; set; }
+
         [Required]
         public string fld_remarks { get; set; }
 
