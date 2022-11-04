@@ -33,6 +33,8 @@ namespace SQICS_Api.Model
         public int fld_inspectionMode { get; set; }
         public int fld_inspectedQty { get; set; }
         public bool fld_judgement { get; set; }
+        [StringLength(50)]
+        public string fld_defectName { get; set; }
         public int fld_shiftId { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime fld_prodDate { get; set; }

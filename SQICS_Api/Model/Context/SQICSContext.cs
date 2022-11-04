@@ -148,6 +148,8 @@ namespace SQICS_Api.Model.Context
 
                 entity.Property(e => e.fld_createdDate).HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.fld_defectName).IsUnicode(false);
+
                 entity.Property(e => e.fld_deleteFlag).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.fld_partCode).IsUnicode(false);
