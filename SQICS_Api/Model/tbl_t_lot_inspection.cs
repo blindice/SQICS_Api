@@ -18,7 +18,7 @@ namespace SQICS_Api.Model
         [StringLength(30)]
         public string fld_partCode { get; set; }
         [Required]
-        [StringLength(30)]
+        [StringLength(50)]
         public string fld_partName { get; set; }
         [Required]
         [StringLength(50)]
