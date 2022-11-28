@@ -9,6 +9,7 @@ using SQICS_Api.Repository.Login;
 using SQICS_Api.Repository.LotLabel;
 using SQICS_Api.Repository.Ongoing;
 using SQICS_Api.Repository.Operator;
+using SQICS_Api.Repository.PartCodeColor;
 using SQICS_Api.Repository.PiecePart;
 using SQICS_Api.Repository.QCInspection;
 using SQICS_Api.Repository.SubAssy;
@@ -41,6 +42,7 @@ namespace SQICS_Api.UOW
         private ILotLabelRepository _lotLabel;
         private IQCInspectionRepository _qcInspection;
         private IInspectionModeRepository _inspectionMode;
+        private IPartCodeColorRepository _partCodeColor;
 
         public UnitOfWork(SQICSContext efContext, DapperContext dapperContext)
         {
@@ -225,6 +227,18 @@ namespace SQICS_Api.UOW
                     _inspectionMode = new InspectionModeRepository(_efContext, _dapperContext);
                 }
                 return _inspectionMode;
+            }
+        }
+
+        public IPartCodeColorRepository PartCodeColor
+        {
+            get
+            {
+                if (_partCodeColor == null)
+                {
+                    _partCodeColor = new PartCodeColorRepository(_efContext, _dapperContext);
+                }
+                return _partCodeColor;
             }
         }
 

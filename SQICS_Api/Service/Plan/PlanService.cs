@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using SQICS_Api.DTOs;
 using SQICS_Api.Enum;
 using SQICS_Api.Helper.CustomException;
@@ -410,6 +411,48 @@ namespace SQICS_Api.Service.Plan
             if (onGoing is null) throw new CustomException("Invalid SubAssy Lot!");
 
             return onGoing.fld_count;
+        }
+
+        public async Task UpdateOrCreatePartColorAsync(UpdateOrCreatePartColorDTO details)
+        {
+
+            var isPartValid = ((await _uow.SubAssy.GetSubAssyBySupplierId(details.fld_supplierId))
+                               .Where(p => p.fld_partCode == details.fld_partCode)
+                               .FirstOrDefault()) is not null ? true : false;
+
+            if (!isPartValid) throw new CustomException("Invalid SubAssy Code!");
+
+            var partCodeColors = await _uow.PartCodeColor.GetColorBySupplierId(details.fld_supplierId).ToListAsync();
+                 
+            var selectedpartColor = partCodeColors.Where(p => p.fld_partCode == details.fld_partCode).FirstOrDefault();
+
+            if (selectedpartColor is null)
+            {
+                var entity = _mapper.Map<tbl_m_partcode_color>(details);
+                entity.fld_CreatedBy = details.UserId;
+                entity.fld_CreatedDate = DateTime.Now;
+
+                await _uow.PartCodeColor.AddColor(entity);
+            }
+            else
+            {
+                selectedpartColor.fld_Color = details.fld_Color;
+                selectedpartColor.fld_UpdatedBy = details.UserId;
+                selectedpartColor.fld_UpdatedDate = DateTime.Now;
+
+                _uow.PartCodeColor.UpdateColor(selectedpartColor);
+            }
+
+            await _uow.SaveAsync();
+        }
+
+        public async Task<List<PartCodeColorDTO>> GetColorsBySupplierIdAsync(int supplierId)
+        {
+            var colors = await _uow.PartCodeColor.GetColorBySupplierId(supplierId).ToListAsync();
+
+            var colorDTO = _mapper.Map<List<PartCodeColorDTO>>(colors);
+
+            return colorDTO;
         }
 
         #region Trigger Increment Count

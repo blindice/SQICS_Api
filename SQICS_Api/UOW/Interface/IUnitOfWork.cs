@@ -39,6 +39,8 @@ namespace SQICS_Api.UOW
 
         IInspectionModeRepository InspectionMode { get; }
 
+        IPartCodeColorRepository PartCodeColor { get; }
+
         Task SaveAsync();
     }
 }

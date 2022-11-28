@@ -46,5 +46,9 @@ namespace SQICS_Api.Service.Interface
         Task<int> GetCountByAssyLotAsync(string assyLot);
 
         Task TriggerIncrementCountAsync(string assyLot, int operatorId);
+
+        Task UpdateOrCreatePartColorAsync(UpdateOrCreatePartColorDTO details);
+
+        Task<List<PartCodeColorDTO>> GetColorsBySupplierIdAsync(int supplierId);
     }
 }

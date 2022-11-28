@@ -348,5 +348,36 @@ namespace SQICS_Api.Controllers
 
             return Ok();
         }
+
+        [HttpPost("updateorcreatecolor")]
+        [Authorize]
+        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> UpdateOrCreateColorAsync([FromBody] UpdateOrCreatePartColorDTO data)
+        {
+            if (!ModelState.IsValid || data is null)
+                return BadRequest(new ErrorDetails { Message = "Invalid Part Code Color Details!", StatusCode = 400 });
+
+            await _service.UpdateOrCreatePartColorAsync(data);
+
+            return Ok();
+        }
+
+        [HttpGet("updateorcreatecolor/{supplierId}")]
+        [Authorize]
+        [ProducesResponseType(typeof(PartCodeColorDTO), statusCode: StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> GetColorsBySupplierIdAsync(int? supplierId)
+        {
+            if(supplierId is null)
+                return BadRequest(new ErrorDetails { Message = "Invalid Supplier Id!", StatusCode = 400 });
+
+            var result = await _service.GetColorsBySupplierIdAsync((int)supplierId);
+
+            return Ok(result);
+        }
+
     }
 }
