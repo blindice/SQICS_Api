@@ -26,6 +26,7 @@ namespace SQICS_Api.Model.Context
         public virtual DbSet<tbl_m_operator_assy> tbl_m_operator_assies { get; set; }
         public virtual DbSet<tbl_m_operator_station> tbl_m_operator_stations { get; set; }
         public virtual DbSet<tbl_m_part> tbl_m_parts { get; set; }
+        public virtual DbSet<tbl_m_partcode_color> tbl_m_partcode_colors { get; set; }
         public virtual DbSet<tbl_m_station> tbl_m_stations { get; set; }
         public virtual DbSet<tbl_m_status> tbl_m_statuses { get; set; }
         public virtual DbSet<tbl_m_user> tbl_m_users { get; set; }
@@ -92,6 +93,15 @@ namespace SQICS_Api.Model.Context
                 entity.Property(e => e.fld_partName).IsUnicode(false);
 
                 entity.Property(e => e.fld_remarks).IsUnicode(false);
+            });
+
+            modelBuilder.Entity<tbl_m_partcode_color>(entity =>
+            {
+                entity.Property(e => e.fld_Color).IsUnicode(false);
+
+                entity.Property(e => e.fld_partCode).IsUnicode(false);
+
+                entity.Property(e => e.fld_partName).IsUnicode(false);
             });
 
             modelBuilder.Entity<tbl_m_station>(entity =>
