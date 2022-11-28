@@ -366,7 +366,7 @@ namespace SQICS_Api.Service.Plan
 
             var piece = await _uow.PiecePart.GetPiecePartByCode(details.PiecePartCode);
 
-            details.fld_pieceId = piece.fld_id;          
+            details.fld_pieceId = piece.fld_id;
 
             var result = _mapper.Map<tbl_t_transaction_detail>(details);
             result.fld_createdDate = DateTime.Now;
@@ -377,13 +377,15 @@ namespace SQICS_Api.Service.Plan
 
         #endregion
 
-        public async Task<SubAssyLotDetailsDTO> GetSubAssyLotDetailsByLotAsync(string assyLot)
+        public async Task<SubAssyLotDetailsDTO> GetSubAssyLotDetailsByLotAsync(string assyLot, int station)
         {
             var trans = await _uow.Transaction.GetTransactionByAssyLot(assyLot);
 
+
             var ongoing = await _uow.Ongoing.GetOngoingByAssyLot(assyLot);
 
-            if (trans is null || ongoing is null) throw new CustomException("Invalid Sub-assy Lot!");
+
+            if (trans is null || (ongoing is null && station == 1)) throw new CustomException("Invalid Sub-assy Lot!");
 
             var assy = await _uow.SubAssy.GetAssyByIdAsync(trans.fld_assyId);
 
@@ -434,7 +436,7 @@ namespace SQICS_Api.Service.Plan
                 await _uow.SaveAsync();
 
                 throw new CustomException("Proceed to next Lot!");
-            }                        
+            }
         }
 
         private async Task IncrementCountAsync(tbl_t_lot_ongoing onGoing)

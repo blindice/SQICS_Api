@@ -63,7 +63,7 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDDLSubassiesAsync(int? supplierId)
         {
-            if (supplierId is null) 
+            if (supplierId is null)
                 return BadRequest(new ErrorDetails { Message = "Invalid Supplier Id!", StatusCode = 400 });
 
             var subAssies = await _service.GetSubAssyDdlDataAsync((int)supplierId);
@@ -119,10 +119,10 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddTransactionsAsync([FromBody] List<AddPlanDTO> plans)
         {
-            if (plans is null) 
+            if (plans is null)
                 return BadRequest(new ErrorDetails { Message = "Invalid Plans!", StatusCode = 400 });
 
-            if (plans.Count == 0) 
+            if (plans.Count == 0)
                 return NotFound(new ErrorDetails { Message = "No Plan Found to Add!", StatusCode = 404 });
 
             await _service.AddPlansAsync(plans);
@@ -137,7 +137,7 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetCurrentPlanAsync([FromQuery] int? lineId)
         {
-            if (lineId is null) 
+            if (lineId is null)
                 return BadRequest(new ErrorDetails { Message = "Invalid Line Id!", StatusCode = 400 });
 
             var plans = await _service.GetCurrentPlansByLineIdAsync((int)lineId);
@@ -152,7 +152,7 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> StartProcessAsync([FromBody] AddOngoingDTO transaction)
         {
-            if (!ModelState.IsValid || transaction is null) 
+            if (!ModelState.IsValid || transaction is null)
                 return BadRequest(new ErrorDetails { Message = "Invalid Transaction!", StatusCode = 400 });
 
             await _service.StartProcessAsync(transaction);
@@ -167,7 +167,7 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLineDDLAsync(int? supplierId)
         {
-            if (supplierId is null) 
+            if (supplierId is null)
                 return BadRequest(new ErrorDetails { Message = "Invalid Supplier Id!", StatusCode = 400 });
 
             var result = await _service.GetLineDataAsync((int)supplierId);
@@ -197,7 +197,7 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeletePlan([FromBody] DeletePlanDTO field)
         {
-            if (!ModelState.IsValid || field is null) 
+            if (!ModelState.IsValid || field is null)
                 return BadRequest(new ErrorDetails { Message = "Invalid Transaction!", StatusCode = 400 });
 
             await _service.DeletePlanAsync(field);
@@ -212,7 +212,7 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Print([FromBody] PrintDTO info)
         {
-            if (!ModelState.IsValid || info is null) 
+            if (!ModelState.IsValid || info is null)
                 return BadRequest(new ErrorDetails { Message = "Invalid Line Id!", StatusCode = 400 });
 
             var plans = await _service.GetCurrentPlansByLineIdAsync((int)info.LineId);
@@ -229,7 +229,7 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetPiecePartnameAsync([FromQuery] int? supplierId, [FromQuery] string pieceCode)
         {
-            if(supplierId is null || pieceCode is null)
+            if (supplierId is null || pieceCode is null)
                 return BadRequest(new ErrorDetails { Message = "Invalid Query string!", StatusCode = 400 });
 
             var info = new ValidatePieceBySupplierDTO() { PiecePartCode = pieceCode, SupplierId = (int)supplierId };
@@ -244,15 +244,15 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(string), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetSubAssyNameAsync([FromQuery] int? supplierId, [FromQuery] string pieceCode, 
+        public async Task<IActionResult> GetSubAssyNameAsync([FromQuery] int? supplierId, [FromQuery] string pieceCode,
             [FromQuery] string assyCode)
         {
             if (supplierId is null || pieceCode is null)
                 return BadRequest(new ErrorDetails { Message = "Invalid Query string!", StatusCode = 400 });
 
-            var info = new ValidateSubAssyBySupplierDTO() 
-            { 
-                PieceCode = pieceCode, 
+            var info = new ValidateSubAssyBySupplierDTO()
+            {
+                PieceCode = pieceCode,
                 SupplierId = (int)supplierId,
                 AssyCode = assyCode
             };
@@ -304,17 +304,17 @@ namespace SQICS_Api.Controllers
             return Ok();
         }
 
-        [HttpGet("transbyassylot/{assyLot}")]
+        [HttpGet("transbyassylot/{assyLot}/{station}")]
         [Authorize]
         [ProducesResponseType(typeof(SubAssyLotDetailsDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetTransByAssylotAsync(string assyLot)
+        public async Task<IActionResult> GetTransByAssylotAsync(string assyLot, int station)
         {
-            if(string.IsNullOrEmpty(assyLot))
+            if (string.IsNullOrEmpty(assyLot))
                 return BadRequest(new ErrorDetails { Message = "Invalid Sub-assy Lot!", StatusCode = 400 });
 
-            var result = await _service.GetSubAssyLotDetailsByLotAsync(assyLot);
+            var result = await _service.GetSubAssyLotDetailsByLotAsync(assyLot, station);
 
             return Ok(result);
         }
@@ -341,7 +341,7 @@ namespace SQICS_Api.Controllers
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> IncrementCountAsync([FromQuery] string assyLot, [FromQuery] int? operatorId)
         {
-            if(string.IsNullOrEmpty(assyLot) || operatorId is null)
+            if (string.IsNullOrEmpty(assyLot) || operatorId is null)
                 return BadRequest(new ErrorDetails { Message = "Invalid Querystrings!", StatusCode = 400 });
 
             await _service.TriggerIncrementCountAsync(assyLot, (int)operatorId);

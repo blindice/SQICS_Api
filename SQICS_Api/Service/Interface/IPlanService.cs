@@ -41,7 +41,7 @@ namespace SQICS_Api.Service.Interface
 
         Task AddTransactionDetails(AddTransactionDetailsDTO details);
 
-        Task<SubAssyLotDetailsDTO> GetSubAssyLotDetailsByLotAsync(string assyLot);
+        Task<SubAssyLotDetailsDTO> GetSubAssyLotDetailsByLotAsync(string assyLot, int station);
 
         Task<int> GetCountByAssyLotAsync(string assyLot);
 
