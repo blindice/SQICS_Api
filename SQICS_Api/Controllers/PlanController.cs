@@ -364,7 +364,7 @@ namespace SQICS_Api.Controllers
             return Ok();
         }
 
-        [HttpGet("updateorcreatecolor/{supplierId}")]
+        [HttpGet("getcolorbysupplierId/{supplierId}")]
         [Authorize]
         [ProducesResponseType(typeof(PartCodeColorDTO), statusCode: StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorDetails), statusCode: StatusCodes.Status404NotFound)]
