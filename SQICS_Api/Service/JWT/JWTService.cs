@@ -37,6 +37,7 @@ namespace SQICS_Api.Service.JWT
                     new Claim("name", result.FullName),
                     new Claim("supplierid", result.SupplierId.ToString()),
                     new Claim("suppliername", result.SupplierName),
+                    new Claim("suppliercode", result.SupplierCode)
                 }),
                     Expires = DateTime.UtcNow.AddHours(1),
                     Issuer = _config["Jwt:Issuer"],

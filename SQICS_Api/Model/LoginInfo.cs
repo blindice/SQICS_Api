@@ -16,6 +16,8 @@ namespace SQICS_Api.Model
 
         public string SupplierName { get; set; }
 
+        public string SupplierCode { get; set; }
+
         public string Password { get; set; }
 
         public string Salt { get; set; }
