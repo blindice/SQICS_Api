@@ -111,18 +111,36 @@ namespace SQICS_Api.Service.Plan
 
             var subAssy = await _uow.SubAssy.GetAssyByIdAsync((int)subAssyId);
 
-            var lotLabels = (from label in generatedPlans
-                             select new tbl_t_lot_label
-                             {
-                                 fld_transactionId = label.fld_transactionNo,
-                                 fld_referenceNo = plansDTO.Select(p => p.ReferenceNo).FirstOrDefault(),
-                                 fld_lotNo = label.fld_subAssyLotNo,
-                                 fld_partCode = subAssy.fld_partCode,
-                                 fld_partName = subAssy.fld_partName,
-                                 fld_qty = label.fld_qty,
-                                 fld_createdBy = label.fld_createdBy,
-                                 fld_createdDate = label.fld_createdDate
-                             }).ToList();
+            //var lotLabels = (from label in generatedPlans
+            //                    select new tbl_t_lot_label
+            //                    {
+            //                        fld_transactionId = label.fld_transactionNo,
+            //                        //fld_referenceNo = plans,
+            //                        fld_referenceNo = plansDTO.Select(p => p.ReferenceNo).FirstOrDefault(),
+            //                        fld_lotNo = label.fld_subAssyLotNo,
+            //                        fld_partCode = subAssy.fld_partCode,
+            //                        fld_partName = subAssy.fld_partName,
+            //                        fld_qty = label.fld_qty,
+            //                        fld_createdBy = label.fld_createdBy,
+            //                        fld_createdDate = label.fld_createdDate
+            //                    }).ToList();
+
+            var lotLabels = new List<tbl_t_lot_label>();
+
+            for (var i = 0; i < generatedPlans.Count; i++)
+            {
+                lotLabels.Add(new tbl_t_lot_label
+                {
+                    fld_transactionId = generatedPlans[i].fld_transactionNo,
+                    fld_referenceNo = plansDTO[i].ReferenceNo,
+                    fld_lotNo = generatedPlans[i].fld_subAssyLotNo,
+                    fld_partCode = subAssy.fld_partCode,
+                    fld_partName = subAssy.fld_partName,
+                    fld_qty = generatedPlans[i].fld_qty,
+                    fld_createdBy = generatedPlans[i].fld_createdBy,
+                    fld_createdDate = generatedPlans[i].fld_createdDate
+                });
+            }
 
             await _uow.LotLabel.AddLotLabelsAsync(lotLabels);
         }

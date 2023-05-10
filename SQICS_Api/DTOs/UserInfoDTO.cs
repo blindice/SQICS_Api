@@ -16,6 +16,9 @@ namespace SQICS_Api.Model
 
         public string SupplierName { get; set; }
 
+<<<<<<< Updated upstream
         public string SupplierCode { get; set; }
+=======
+>>>>>>> Stashed changes
     }
 }
